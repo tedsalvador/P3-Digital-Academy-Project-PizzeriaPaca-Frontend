@@ -22,6 +22,18 @@ const showNavbar = computed(() => {
         <RouterLink to="/promos">Promos</RouterLink>
       </nav>
     </header>
+=======
+  <header>
+    <nav>
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/carta">Carta</RouterLink>
+      <RouterLink to="/promos">Promos</RouterLink>
+      <RouterLink to="/admindashboard">AdminDashboard</RouterLink>
+
+
+    </nav>
+  </header>
+>>>>>>> feature/admin_dashboard
 
     <main>
       <NavBar v-if="showNavbar" />
