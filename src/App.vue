@@ -4,6 +4,7 @@ import Footer from "./components/Footer.vue";
 </script>
 
 <template>
+<<<<<<< HEAD
   <div class="app-container">
     <header>
       <nav>
@@ -12,6 +13,18 @@ import Footer from "./components/Footer.vue";
         <RouterLink to="/promos">Promos</RouterLink>
       </nav>
     </header>
+=======
+  <header>
+    <nav>
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/carta">Carta</RouterLink>
+      <RouterLink to="/promos">Promos</RouterLink>
+      <RouterLink to="/admindashboard">AdminDashboard</RouterLink>
+
+
+    </nav>
+  </header>
+>>>>>>> feature/admin_dashboard
 
     <main>
       <RouterView />
