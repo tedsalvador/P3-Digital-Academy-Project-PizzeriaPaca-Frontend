@@ -1,32 +1,31 @@
 <script setup>
-import { RouterLink, RouterView } from "vue-router";
+import { RouterLink, RouterView, useRoute } from "vue-router";
 import Footer from "./components/Footer.vue";
+
+import NavBar from './components/NavBar.vue';
+import { computed } from 'vue';
+
+const route = useRoute();
+const hiddenPaths = ["/admin", "/admin/forms", "/admin/dashboard"];
+
+const showNavbar = computed(() => {
+  return !hiddenPaths.includes(route.path);
+});
 </script>
 
 <template>
-<<<<<<< HEAD
-  <div class="app-container">
-    <header>
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/carta">Carta</RouterLink>
-        <RouterLink to="/promos">Promos</RouterLink>
-      </nav>
-    </header>
-=======
+   <div class="app-container">
   <header>
     <nav>
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/carta">Carta</RouterLink>
       <RouterLink to="/promos">Promos</RouterLink>
       <RouterLink to="/admindashboard">AdminDashboard</RouterLink>
-
-
     </nav>
   </header>
->>>>>>> feature/admin_dashboard
 
     <main>
+      <NavBar v-if="showNavbar" />
       <RouterView />
     </main>
 
