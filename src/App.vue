@@ -15,13 +15,14 @@ const showNavbar = computed(() => {
 
 <template>
    <div class="app-container">
-    <header>
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/carta">Carta</RouterLink>
-        <RouterLink to="/promos">Promos</RouterLink>
-      </nav>
-    </header>
+  <header>
+    <nav>
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/carta">Carta</RouterLink>
+      <RouterLink to="/promos">Promos</RouterLink>
+      <RouterLink to="/admindashboard">AdminDashboard</RouterLink>
+    </nav>
+  </header>
 
     <main>
       <NavBar v-if="showNavbar" />
