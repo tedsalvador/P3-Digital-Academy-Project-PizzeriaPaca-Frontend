@@ -27,6 +27,9 @@ import Titulo from "./components/Titulo.vue";
 </template>
 
 <style>
+* {
+  font-family: "Architects Daughter", cursive;
+}
 html,
 body {
   height: 100%;

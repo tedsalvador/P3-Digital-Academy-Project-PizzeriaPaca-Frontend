@@ -1,7 +1,15 @@
-<script setup></script>
+<script setup>
+import Descripcion from "@/components/Descripcion.vue";
+</script>
 
 <template>
   <main>
-    <h2>Home</h2>
+    <Descripcion></Descripcion>
   </main>
 </template>
+
+<style scoped>
+main {
+  height: 800px;
+}
+</style>

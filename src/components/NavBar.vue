@@ -15,6 +15,7 @@ ul {
   max-width: 1000px;
   justify-content: space-between;
   text-align: center;
+  list-style-type: none;
 }
 li {
   padding: 1rem 2rem 1.15rem;

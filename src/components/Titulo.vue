@@ -3,7 +3,7 @@
   <div id="containerTitulo">
     <div id="containerLogoTitulo">
       <div id="logo">
-        <img class="Img" src="../assets/img/navbar/logoPizza.png" alt="" />
+        <img class="img" src="../assets/img/navbar/logo.png" alt="" />
       </div>
       <div id="titulo">Pizzeria Paca</div>
     </div>
@@ -36,8 +36,8 @@
   height: 130px;
 }
 .img {
-  width: 100px;
-  height: 100px;
+  width: 130px;
+  height: 130px;
 }
 #titulo {
   width: 30%;
