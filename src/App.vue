@@ -2,10 +2,12 @@
 import { RouterLink, RouterView } from "vue-router";
 import Footer from "./components/Footer.vue";
 import NavBar from "./components/NavBar.vue";
+import Titulo from "./components/Titulo.vue";
 </script>
 
 <template>
   <div class="app-container">
+    <Titulo></Titulo>
     <NavBar></NavBar>
     <header>
       <nav>
