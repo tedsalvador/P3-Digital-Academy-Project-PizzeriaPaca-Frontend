@@ -1,9 +1,12 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
 import Footer from "./components/Footer.vue";
+import NavBar from "./components/NavBar.vue";
+import Titulo from "./components/Titulo.vue";
 </script>
 
 <template>
+<<<<<<< HEAD
   <header>
     <nav>
       <RouterLink to="/">Home</RouterLink>
@@ -14,6 +17,13 @@ import Footer from "./components/Footer.vue";
 
     </nav>
   </header>
+=======
+  <div class="app-container">
+    <header>
+      <Titulo></Titulo>
+      <NavBar></NavBar>
+    </header>
+>>>>>>> 8e6df8725452e697dc123dc875cc7af9e0bee8c0
 
     <main>
       <RouterView />
@@ -24,10 +34,14 @@ import Footer from "./components/Footer.vue";
 </template>
 
 <style>
+* {
+  font-family: "Architects Daughter", cursive;
+}
 html,
 body {
   height: 100%;
   margin: 0;
+  background-image: url("./assets/img/navbar/background.png");
 }
 
 .app-container {
