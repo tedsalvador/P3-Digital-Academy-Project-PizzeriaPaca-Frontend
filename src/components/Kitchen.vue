@@ -47,14 +47,12 @@ const onDragStart = (order, section) => {
 
 const onDrop = (section) => {
   if (draggedOrder && draggedFromSection) {
-    // Eliminar el pedido de la sección de origen
     draggedFromSection.orders = draggedFromSection.orders.filter(
       (o) => o.code !== draggedOrder.code
     );
-    // Agregar el pedido a la nueva sección
+   
     section.orders.push(draggedOrder);
 
-    // Limpiar variables de arrastre
     draggedOrder = null;
     draggedFromSection = null;
   }
@@ -132,10 +130,6 @@ const allowDrop = (event) => {
 
 .bg-yellow {
   background-color: #f6e58d;
-}
-
-.bg-orange {
-  background-color: #f0932b;
 }
 
 .bg-green {
