@@ -1,21 +1,41 @@
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+import ModalLogin from "./ModalLogin.vue";
+
+const showModal = ref(false);
+
+const openModal = () => {
+  showModal.value = true;
+};
+
+const closeModal = () => {
+  showModal.value = false;
+};
+</script>
+
 <template>
   <div id="containerTitulo">
     <div id="containerLogoTitulo">
       <div id="logo">
-        <img class="img" src="../assets/img/navbar/logo.png" alt="" />
+        <img class="img" src="../assets/img/navbar/logo.png" alt="logo" />
       </div>
       <div id="titulo">Pizzeria Paca</div>
     </div>
     <div id="containerLogin">
       <div id="carrito">
-        <img class="imgCarrito" src="../assets/img/navbar/carrito.png" alt="" />
+        <img
+          class="imgCarrito"
+          src="../assets/img/navbar/carrito.png"
+          alt="carrito"
+        />
       </div>
-      <div id="login">
-        <img class="user" src="../assets/img/navbar/user.png" alt="" />
+      <div id="login" @click="openModal">
+        <img class="user" src="../assets/img/navbar/user.png" alt="user" />
       </div>
     </div>
   </div>
+
+  <ModalLogin :show="showModal" @close="closeModal" />
 </template>
 <style scoped>
 #containerTitulo {
