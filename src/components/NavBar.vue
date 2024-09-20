@@ -69,13 +69,41 @@ li:active {
   text-decoration: none;
 }
 @media (min-width: 481px) and (max-width: 1024px) {
+  ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0 auto;
+    width: 100%;
+  }
   li {
     font-size: 35px;
+    padding: 10px 15px;
+    min-width: auto;
+    margin: 5px;
+
+    text-align: center;
   }
 }
 @media (max-width: 480px) {
+  ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0 auto;
+    width: 100%;
+  }
   li {
     font-size: 15px;
+    padding: 10px 15px;
+    min-width: auto;
+    margin: 5px;
+
+    text-align: center;
   }
 }
 </style>
