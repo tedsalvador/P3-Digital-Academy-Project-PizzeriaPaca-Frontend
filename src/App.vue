@@ -7,15 +7,9 @@ import Titulo from "./components/Titulo.vue";
 
 <template>
   <div class="app-container">
-    <Titulo></Titulo>
-    <NavBar></NavBar>
     <header>
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/carta">Carta</RouterLink>
-        <RouterLink to="/promos">Promos</RouterLink>
-        <RouterLink to="/admindashboard">AdminDashboard</RouterLink>
-      </nav>
+      <Titulo></Titulo>
+      <NavBar></NavBar>
     </header>
 
     <main>
