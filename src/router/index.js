@@ -24,6 +24,11 @@ const router = createRouter({
       name: "admindashboard",
       component: () => import("../views/AdminDashboardView.vue"),
     },
+    {
+      path: "/kitchen",
+      name: "kitchen",
+      component: () => import("../views/KitchenView.vue"),
+    },
   ],
 });
 
