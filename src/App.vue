@@ -1,30 +1,20 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
 import Footer from "./components/Footer.vue";
+import NavBar from "./components/NavBar.vue";
 </script>
 
 <template>
-<<<<<<< HEAD
   <div class="app-container">
+    <NavBar></NavBar>
     <header>
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/carta">Carta</RouterLink>
         <RouterLink to="/promos">Promos</RouterLink>
+        <RouterLink to="/admindashboard">AdminDashboard</RouterLink>
       </nav>
     </header>
-=======
-  <header>
-    <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/carta">Carta</RouterLink>
-      <RouterLink to="/promos">Promos</RouterLink>
-      <RouterLink to="/admindashboard">AdminDashboard</RouterLink>
-
-
-    </nav>
-  </header>
->>>>>>> feature/admin_dashboard
 
     <main>
       <RouterView />
@@ -39,6 +29,7 @@ html,
 body {
   height: 100%;
   margin: 0;
+  background-image: url("./assets/img/navbar/background.png");
 }
 
 .app-container {

@@ -141,7 +141,6 @@
 #containerFooter {
   width: 100%;
   height: 220px;
-  background-image: url("../assets/img/footer/backgroundFooter.png");
 }
 
 #containerGitHub {
