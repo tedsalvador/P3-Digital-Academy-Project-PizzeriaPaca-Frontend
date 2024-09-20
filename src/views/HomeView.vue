@@ -1,9 +1,15 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+import Descripcion from "@/components/Descripcion.vue";
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <Descripcion></Descripcion>
   </main>
 </template>
+
+<style scoped>
+main {
+  height: 800px;
+}
+</style>
