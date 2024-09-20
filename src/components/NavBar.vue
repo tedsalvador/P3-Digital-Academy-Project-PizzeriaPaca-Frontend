@@ -1,12 +1,15 @@
 <script setup></script>
 <template>
   <ul>
-    <li>Home</li>
-    <li>Carta</li>
-    <li>Promos</li>
+    <RouterLink to="/" class="RouterLink"><li>Home</li></RouterLink>
+    <RouterLink to="/carta" class="RouterLink"><li>Carta</li></RouterLink>
+    <RouterLink to="/promos" class="RouterLink"><li>Promos</li></RouterLink>
   </ul>
 </template>
 <style scoped>
+.RouterLink {
+  text-decoration: none;
+}
 ul {
   display: flex;
   width: 100%;
