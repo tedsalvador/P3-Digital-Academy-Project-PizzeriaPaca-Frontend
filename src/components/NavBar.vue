@@ -30,7 +30,8 @@ li {
   font-size: 35px;
 }
 
-li:hover {
+li:hover,
+.router-link-active li {
   background-image: url("../assets/img/navbar/navbackground.png");
   background-size: 100% 100%;
   color: #1b150f;
