@@ -18,7 +18,7 @@ const orders = ref([
     customerImage: 'https://via.placeholder.com/100',
     location: 'Bebida',
     orderDate: 'Descripción del producto 2',
-    status: 'Disponible',
+    status: 'No Disponible',
     amount: '$20.00'
   },
   {
@@ -75,7 +75,7 @@ const addProduct = (newProduct) => {
     id,
     ...newProduct,
     customerImage: newProduct.customerImage || 'https://via.placeholder.com/100',
-    status: newProduct.status ? 'Disponible' : 'No disponible',
+    status: newProduct.status ? 'Disponible' : 'No Disponible',
     amount: `$${parseFloat(newProduct.amount).toFixed(2)}`
   });
   closeModal();
@@ -114,7 +114,7 @@ const addProduct = (newProduct) => {
             <td>{{ order.orderDate }}</td>
             <td>{{ order.location }}</td>
             <td>
-              <span :class="['status', order.status.toLowerCase()]">{{ order.status }}</span>
+              <span :class="['status', order.status.toLowerCase().replace(' ', '-')]">{{ order.status }}</span>
             </td>
             <td><strong>{{ order.amount }}</strong></td>
             <td>
@@ -203,9 +203,17 @@ const addProduct = (newProduct) => {
 .status {
   padding: 8px 15px;
   border-radius: 20px;
-  color: white;
   font-weight: bold;
+}
+
+.status.disponible {
   background-color: #86e49d;
+  color: white;
+}
+
+.status.no-disponible {
+  background-color: #ff4d4d;
+  color: white;
 }
 
 tbody tr:nth-child(even) {
