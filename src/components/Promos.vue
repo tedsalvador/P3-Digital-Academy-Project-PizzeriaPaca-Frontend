@@ -9,7 +9,7 @@
     </div>
 
     <div
-      id="carouselPizzas"
+      id="carouselPromos"
       class="carousel slide"
       data-bs-ride="carousel"
       data-bs-interval="3000"
@@ -97,7 +97,7 @@ main {
   font-size: 30px;
   color: #cecdcd;
 }
-#carouselPizzas {
+#carouselPromos {
   width: 100%;
   height: 630px;
   text-align: center;
