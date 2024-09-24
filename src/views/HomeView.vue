@@ -10,6 +10,6 @@ import Descripcion from "@/components/Descripcion.vue";
 
 <style scoped>
 main {
-  height: 800px;
+  min-height: 500px;
 }
 </style>

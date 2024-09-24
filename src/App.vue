@@ -2,27 +2,18 @@
 import { RouterLink, RouterView } from "vue-router";
 import Footer from "./components/Footer.vue";
 import NavBar from "./components/NavBar.vue";
-import Titulo from "./components/Titulo.vue";
 </script>
 
 <template>
   <header>
-    <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/carta">Carta</RouterLink>
-      <RouterLink to="/promos">Promos</RouterLink>
-      <RouterLink to="/admindashboard">AdminDashboard</RouterLink>
-      <RouterLink to="/kitchen">Kitchen</RouterLink>
-
-    </nav>
+    <NavBar></NavBar>
   </header>
 
-    <main>
-      <RouterView />
-    </main>
+  <main>
+    <RouterView />
+  </main>
 
-    <Footer></Footer>
-  
+  <Footer></Footer>
 </template>
 
 <style>
