@@ -262,7 +262,7 @@ button:hover:after {
     height: 30px;
   }
   #containerTexto {
-    padding: 20px;
+    padding: 15px;
     height: 50px;
     font-size: 15px;
     text-align: center;

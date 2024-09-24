@@ -3,7 +3,7 @@
 <template>
   <main>
     <div
-      id="carouselExample"
+      id="carouselPrincipal"
       class="carousel slide"
       data-bs-ride="carousel"
       data-bs-interval="3000"
@@ -37,7 +37,7 @@
       <button
         class="carousel-control-prev"
         type="button"
-        data-bs-target="#carouselExample"
+        data-bs-target="#carouselPrincipal"
         data-bs-slide="prev"
       >
         <span class="visually-hidden">Previous</span>
@@ -45,7 +45,7 @@
       <button
         class="carousel-control-next"
         type="button"
-        data-bs-target="#carouselExample"
+        data-bs-target="#carouselPrincipal"
         data-bs-slide="next"
       >
         <span class="visually-hidden">Next</span>
@@ -55,7 +55,7 @@
 </template>
 
 <style scoped>
-#carouselExample {
+#carouselPrincipal {
   width: 100%;
   height: 500px;
   text-align: center;
@@ -87,7 +87,7 @@ h2 {
   }
 }
 @media (max-width: 480px) {
-  #carouselExample {
+  #carouselPrincipal {
     width: 100%;
     height: 250px;
   }
