@@ -4,6 +4,7 @@ import Slider from "@/components/Slider.vue";
 import Postres from "@/components/Postres.vue";
 import Bebidas from "@/components/Bebidas.vue";
 import Pizzas from "@/components/Pizzas.vue";
+import Promos from "@/components/Promos.vue";
 </script>
 
 <template>
@@ -13,6 +14,7 @@ import Pizzas from "@/components/Pizzas.vue";
     <Pizzas></Pizzas>
     <Postres></Postres>
     <Bebidas></Bebidas>
+    <Promos></Promos>
   </main>
 </template>
 
