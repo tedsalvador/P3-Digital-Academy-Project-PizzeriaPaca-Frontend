@@ -85,7 +85,7 @@ const addProduct = (newProduct) => {
 <template>
   <div>
     <div class="button-container">
-      <button class="add-button" @click="openModal">Añadir</button>
+      <button class="add-button" @click="openModal">Añadir Producto</button>
     </div>
     
     <div class="table-container">
