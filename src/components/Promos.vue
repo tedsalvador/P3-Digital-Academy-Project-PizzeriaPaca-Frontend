@@ -21,8 +21,8 @@
             class="imgSlider"
             alt="..."
           />
-          <div class="containerTituloPizza">
-            <div class="tituloPizza">Promo 2x1</div>
+          <div class="containerTituloPromos">
+            <div class="tituloPromos">Promo 2x1</div>
           </div>
         </div>
         <div class="carousel-item">
@@ -31,8 +31,8 @@
             class="imgSlider"
             alt="..."
           />
-          <div class="containerTituloPizza">
-            <div class="tituloPizza">Promo bebida gratis</div>
+          <div class="containerTituloPromos">
+            <div class="tituloPromos">Promo bebida gratis</div>
           </div>
         </div>
         <div class="carousel-item">
@@ -41,8 +41,8 @@
             class="imgSlider"
             alt="..."
           />
-          <div class="containerTituloPizza">
-            <div class="tituloPizza">Promo 50% Napolitanas</div>
+          <div class="containerTituloPromos">
+            <div class="tituloPromos">Promo 50% Napolitanas</div>
           </div>
         </div>
       </div>
@@ -64,8 +64,8 @@
       </button>
     </div>
 
-    <div id="btnVerPizzas">
-      <button class="botonLinkPizzas">Conoce todas nuestras pizzas</button>
+    <div id="btnVerPromos">
+      <button class="botonLinkPromos">Conoce todas nuestras promos</button>
     </div>
   </main>
 </template>
@@ -116,14 +116,14 @@ h2 {
   text-shadow: 4px 4px #1aab8a;
   z-index: 20;
 }
-.containerTituloPizza {
+.containerTituloPromos {
   width: 100%;
   height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.tituloPizza {
+.tituloPromos {
   width: 50%;
   height: 80px;
   display: flex;
@@ -134,7 +134,7 @@ h2 {
   font-size: 40px;
 }
 
-#btnVerPizzas {
+#btnVerPromos {
   width: 100%;
   height: 90px;
   display: flex;
@@ -142,7 +142,7 @@ h2 {
   align-items: center;
   margin-top: -50px;
 }
-.botonLinkPizzas {
+.botonLinkPromos {
   background: fff;
   color: #1aab8a;
   border: none;
@@ -154,12 +154,12 @@ h2 {
   transition: 800ms ease all;
   outline: none;
 }
-.botonLinkPizzas:hover {
+.botonLinkPromos:hover {
   background: #1aab8a;
   color: #fff;
 }
-.botonLinkPizzas:before,
-.botonLinkPizzas:after {
+.botonLinkPromos:before,
+.botonLinkPromos:after {
   content: "";
   position: absolute;
   top: 0;
@@ -169,14 +169,14 @@ h2 {
   background: #fff;
   transition: 400ms ease all;
 }
-.botonLinkPizzas:after {
+.botonLinkPromos:after {
   right: inherit;
   top: inherit;
   left: 0;
   bottom: 0;
 }
-.botonLinkPizzas:hover:before,
-.botonLinkPizzas:hover:after {
+.botonLinkPromos:hover:before,
+.botonLinkPromos:hover:after {
   width: 100%;
   transition: 800ms ease all;
 }
@@ -184,7 +184,7 @@ h2 {
   h2 {
     font-size: 100px;
   }
-  .tituloPizza {
+  .tituloPromos {
     width: 80%;
     height: 80px;
   }
@@ -198,9 +198,9 @@ h2 {
 }
 @media (max-width: 480px) {
   main {
-    height: 650px;
+    height: 600px;
   }
-  #carouselPizzas {
+  #carouselPromos {
     width: 100%;
     height: 350px;
   }
@@ -227,12 +227,12 @@ h2 {
     text-align: center;
     margin-bottom: 20px;
   }
-  .containerTituloPizza {
+  .containerTituloPromos {
     width: 100%;
     height: 50px;
     margin-top: -20px;
   }
-  .tituloPizza {
+  .tituloPromos {
     width: 80%;
     height: 50px;
     display: flex;
@@ -242,11 +242,11 @@ h2 {
     background-size: 100% 100%;
     font-size: 20px;
   }
-  #btnVerPizzas {
+  #btnVerPromos {
     width: 100%;
     height: 150px;
   }
-  .botonLinkPizzas {
+  .botonLinkPromos {
     font-size: 1em;
   }
 }

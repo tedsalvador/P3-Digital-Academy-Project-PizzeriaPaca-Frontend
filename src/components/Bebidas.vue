@@ -30,7 +30,7 @@
             <div id="nombrePostre">Tarta de leche</div>
             <div id="Descripcion">
               La tarta de tres leches es un postre suave y esponjoso,
-              caracterizado por su textura húmeda y dulce.
+              caracterizado por su textura húmeda.
             </div>
             <div class="separadorDescripcion"></div>
           </div>
@@ -48,7 +48,7 @@
             <div id="nombrePostre">Tarta de leche</div>
             <div id="Descripcion">
               La tarta de tres leches es un postre suave y esponjoso,
-              caracterizado por su textura húmeda y dulce.
+              caracterizado por su textura húmeda.
             </div>
             <div class="separadorDescripcion"></div>
           </div>
@@ -67,7 +67,7 @@
             <div id="nombrePostre">Tarta de leche</div>
             <div id="Descripcion">
               La tarta de tres leches es un postre suave y esponjoso,
-              caracterizado por su textura húmeda y dulce.
+              caracterizado por su textura húmeda.
             </div>
             <div class="separadorDescripcion"></div>
           </div>
@@ -75,7 +75,7 @@
       </div>
     </div>
     <div id="btnVerBebidas">
-      <button>Conoce todos nuestros postres</button>
+      <button>Conoce todos nuestras bebidas</button>
     </div>
   </main>
 </template>
@@ -242,12 +242,15 @@ button:hover:after {
     width: 100%;
     height: 510px;
     display: grid;
-    grid-template-columns: 35% 65%;
+    grid-template-columns: 65% 35%;
   }
-
   .containerPostre {
-    width: 100%;
-    height: auto;
+    width: 75%;
+    height: 170px;
+    border: 2px solid rgb(182, 124, 1);
+    float: right;
+    display: grid;
+    grid-template-columns: 25% 75%;
   }
 }
 @media (max-width: 480px) {
