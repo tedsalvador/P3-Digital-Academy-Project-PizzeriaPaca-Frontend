@@ -1,14 +1,16 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
 import Footer from "./components/Footer.vue";
-import NavBar from "./components/NavBar.vue";
+// import NavBar from "./components/NavBar.vue";
 import Titulo from "./components/Titulo.vue";
+import NavBarAdmin from "./components/NavBarAdmin.vue";
+
 </script>
 
 <template>
   <header>
     <Titulo></Titulo>
-    <NavBar></NavBar>
+    <NavBarAdmin></NavBarAdmin>
   </header>
 
   <main>
