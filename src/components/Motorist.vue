@@ -134,7 +134,7 @@ onMounted(() => {
 .bg-green {
   margin: 0 auto;
   width: 100%; /* Ajustamos el ancho al 100% para cualquier dispositivo */
-  max-width: 900px;
+  max-width: 1500px;
   height: 250px;
 }
 
