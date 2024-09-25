@@ -6,24 +6,16 @@ import Titulo from "./components/Titulo.vue";
 </script>
 
 <template>
-  <div class="app-container">
+  <header>
     <Titulo></Titulo>
     <NavBar></NavBar>
-    <header>
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/carta">Carta</RouterLink>
-        <RouterLink to="/promos">Promos</RouterLink>
-        <RouterLink to="/admindashboard">AdminDashboard</RouterLink>
-      </nav>
-    </header>
+  </header>
 
-    <main>
-      <RouterView />
-    </main>
+  <main>
+    <RouterView />
+  </main>
 
-    <Footer></Footer>
-  </div>
+  <Footer></Footer>
 </template>
 
 <style>

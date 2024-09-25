@@ -24,6 +24,21 @@ const router = createRouter({
       name: "admindashboard",
       component: () => import("../views/AdminDashboardView.vue"),
     },
+    {
+      path: "/ordermanagement",
+      name: "ordermanagement",
+      component: () => import("../views/OrderManagementView.vue"),
+    },
+    {
+      path: "/kitchen",
+      name: "kitchen",
+      component: () => import("../views/KitchenView.vue"),
+    },
+    {
+      path: "/motorist",
+      name: "motorist",
+      component: () => import("../views/MotoristView.vue"),
+    },
   ],
 });
 

@@ -1,12 +1,15 @@
 <script setup></script>
 <template>
   <ul>
-    <li>Home</li>
-    <li>Carta</li>
-    <li>Promos</li>
+    <RouterLink to="/" class="RouterLink"><li>Home</li></RouterLink>
+    <RouterLink to="/carta" class="RouterLink"><li>Carta</li></RouterLink>
+    <RouterLink to="/promos" class="RouterLink"><li>Promos</li></RouterLink>
   </ul>
 </template>
 <style scoped>
+.RouterLink {
+  text-decoration: none;
+}
 ul {
   display: flex;
   width: 100%;
@@ -27,7 +30,8 @@ li {
   font-size: 35px;
 }
 
-li:hover {
+li:hover,
+.router-link-active li {
   background-image: url("../assets/img/navbar/navbackground.png");
   background-size: 100% 100%;
   color: #1b150f;
@@ -66,13 +70,41 @@ li:active {
   text-decoration: none;
 }
 @media (min-width: 481px) and (max-width: 1024px) {
+  ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0 auto;
+    width: 100%;
+  }
   li {
     font-size: 35px;
+    padding: 10px 15px;
+    min-width: auto;
+    margin: 5px;
+
+    text-align: center;
   }
 }
 @media (max-width: 480px) {
+  ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0 auto;
+    width: 100%;
+  }
   li {
     font-size: 15px;
+    padding: 10px 15px;
+    min-width: auto;
+    margin: 5px;
+
+    text-align: center;
   }
 }
 </style>

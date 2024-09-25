@@ -13,7 +13,7 @@
 </template>
 <style scoped>
 #containerDescripcion {
-  height: 300px;
+  height: 370px;
 }
 
 #separador {
