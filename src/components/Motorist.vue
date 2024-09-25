@@ -113,7 +113,8 @@ onMounted(() => {
   flex-direction: column;
   gap: 20px;
   margin: 0 auto;
-  max-width: 1000px;
+  max-width: 1300px;
+  
 }
 
 .section {
@@ -127,6 +128,7 @@ onMounted(() => {
   max-width: 100%;
   box-sizing: border-box;
   margin-bottom: 10px;
+  
 }
 
 .bg-red,
@@ -134,7 +136,7 @@ onMounted(() => {
 .bg-green {
   margin: 0 auto;
   width: 100%;
-  max-width: 900px;
+  max-width: 1300px;
   height: 250px;
 }
 
@@ -224,8 +226,8 @@ onMounted(() => {
   padding: 0px;
   border-radius: 8px;
   text-align: center;
-  flex: 0 0 30%;
-  height: 150px;
+  flex: 0 0 15%;
+  height: 160px;
   cursor: grab;
   font-family: "Architects Daughter", cursive;
   word-wrap: break-word;
