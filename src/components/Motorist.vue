@@ -133,8 +133,8 @@ onMounted(() => {
 .bg-yellow,
 .bg-green {
   margin: 0 auto;
-  width: 100%; /* Ajustamos el ancho al 100% para cualquier dispositivo */
-  max-width: 1500px;
+  width: 100%;
+  max-width: 900px;
   height: 250px;
 }
 
@@ -175,8 +175,8 @@ onMounted(() => {
   min-height: 80px;
   max-width: 100%;
   position: relative;
-  padding-bottom: 20px; /* Espacio para la barra de desplazamiento */
-  margin-bottom: 20px; /* Mueve la barra de desplazamiento más abajo */
+  padding-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .orders-container::-webkit-scrollbar {
@@ -224,8 +224,8 @@ onMounted(() => {
   padding: 0px;
   border-radius: 8px;
   text-align: center;
-  flex: 0 0 30%; /* Ajustamos el ancho de los cuadros negros */
-  height: 150px; /* Ajustamos la altura */
+  flex: 0 0 30%;
+  height: 150px;
   cursor: grab;
   font-family: "Architects Daughter", cursive;
   word-wrap: break-word;
@@ -248,27 +248,25 @@ onMounted(() => {
 }
 
 @media (max-width: 768px) {
-  /* Ajustes para dispositivos pequeños */
-
   .bg-red,
   .bg-yellow,
   .bg-green {
     width: 100%;
     max-width: none;
-    height: 180px; /* Reducimos la altura de las franjas en dispositivos pequeños */
+    height: 180px;
   }
 
   .orders-container {
     flex-direction: row;
     overflow-x: auto;
-    gap: 5px; /* Reducimos el espacio entre tarjetas en dispositivos pequeños */
+    gap: 5px;
     padding-left: 5px;
     padding-right: 5px;
   }
 
   .order-card {
-    flex: 0 0 48%; /* Ajustamos el ancho de los cuadros para pantallas pequeñas */
-    height: 120px; /* Ajustamos la altura de los cuadros en pantallas pequeñas */
+    flex: 0 0 48%;
+    height: 120px;
   }
 
   .order-card h3 {
@@ -281,7 +279,7 @@ onMounted(() => {
   }
 
   .section-title {
-    font-size: 22px; /* Reducimos el tamaño de la fuente para dispositivos pequeños */
+    font-size: 22px;
   }
 }
 </style>
