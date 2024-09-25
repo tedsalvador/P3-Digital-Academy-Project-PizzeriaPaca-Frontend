@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue';
-import Kitchen from '../components/Kitchen.vue';
+import { ref } from "vue";
+import Kitchen from "../components/Kitchen.vue";
 </script>
 
 <template>
@@ -8,4 +8,3 @@ import Kitchen from '../components/Kitchen.vue';
     <Kitchen />
   </main>
 </template>
-
