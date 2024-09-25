@@ -2,7 +2,7 @@
 <template>
   <ul>
     <RouterLink to="/" class="RouterLink"><li>STOCK</li></RouterLink>
-    <RouterLink to="/carta" class="RouterLink"><li>FACUTRAS</li></RouterLink>
+    <RouterLink to="/carta" class="RouterLink"><li>FACTURAS</li></RouterLink>
 
   </ul>
 </template>
