@@ -1,7 +1,8 @@
-<script setup></script>
+<script setup>
+import PizzasCarta from "@/components/Carta/PizzasCarta.vue";
+</script>
 
 <template>
-  <main>
-    <h2>Carta</h2>
-  </main>
+  <PizzasCarta></PizzasCarta>
 </template>
+<style scoped></style>
