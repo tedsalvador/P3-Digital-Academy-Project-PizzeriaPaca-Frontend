@@ -65,7 +65,11 @@
     </div>
 
     <div id="btnVerPizzas">
-      <button class="botonLinkPizzas">Conoce todas nuestras pizzas</button>
+      <RouterLink to="/pizzas"
+        ><button class="botonLinkPizzas">
+          Conoce todas nuestras pizzas
+        </button></RouterLink
+      >
     </div>
   </main>
 </template>

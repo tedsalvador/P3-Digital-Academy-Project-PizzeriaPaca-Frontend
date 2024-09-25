@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <main>
+  <main id="promosSection">
     <div class="separador"></div>
     <div id="containerTitulo">Nuestras promos</div>
     <div id="containerTexto">
@@ -65,7 +65,9 @@
     </div>
 
     <div id="btnVerPromos">
-      <button class="botonLinkPromos">Conoce todas nuestras promos</button>
+      <RouterLink to="/promos">
+        <button class="botonLinkPromos">Conoce todas nuestras promos</button>
+      </RouterLink>
     </div>
   </main>
 </template>

@@ -72,7 +72,9 @@
     </div>
 
     <div id="btnVerPostres">
-      <button>Conoce todos nuestros postres</button>
+      <RouterLink to="/postres"
+        ><button>Conoce todos nuestros postres</button></RouterLink
+      >
     </div>
   </main>
 </template>
