@@ -1,4 +1,11 @@
-<script setup></script>
+<script setup>
+function scrollToPromos() {
+  const promosSection = document.getElementById("promosSection"); // Asegúrate de usar el mismo id que en el componente Promos
+  if (promosSection) {
+    promosSection.scrollIntoView({ behavior: "smooth" }); // Hace el scroll suave
+  }
+}
+</script>
 <template>
   <div id="containerDescripcion">
     <div id="separador"></div>
@@ -7,7 +14,7 @@
     </div>
     <div id="Domicilio">Servimos a domicilio</div>
     <div id="containerPromos">
-      <div id="btnPromos">Conoce nuestras promos</div>
+      <div id="btnPromos" @click="scrollToPromos">Conoce nuestras promos</div>
     </div>
   </div>
 </template>
@@ -38,7 +45,7 @@
 }
 #containerPromos {
   height: 70px;
-
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;

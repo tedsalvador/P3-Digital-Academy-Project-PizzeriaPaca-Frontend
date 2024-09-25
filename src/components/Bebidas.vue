@@ -75,7 +75,9 @@
       </div>
     </div>
     <div id="btnVerBebidas">
-      <button>Conoce todos nuestras bebidas</button>
+      <RouterLink to="/bebidas">
+        <button>Conoce todos nuestras bebidas</button>
+      </RouterLink>
     </div>
   </main>
 </template>
