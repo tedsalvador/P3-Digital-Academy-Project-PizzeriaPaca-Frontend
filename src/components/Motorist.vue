@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
 const sections = ref([
   {
@@ -17,9 +17,7 @@ const sections = ref([
   {
     title: "En Tránsito",
     color: "yellow",
-    orders: [
-      { code: "L-15", details: "Pizza Napolitana" },
-    ],
+    orders: [{ code: "L-15", details: "Pizza Napolitana" }],
   },
   {
     title: "Entregado",
@@ -54,6 +52,31 @@ const onDrop = (section) => {
 const allowDrop = (event) => {
   event.preventDefault();
 };
+
+const checkScroll = (container) => {
+  if (container.scrollLeft > 0) {
+    container.classList.add("scroll-left");
+  } else {
+    container.classList.remove("scroll-left");
+  }
+
+  if (
+    container.scrollWidth > container.clientWidth &&
+    container.scrollLeft + container.clientWidth < container.scrollWidth
+  ) {
+    container.classList.add("scroll-right");
+  } else {
+    container.classList.remove("scroll-right");
+  }
+};
+
+onMounted(() => {
+  const containers = document.querySelectorAll(".orders-container");
+  containers.forEach((container) => {
+    checkScroll(container);
+    container.addEventListener("scroll", () => checkScroll(container));
+  });
+});
 </script>
 
 <template>
@@ -89,20 +112,31 @@ const allowDrop = (event) => {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin: 0 20px;
+  margin: 0 auto;
+  max-width: 1000px;
 }
 
-
 .section {
-  padding: 15px;
+  padding: 0px;
   border-radius: 8px;
   text-align: center;
   min-height: 180px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 10px;
 }
 
+.bg-red,
+.bg-yellow,
+.bg-green {
+  margin: 0 auto;
+  width: 100%; /* Ajustamos el ancho al 100% para cualquier dispositivo */
+  max-width: 900px;
+  height: 250px;
+}
 
 .bg-red {
   background-color: #e74c3c;
@@ -124,7 +158,7 @@ const allowDrop = (event) => {
 
 .section-title {
   color: white;
-  font-size: 22px;
+  font-size: 30px;
   font-family: "Architects Daughter", cursive;
   text-align: center;
   margin: 0;
@@ -132,22 +166,66 @@ const allowDrop = (event) => {
 
 .orders-container {
   display: flex;
-  gap: 5px;
-  justify-content: flex-start; 
-  padding-left: 10px; 
+  gap: 10px;
+  justify-content: flex-start;
+  padding-left: 10px;
   flex-wrap: nowrap;
   overflow-x: auto;
+  overflow-y: hidden;
   min-height: 80px;
+  max-width: 100%;
+  position: relative;
+  padding-bottom: 20px; /* Espacio para la barra de desplazamiento */
+  margin-bottom: 20px; /* Mueve la barra de desplazamiento más abajo */
+}
+
+.orders-container::-webkit-scrollbar {
+  height: 8px;
+  background-color: transparent;
+}
+
+.orders-container::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 100, 100, 0.5);
+  border-radius: 10px;
+}
+
+.orders-container::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(80, 80, 80, 0.8);
+}
+
+.orders-container::-webkit-scrollbar-track {
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.orders-container::before,
+.orders-container::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-style: solid;
+  pointer-events: none;
+  display: none;
+}
+
+.orders-container.scroll-left::before {
+  display: block;
+}
+
+.orders-container.scroll-right::after {
+  display: block;
 }
 
 .order-card {
   background-color: black;
   color: white;
-  padding: 10px;
+  padding: 0px;
   border-radius: 8px;
   text-align: center;
-  width: 120px;
-  height: 60px;
+  flex: 0 0 30%; /* Ajustamos el ancho de los cuadros negros */
+  height: 150px; /* Ajustamos la altura */
   cursor: grab;
   font-family: "Architects Daughter", cursive;
   word-wrap: break-word;
@@ -155,42 +233,55 @@ const allowDrop = (event) => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .order-card h3 {
   margin: 0;
-  font-size: 14px;
+  font-size: 40px;
   line-height: 1.1;
 }
 
 .order-card p {
   margin: 5px 0 0 0;
-  font-size: 12px;
+  font-size: 20px;
 }
 
 @media (max-width: 768px) {
+  /* Ajustes para dispositivos pequeños */
+
+  .bg-red,
+  .bg-yellow,
+  .bg-green {
+    width: 100%;
+    max-width: none;
+    height: 180px; /* Reducimos la altura de las franjas en dispositivos pequeños */
+  }
+
   .orders-container {
     flex-direction: row;
     overflow-x: auto;
+    gap: 5px; /* Reducimos el espacio entre tarjetas en dispositivos pequeños */
+    padding-left: 5px;
+    padding-right: 5px;
   }
 
   .order-card {
-    width: 90px;
-    height: 50px;
-    padding: 5px;
+    flex: 0 0 48%; /* Ajustamos el ancho de los cuadros para pantallas pequeñas */
+    height: 120px; /* Ajustamos la altura de los cuadros en pantallas pequeñas */
   }
 
   .order-card h3 {
-    font-size: 10px;
+    font-size: 18px;
   }
 
   .order-card p {
-    font-size: 9px;
-    margin-top: 2px;
+    font-size: 12px;
+    margin-top: 5px;
   }
 
   .section-title {
-    font-size: 18px;
+    font-size: 22px; /* Reducimos el tamaño de la fuente para dispositivos pequeños */
   }
 }
 </style>
