@@ -18,8 +18,4 @@ import Promos from "@/components/Promos.vue";
   </main>
 </template>
 
-<style scoped>
-main {
-  min-height: 500px;
-}
-</style>
+<style scoped></style>

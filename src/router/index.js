@@ -30,6 +30,11 @@ const router = createRouter({
       meta: { requiresAdmin: true },
     },
     {
+      path: "/ordermanagement",
+      name: "ordermanagement",
+      component: () => import("../views/OrderManagementView.vue"),
+    },
+    {
       path: "/kitchen",
       name: "kitchen",
       component: () => import("../views/KitchenView.vue"),
