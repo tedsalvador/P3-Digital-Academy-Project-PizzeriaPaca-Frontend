@@ -39,6 +39,21 @@ const router = createRouter({
       name: "motorist",
       component: () => import("../views/MotoristView.vue"),
     },
+    {
+      path: "/pizzas",
+      name: "pizzas",
+      component: () => import("../components/Carta/PizzasCarta.vue"),
+    },
+    {
+      path: "/bebidas",
+      name: "bebidas",
+      component: () => import("../components/Carta/BebidasCarta.vue"),
+    },
+    {
+      path: "/postres",
+      name: "postres",
+      component: () => import("../components/Carta/PostresCarta.vue"),
+    },
   ],
 });
 
