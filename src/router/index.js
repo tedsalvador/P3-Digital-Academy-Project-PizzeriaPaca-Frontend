@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -8,16 +9,19 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: HomeView,
+      meta: { requiresAdmin: false },
     },
     {
       path: "/carta",
       name: "carta",
       component: () => import("../views/CartaView.vue"),
+      meta: { requiresAdmin: false },
     },
     {
       path: "/promos",
       name: "promos",
       component: () => import("../views/PromosView.vue"),
+      meta: { requiresAdmin: false },
     },
     {
       path: "/admindashboard",
@@ -33,6 +37,7 @@ const router = createRouter({
       path: "/kitchen",
       name: "kitchen",
       component: () => import("../views/KitchenView.vue"),
+      meta: { requiresAdmin: false },
     },
   ],
 });
