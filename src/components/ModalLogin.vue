@@ -1,41 +1,31 @@
 <script setup>
 import { ref, defineProps, defineEmits, onMounted, onUnmounted } from "vue";
+import { Login } from '@/user/UserModel';
 
-// Propiedades y eventos emitidos
 const props = defineProps(["show"]);
 const emit = defineEmits(["close"]);
 
-// Función para cerrar el modal
 const closeModal = () => {
   emit("close");
 };
 
-// Estado reactivo para manejar el formulario activo en pantallas grandes
 const isSignUp = ref(false);
-
-// Estado reactivo para manejar el formulario visible en pantallas pequeñas
 const isMobileSignUp = ref(false);
-
-// Detectar si la pantalla es pequeña (menor a 480px)
 const isMobile = ref(false);
 
-// Función para verificar si la pantalla es pequeña
 const checkScreenSize = () => {
   isMobile.value = window.innerWidth <= 480;
 };
 
-// Detecta el tamaño de la pantalla al montar el componente
 onMounted(() => {
   checkScreenSize();
   window.addEventListener("resize", checkScreenSize);
 });
 
-// Limpia el evento cuando el componente se desmonta
 onUnmounted(() => {
   window.removeEventListener("resize", checkScreenSize);
 });
 
-// Métodos para cambiar entre formularios en pantallas grandes
 const showSignUp = () => {
   isSignUp.value = true;
 };
@@ -44,28 +34,60 @@ const showSignIn = () => {
   isSignUp.value = false;
 };
 
-// Métodos para cambiar entre formularios en pantallas pequeñas
 const showMobileSignUp = () => {
-  isMobileSignUp.value = true; // Mostrar formulario de registro
+  isMobileSignUp.value = true;
 };
 
 const showMobileSignIn = () => {
-  isMobileSignUp.value = false; // Mostrar formulario de iniciar sesión
+  isMobileSignUp.value = false;
 };
+
+const name = ref('');
+const lastName = ref('');
+const username = ref('');
+const email = ref('');
+const password = ('');
+const city = ref('');
+const address = ref('');
+const postalCode = ref('');
+const errorMessage = ref('');
+
+const login = async () => {
+  try {
+    const loginData = new Login(username.value, password.value);
+    const response = await AuthRepository.login(loginData);
+    console.log('Login successful:', response);
+  } catch (error) {
+    errorMessage.value = 'Error en el inicio de sesión. Por favor, verifica tus credenciales.';
+  }
+};
+
+const register = async () => {
+  try {
+    const user = new User(
+      name.value,
+      lastName.value,
+      username.value,
+      email.value,
+      password.value,
+      city.value,
+      address.value,
+      postalCode.value
+    );
+    const response = await AuthRepository.register(user);
+    console.log('Registro exitoso:', response);
+  } catch (error) {
+    errorMessage.value = 'Error en el registro. Por favor, verifica los datos ingresados.';
+  }
+};
+
 </script>
 
 <template>
   <div v-if="show" class="modal-overlay" @click.self="closeModal">
-    <div
-      class="container"
-      :class="{ 'right-panel-active': isSignUp && !isMobile }"
-    >
-      <!-- Formulario de Registro -->
-      <div
-        class="form-container sign-up-container"
-        v-if="!isMobile || isMobileSignUp"
-      >
-        <form action="#">
+    <div class="container" :class="{ 'right-panel-active': isSignUp && !isMobile }">
+      <div class="form-container sign-up-container" v-if="!isMobile || isMobileSignUp">
+        <form action="#" @submit.prevent="register">
           <h1>Crear Cuenta</h1>
           <input type="text" placeholder="Nombre" />
           <input type="text" placeholder="Apellidos" />
@@ -78,38 +100,23 @@ const showMobileSignIn = () => {
           <button class="registrate">Registrate</button>
 
           <!-- Botón para volver a "Iniciar Sesión" en pantallas pequeñas -->
-          <button
-            class="ghost mobile-toggle"
-            @click="showMobileSignIn"
-            v-if="isMobile"
-          >
+          <button class="ghost mobile-toggle" @click="showMobileSignIn" v-if="isMobile">
             ¿Ya tienes cuenta? Inicia Sesión
           </button>
         </form>
       </div>
 
       <!-- Formulario de Iniciar Sesión -->
-      <div
-        class="form-container sign-in-container"
-        v-if="!isMobile || !isMobileSignUp"
-      >
-        <form action="#" class="formInicioSesion">
-          <img
-            class="logoLogin"
-            src="../assets/img/navbar/logodorado.png"
-            alt=""
-          />
+      <div class="form-container sign-in-container" v-if="!isMobile || !isMobileSignUp">
+        <form action="#" class="formInicioSesion" @submit="login">
+          <img class="logoLogin" src="../assets/img/navbar/logodorado.png" alt="" />
           <h1>Iniciar Sesion</h1>
           <input type="text" placeholder="Usuario" />
           <input type="password" placeholder="Contraseña" />
           <button class="btnInicioSesion">Iniciar Sesion</button>
 
           <!-- Botón para cambiar a "Registro" en pantallas pequeñas -->
-          <button
-            class="ghost mobile-toggle"
-            @click="showMobileSignUp"
-            v-if="isMobile"
-          >
+          <button class="ghost mobile-toggle" @click="showMobileSignUp" v-if="isMobile">
             ¿No tienes cuenta? Regístrate
           </button>
         </form>
@@ -295,6 +302,7 @@ input {
 }
 
 @keyframes show {
+
   0%,
   49.99% {
     opacity: 0;
@@ -389,9 +397,11 @@ input {
   height: 40px;
   width: 40px;
 }
+
 .logo {
   width: 80%;
 }
+
 .btnInicioSesion:hover,
 .ghost:hover,
 .registrate:hover {
@@ -405,14 +415,17 @@ input {
   justify-content: center;
   height: 100%;
 }
+
 .logoLogin {
   display: none;
 }
+
 @media (min-width: 481px) and (max-width: 1024px) {
   .container {
     width: 95%;
   }
 }
+
 @media (max-width: 480px) {
   .overlay-container {
     display: none;
@@ -454,26 +467,33 @@ input {
   .mobile-toggle:hover {
     text-decoration: underline;
   }
+
   .formInicioSesion {
     margin-top: 100px;
     width: 90%;
   }
+
   .logoLogin {
     display: block;
     width: 80%;
     margin-top: -70px;
   }
+
   .container {
     width: 90%;
     min-height: 670px;
   }
+
   .form-container {
     margin-top: 30px;
   }
+
   .sign-up-container,
   .sign-in-container {
-    transition: none !important; /* Desactiva las transiciones para depurar */
-    opacity: 1 !important; /* Asegúrate de que sea visible */
+    transition: none !important;
+    /* Desactiva las transiciones para depurar */
+    opacity: 1 !important;
+    /* Asegúrate de que sea visible */
   }
 }
 </style>
