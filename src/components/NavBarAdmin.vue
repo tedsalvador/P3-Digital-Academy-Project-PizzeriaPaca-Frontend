@@ -1,8 +1,8 @@
 <script setup></script>
 <template>
   <ul>
-    <RouterLink to="/" class="RouterLink"><li>STOCK</li></RouterLink>
-    <RouterLink to="/carta" class="RouterLink"><li>FACTURAS</li></RouterLink>
+    <RouterLink to="/admindashboard" class="RouterLink"><li>STOCK</li></RouterLink>
+    <RouterLink to="/ordermanagement" class="RouterLink"><li>FACTURAS</li></RouterLink>
 
   </ul>
 </template>
