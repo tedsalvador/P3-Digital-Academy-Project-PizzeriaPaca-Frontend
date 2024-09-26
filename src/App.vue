@@ -1,16 +1,19 @@
 <script setup>
-import { RouterLink, RouterView } from "vue-router";
+import { useRoute } from "vue-router";
 import Footer from "./components/Footer.vue";
-// import NavBar from "./components/NavBar.vue";
+import NavBar from "./components/NavBar.vue";
 import Titulo from "./components/Titulo.vue";
 import NavBarAdmin from "./components/NavBarAdmin.vue";
 
+const route = useRoute(); // Obtenemos la ruta actual
 </script>
 
 <template>
   <header>
     <Titulo></Titulo>
-    <NavBarAdmin></NavBarAdmin>
+    <!-- Mostrar NavBar o NavBarAdmin basado en la ruta actual -->
+    <NavBar v-if="route.name !== 'admindashboard'" />
+    <NavBarAdmin v-else />
   </header>
 
   <main>
