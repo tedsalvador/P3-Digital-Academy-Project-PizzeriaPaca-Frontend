@@ -145,7 +145,7 @@
 
 #containerGitHub {
   width: 100%;
-  height: 120px;
+  height: 190px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -153,7 +153,7 @@
 
 #containerLinkProject {
   width: 100%;
-  height: 100px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -171,7 +171,6 @@
   perspective: 1000px;
   border-radius: 100%;
   transition: box-shadow 0.3s ease-in-out;
-  box-shadow: 0 0 10px white;
 }
 
 .flip-card {
@@ -216,6 +215,9 @@
   background-color: #f1f1f1;
   color: black;
   transform: rotateY(180deg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #separador {
@@ -229,6 +231,8 @@
 
 .textIcon {
   font-weight: bold;
+  padding: 0;
+  margin: 0;
 }
 
 @media (max-width: 480px) {
@@ -248,7 +252,7 @@
     font-size: 20px;
   }
   #containerGitHub {
-    height: 90px;
+    height: 100px;
   }
 
   #containerLinkProject {
