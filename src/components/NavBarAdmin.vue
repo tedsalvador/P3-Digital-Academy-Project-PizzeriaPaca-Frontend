@@ -1,9 +1,9 @@
 <script setup></script>
 <template>
   <ul>
-    <RouterLink to="/" class="RouterLink"><li>Home</li></RouterLink>
-    <RouterLink to="/carta" class="RouterLink"><li>Carta</li></RouterLink>
-    <RouterLink to="/promos" class="RouterLink"><li>Promos</li></RouterLink>
+    <RouterLink to="/admindashboard" class="RouterLink"><li>STOCK</li></RouterLink>
+    <RouterLink to="/ordermanagement" class="RouterLink"><li>FACTURAS</li></RouterLink>
+
   </ul>
 </template>
 <style scoped>

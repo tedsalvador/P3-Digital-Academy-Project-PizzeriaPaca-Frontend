@@ -1,11 +1,13 @@
 <script setup>
 import { ref } from 'vue';
 import AdminDashboard from '../components/AdminDashboard.vue';
+
 </script>
 
 <template>
-  <main>
+  <div class="admin-dashboard">
     <AdminDashboard />
-  </main>
+   
+</div>
 </template>
 

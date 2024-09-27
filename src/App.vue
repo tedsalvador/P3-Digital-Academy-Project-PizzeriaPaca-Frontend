@@ -1,29 +1,25 @@
 <script setup>
-import { RouterLink, RouterView } from "vue-router";
+import { useRoute } from "vue-router";
 import Footer from "./components/Footer.vue";
 import NavBar from "./components/NavBar.vue";
 import Titulo from "./components/Titulo.vue";
+import NavBarAdmin from "./components/NavBarAdmin.vue";
+
+const route = useRoute(); 
 </script>
 
 <template>
-  <div class="app-container">
+  <header>
     <Titulo></Titulo>
-    <NavBar></NavBar>
-    <header>
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/carta">Carta</RouterLink>
-        <RouterLink to="/promos">Promos</RouterLink>
-        <RouterLink to="/admindashboard">AdminDashboard</RouterLink>
-      </nav>
-    </header>
+    <NavBar v-if="route.name !== 'admindashboard' && route.name !== 'ordermanagement'" />
+    <NavBarAdmin v-else />
+  </header>
 
-    <main>
-      <RouterView />
-    </main>
+  <main>
+    <RouterView />
+  </main>
 
-    <Footer></Footer>
-  </div>
+  <Footer></Footer>
 </template>
 
 <style>
