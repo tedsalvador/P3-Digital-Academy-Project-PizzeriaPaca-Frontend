@@ -27,6 +27,40 @@ const router = createRouter({
       path: "/admindashboard",
       name: "admindashboard",
       component: () => import("../views/AdminDashboardView.vue"),
+      meta: { requiresAdmin: true },
+    },
+    {
+      path: "/ordermanagement",
+      name: "ordermanagement",
+      component: () => import("../views/OrderManagementView.vue"),
+      meta: { requiresAdmin: true },
+    },
+    {
+      path: "/kitchen",
+      name: "kitchen",
+      component: () => import("../views/KitchenView.vue"),
+      meta: { requiresAdmin: false },
+    },
+    {
+      path: "/motorist",
+      name: "motorist",
+      component: () => import("../views/MotoristView.vue"),
+      meta: { requiresAdmin: false },
+    },
+    {
+      path: "/pizzas",
+      name: "pizzas",
+      component: () => import("../components/Carta/PizzasCarta.vue"),
+    },
+    {
+      path: "/bebidas",
+      name: "bebidas",
+      component: () => import("../components/Carta/BebidasCarta.vue"),
+    },
+    {
+      path: "/postres",
+      name: "postres",
+      component: () => import("../components/Carta/PostresCarta.vue"),
     },
     {
       path: "/ordermanagement",
