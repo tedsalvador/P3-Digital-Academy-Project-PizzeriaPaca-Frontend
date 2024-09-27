@@ -60,7 +60,7 @@ const generateInvoice = (invoice) => {
             <th>ID</th>
             <th>Cliente</th>
             <th>Estado</th>
-            <th>Monto</th>
+            <th>Total</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -90,7 +90,7 @@ const generateInvoice = (invoice) => {
             <th>ID</th>
             <th>Cliente</th>
             <th>Estado</th>
-            <th>Monto</th>
+            <th>Total</th>
             <th>Factura</th>
           </tr>
         </thead>
@@ -117,18 +117,30 @@ const generateInvoice = (invoice) => {
 <style scoped>
 .sales-container {
   display: flex;
-  justify-content: center;
+  justify-content: center; 
   gap: 20px;
   margin-bottom: 20px;
+  overflow-x: auto;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .sales-card {
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.9);
   border-radius: 8px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 5px;
+  padding: 20px 20px 10px 10px;
   text-align: center;
-  width: 15%;
+  min-width: 200px;
+  flex-shrink: 0; 
+}
+
+.sales-card:first-child {
+  margin-left: 0;
+}
+
+.sales-card:last-child {
+  margin-right: 10px;
 }
 
 .sales-card h3 {
@@ -221,9 +233,32 @@ tbody tr:hover {
   background-color: #45a049;
 }
 
-@media (max-width: 768px) {
+
+@media (max-width: 1024px) {
+  .sales-container {
+    justify-content: flex-start; 
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
   .sales-card {
-    width: 30%;
+    min-width: 160px;
+  }
+}
+
+/* En pantallas muy pequeñas */
+@media (max-width: 768px) {
+  .sales-container {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .sales-card {
+    min-width: 140px;
+    width: auto;
   }
 
   .sales-card h3 {
@@ -242,6 +277,19 @@ tbody tr:hover {
   .add-button {
     padding: 8px 16px;
     font-size: 14px;
+  }
+}
+
+
+@media (min-width: 1025px) {
+  .sales-container {
+    justify-content: center; 
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .sales-card {
+    min-width: 220px;
   }
 }
 </style>
