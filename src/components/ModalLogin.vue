@@ -9,8 +9,9 @@ import Credentials from "@/core/models/Credentials";
 
 const username = ref('')
 const password = ref('')
-const textAlert = ref("")
-const textPage = ref("")
+const textAlert = ref('')
+const textPage = ref('')
+const alertClass = ref('');
 
 const route = useRoute()
 const router = useRouter()
@@ -32,6 +33,8 @@ async function login() {
 
             //const response = await store.login(username.value, password.value)
             if (response.message == 'Logged') {
+                alertClass.value = 'alert-success';
+
                 store.user.id = response['id']
                 store.user.isAuthenticated = true
                 store.user.username = response['username']
@@ -54,16 +57,19 @@ async function login() {
 
                 console.log("ruta a enviar: " + redirectPath)
                 router.push(redirectPath)
-
+                textAlert.value = "Ok";
                 // Cierra el modal cuando el login es exitoso
                 closeModal(); 
             } else {
+                   alertClass.value = 'alert-danger';
                    textAlert.value = "Incorrect username or password!";
                    }
         } catch (error) {
+            alertClass.value = 'alert-danger';
             textAlert.value = "Error trying to login, please try again."
             console.error('Error:',error)
         }else{
+             alertClass.value = 'alert-danger';
              textAlert.value = "User or Password not by null!";
              }
 }
@@ -161,7 +167,7 @@ const showMobileSignIn = () => {
         v-if="!isMobile || !isMobileSignUp"
       >
         <form class="formInicioSesion" @submit.prevent="login">
-          <div v-if="textAlert !== ''" class="alert alert-danger">
+          <div v-if="textAlert !== ''" :class="['alert', alertClass]">
               {{ textAlert }}
           </div>
 
@@ -210,10 +216,23 @@ const showMobileSignIn = () => {
 </template>
 
 <style scoped>
-.alert-danger {
+/* .alert-danger {
   color: red;
   font-weight: bold;
   margin: 10px 0;
+} */
+.alert {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.alert-success {
+    color: green;
+}
+
+.alert-danger {
+    color: red;
 }
 
 .modal-overlay {
