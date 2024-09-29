@@ -1,10 +1,55 @@
 <script setup>
 import { ref } from "vue";
 import ModalLogin from "./ModalLogin.vue";
+//nuevo
+import { RouterLink, useRouter } from 'vue-router'
+import { useAuthStore } from '../stores/auth';
+import { loginChange } from '../stores/loginChange';
 
 const showModal = ref(false);
 
+const router = useRouter()
+const store = useAuthStore()
+const mobileMenuOpen = ref(false)
+
+const modificarLogin = () => {
+    if (loginChange.login == false)
+        loginChange.setLogin(true)
+    else
+        loginChange.setLogin(false)
+};
+
+const modificarRegister = () => {
+    if (loginChange.register == false)
+        loginChange.setRegister(true)
+    else
+        loginChange.setRegister(false)
+};
+
+function logout() {
+
+    store.user.isAuthenticated = false
+    store.user.id = ""
+    store.user.username = ""
+    store.user.role = ""
+
+    localStorage.clear()
+    loginChange.setLogin(false)
+    loginChange.setRegister(false)
+    mobileMenuOpen.value = false
+
+    const redirectPath = '/home'
+    router.push(redirectPath)
+}
+//nuevo
+
 const openModal = () => {
+  //nuevo
+  if (loginChange.login == false)
+        loginChange.setLogin(true)
+    else
+        loginChange.setLogin(false)
+  //nuevo
   showModal.value = true;
 };
 

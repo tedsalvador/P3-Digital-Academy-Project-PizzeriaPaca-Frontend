@@ -1,5 +1,73 @@
 <script setup>
 import { ref, defineProps, defineEmits, onMounted, onUnmounted } from "vue";
+//nuevos login
+import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth.js'
+import { loginChange } from '@/stores/loginChange';
+
+import AuthService from "../core/apis/spring/auth/AuthService";
+import Credentials from "@/core/models/Credentials";
+
+
+const username = ref('')
+const password = ref('')
+const textAlert = ref("")
+
+const route = useRoute()
+const router = useRouter()
+
+const store = useAuthStore()
+
+const modificarRegister = () => {
+    if (loginChange.register == false)
+        loginChange.setRegister(true);
+    else
+        loginChange.setRegister(false);
+};
+
+async function login() {
+    if (username.value !== '' && password.value !== '')
+        try {
+
+            // Crear instancia de credenciales
+            const credentials = new Credentials(username.value, password.value);
+            
+            // Crear instancia del servicio de autenticación
+            const authService = new AuthService(credentials);
+            
+            // Hacer el login utilizando AuthService
+            const response = await authService.login();
+
+
+            //const response = await store.login(username.value, password.value)
+
+            if (response.message == 'Logged') {
+
+                // store.user.id = response['id']
+                // store.user.isAuthenticated = true
+                // store.user.username = response['username']
+                // store.user.role = response['roles']
+
+                localStorage.setItem('id', response['id'])
+                localStorage.setItem('username', response['username'])
+                localStorage.setItem('role', response['roles'])
+                localStorage.setItem('isAuthenticated', "true")
+                localStorage.setItem('token', btoa(`${username.value}:${password.value}`))
+
+                const redirectPath = route.query.redirect || '/home'
+                router.push(redirectPath)
+            }
+            else
+                textAlert.value = "Incorrect username or password!";
+        } catch (error) {
+            textAlert.value = "Error trying to login, please try again.";
+            consoles.error('Error:',error);
+        }
+    else{
+        textAlert.value = "User or Password not by null!";
+      }
+}
+
 
 // Propiedades y eventos emitidos
 const props = defineProps(["show"]);
@@ -93,7 +161,12 @@ const showMobileSignIn = () => {
         class="form-container sign-in-container"
         v-if="!isMobile || !isMobileSignUp"
       >
-        <form action="#" class="formInicioSesion">
+        <form action="#" class="formInicioSesion" @submit.prevent="login">
+          <div v-if="textAlert != ''"
+                data-dismissible="alert">
+                <div>{{ textAlert }}</div>
+          </div>
+
           <img
             class="logoLogin"
             src="../assets/img/navbar/logodorado.png"
@@ -102,7 +175,9 @@ const showMobileSignIn = () => {
           <h1>Iniciar Sesion</h1>
           <input type="text" placeholder="Usuario" />
           <input type="password" placeholder="Contraseña" />
-          <button class="btnInicioSesion">Iniciar Sesion</button>
+          <button class="btnInicioSesion" type="submit">Iniciar Sesion</button>
+          <!-- <button type="submit">Iniciar Sesion</button> -->
+           
 
           <!-- Botón para cambiar a "Registro" en pantallas pequeñas -->
           <button
