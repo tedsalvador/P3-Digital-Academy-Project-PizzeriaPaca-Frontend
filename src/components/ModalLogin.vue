@@ -46,10 +46,16 @@ async function login() {
                 localStorage.setItem('isAuthenticated', "true")
                 localStorage.setItem('token', btoa(`${username.value}:${password.value}`))
 
+                console.log("Role a enviar: " + response.roles)
+
                 if (response.roles == 'ROLE_ADMIN'){                
                     textPage.value = "/AdminDashboard"
                 }else if (response.roles == 'ROLE_USER'){
                     textPage.value = "/home"
+                }else if (response.roles == 'ROLE_KITCHEN'){
+                    textPage.value = "/kitchen"
+                }else if (response.roles == 'ROLE_MOTORIST'){
+                    textPage.value = "/motorist"
                 }else{
                      textPage.value = "/home"
                 }
