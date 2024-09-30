@@ -1,6 +1,7 @@
 <script setup>
 import { ref, defineProps, defineEmits, onMounted, onUnmounted } from "vue";
-import { Login } from '@/user/UserModel';
+import AuthRepository from "@/user/AuthRepository";
+import { RegisterDto } from '@/user/RegisterDto';
 
 const props = defineProps(["show"]);
 const emit = defineEmits(["close"]);
@@ -42,42 +43,15 @@ const showMobileSignIn = () => {
   isMobileSignUp.value = false;
 };
 
-const name = ref('');
-const lastName = ref('');
-const username = ref('');
-const email = ref('');
-const password = ('');
-const city = ref('');
-const address = ref('');
-const postalCode = ref('');
-const errorMessage = ref('');
-
-const login = async () => {
-  try {
-    const loginData = new Login(username.value, password.value);
-    const response = await AuthRepository.login(loginData);
-    console.log('Login successful:', response);
-  } catch (error) {
-    errorMessage.value = 'Error en el inicio de sesión. Por favor, verifica tus credenciales.';
-  }
-};
+const registerData = ref(new RegisterDto('', '', '', '', '', '', '', ''));
 
 const register = async () => {
   try {
-    const user = new User(
-      name.value,
-      lastName.value,
-      username.value,
-      email.value,
-      password.value,
-      city.value,
-      address.value,
-      postalCode.value
-    );
-    const response = await AuthRepository.register(user);
-    console.log('Registro exitoso:', response);
+    await AuthRepository.register(registerData.value);
+    alert('Registro exitoso');
+    closeModal();
   } catch (error) {
-    errorMessage.value = 'Error en el registro. Por favor, verifica los datos ingresados.';
+    alert('Error en el registro:');
   }
 };
 
@@ -89,14 +63,14 @@ const register = async () => {
       <div class="form-container sign-up-container" v-if="!isMobile || isMobileSignUp">
         <form action="#" @submit.prevent="register">
           <h1>Crear Cuenta</h1>
-          <input type="text" placeholder="Nombre" />
-          <input type="text" placeholder="Apellidos" />
-          <input type="text" placeholder="Nombre de usuario" />
-          <input type="email" placeholder="Email" />
-          <input type="password" placeholder="Contraseña" />
-          <input type="text" placeholder="Ciudad" />
-          <input type="text" placeholder="Dirección" />
-          <input type="text" placeholder="Código Postal" />
+          <input type="text" placeholder="Nombre" v-model="registerData.firstName" />
+          <input type="text" placeholder="Apellidos" v-model="registerData.lastName" />
+          <input type="text" placeholder="Nombre de usuario" v-model="registerData.username" />
+          <input type="email" placeholder="Email" v-model="registerData.email" />
+          <input type="password" placeholder="Contraseña" v-model="registerData.password" />
+          <input type="text" placeholder="Ciudad" v-model="registerData.city" />
+          <input type="text" placeholder="Dirección" v-model="registerData.address" />
+          <input type="text" placeholder="Código Postal" v-model="registerData.postalCode" />
           <button class="registrate">Registrate</button>
 
           <!-- Botón para volver a "Iniciar Sesión" en pantallas pequeñas -->
@@ -108,7 +82,7 @@ const register = async () => {
 
       <!-- Formulario de Iniciar Sesión -->
       <div class="form-container sign-in-container" v-if="!isMobile || !isMobileSignUp">
-        <form action="#" class="formInicioSesion" @submit="login">
+        <form action="#" class="formInicioSesion">
           <img class="logoLogin" src="../assets/img/navbar/logodorado.png" alt="" />
           <h1>Iniciar Sesion</h1>
           <input type="text" placeholder="Usuario" />
