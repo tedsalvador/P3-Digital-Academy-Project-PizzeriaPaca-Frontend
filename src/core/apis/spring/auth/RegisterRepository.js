@@ -1,9 +1,11 @@
-import AuthService from '@/user/AuthService';
+import RegisterService from "./RegisterService";
+
+
 
 export default {
     async register(registerData) {
         try {
-            const data = await AuthService.register(registerData);
+            const data = await RegisterService.register(registerData);
             return data;
         } catch (error) {
             throw error;

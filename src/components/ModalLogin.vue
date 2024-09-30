@@ -1,12 +1,11 @@
 <script setup>
 import { ref, defineProps, defineEmits, onMounted, onUnmounted } from "vue";
-import AuthRepository from "@/user/AuthRepository";
-import { RegisterDto } from '@/user/RegisterDto';
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.js'
-import { loginChange } from '@/stores/loginChange';
 import AuthService from "../core/apis/spring/auth/AuthService";
 import Credentials from "@/core/models/Credentials";
+import { RegisterDto } from "@/core/models/RegisterDto";
+import RegisterRepository from "@/core/apis/spring/auth/RegisterRepository";
 
 const username = ref('')
 const password = ref('')
@@ -125,7 +124,7 @@ const registerData = ref(new RegisterDto('', '', '', '', '', '', '', ''));
 
 const register = async () => {
   try {
-    await AuthRepository.register(registerData.value);
+    await RegisterRepository.register(registerData.value);
     alert('Registro exitoso');
     closeModal();
   } catch (error) {
