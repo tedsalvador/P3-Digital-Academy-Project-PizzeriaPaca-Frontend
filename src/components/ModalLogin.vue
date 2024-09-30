@@ -1,5 +1,84 @@
 <script setup>
 import { ref, defineProps, defineEmits, onMounted, onUnmounted } from "vue";
+//nuevos login
+import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth.js'
+import { loginChange } from '@/stores/loginChange';
+import AuthService from "../core/apis/spring/auth/AuthService";
+import Credentials from "@/core/models/Credentials";
+
+const username = ref('')
+const password = ref('')
+const textAlert = ref('')
+const textPage = ref('')
+const alertClass = ref('');
+
+const route = useRoute()
+const router = useRouter()
+
+const store = useAuthStore()
+
+async function login() {
+    if (username.value !== '' && password.value !== '')
+        try {
+
+            // Crear instancia de credenciales
+            const credentials = new Credentials(username.value, password.value);
+            
+            // Crear instancia del servicio de autenticación
+            const authService = new AuthService(credentials);
+            
+            // Hacer el login utilizando AuthService
+            const response = await authService.login();
+
+            //const response = await store.login(username.value, password.value)
+            if (response.message == 'Logged') {
+                alertClass.value = 'alert-success';
+
+                store.user.id = response['id']
+                store.user.isAuthenticated = true
+                store.user.username = response['username']
+                store.user.role = response['roles']
+
+                localStorage.setItem('id', response['id'])
+                localStorage.setItem('username', response['username'])
+                localStorage.setItem('role', response['roles'])
+                localStorage.setItem('isAuthenticated', "true")
+                localStorage.setItem('token', btoa(`${username.value}:${password.value}`))
+
+                console.log("Role a enviar: " + response.roles)
+
+                if (response.roles == 'ROLE_ADMIN'){                
+                    textPage.value = "/AdminDashboard"
+                }else if (response.roles == 'ROLE_USER'){
+                    textPage.value = "/home"
+                }else if (response.roles == 'ROLE_KITCHEN'){
+                    textPage.value = "/kitchen"
+                }else if (response.roles == 'ROLE_MOTORIST'){
+                    textPage.value = "/motorist"
+                }else{
+                     textPage.value = "/home"
+                }
+                const redirectPath = route.query.redirect || textPage.value
+
+                console.log("ruta a enviar: " + redirectPath)
+                router.push(redirectPath)
+                textAlert.value = "Ok";
+                // Cierra el modal cuando el login es exitoso
+                closeModal(); 
+            } else {
+                   alertClass.value = 'alert-danger';
+                   textAlert.value = "Incorrect username or password!";
+                   }
+        } catch (error) {
+            alertClass.value = 'alert-danger';
+            textAlert.value = "Error trying to login, please try again."
+            console.error('Error:',error)
+        }else{
+             alertClass.value = 'alert-danger';
+             textAlert.value = "User or Password not by null!";
+             }
+}
 
 // Propiedades y eventos emitidos
 const props = defineProps(["show"]);
@@ -93,17 +172,21 @@ const showMobileSignIn = () => {
         class="form-container sign-in-container"
         v-if="!isMobile || !isMobileSignUp"
       >
-        <form action="#" class="formInicioSesion">
+        <form class="formInicioSesion" @submit.prevent="login">
+          <div v-if="textAlert !== ''" :class="['alert', alertClass]">
+              {{ textAlert }}
+          </div>
+
           <img
             class="logoLogin"
             src="../assets/img/navbar/logodorado.png"
             alt=""
           />
           <h1>Iniciar Sesion</h1>
-          <input type="text" placeholder="Usuario" />
-          <input type="password" placeholder="Contraseña" />
-          <button class="btnInicioSesion">Iniciar Sesion</button>
-
+          <input v-model="username" type="text" placeholder="Usuario" />
+          <input v-model="password" type="password" placeholder="Contraseña" />
+          <button class="btnInicioSesion" type="submit">Iniciar Sesion</button>
+           
           <!-- Botón para cambiar a "Registro" en pantallas pequeñas -->
           <button
             class="ghost mobile-toggle"
@@ -139,6 +222,25 @@ const showMobileSignIn = () => {
 </template>
 
 <style scoped>
+/* .alert-danger {
+  color: red;
+  font-weight: bold;
+  margin: 10px 0;
+} */
+.alert {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.alert-success {
+    color: green;
+}
+
+.alert-danger {
+    color: red;
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
