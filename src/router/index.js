@@ -64,16 +64,9 @@ const router = createRouter({
       component: () => import("../components/Carta/PostresCarta.vue"),
     },
     {
-      path: "/ordermanagement",
-      name: "ordermanagement",
-      component: () => import("../views/OrderManagementView.vue"),
-      meta: { requiresAdmin: true },
-    },
-    {
-      path: "/kitchen",
-      name: "kitchen",
-      component: () => import("../views/KitchenView.vue"),
-      meta: { requiresAdmin: false },
+      path: "/salescart",
+      name: "salescart",
+      component: () => import("../components/SalesCart.vue"),
     },
   ],
 });
