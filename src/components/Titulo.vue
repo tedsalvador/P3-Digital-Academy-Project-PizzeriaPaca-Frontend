@@ -91,7 +91,7 @@
          <div class="cart-item" v-for="item in items" :key="item.name">
            <img :src="item.image" alt="Product image" class="item-image" />
            <div class="item-details">
-             <h2>{{ item.name }}</h2>
+             <h2 class="item-name">{{ item.name }}</h2>
              <p>{{ item.description }}</p>
            </div>
            <div class="item-quantity">
@@ -242,7 +242,9 @@
    height: 50px;
    border-radius: 50%;
  }
- 
+ .item-name {
+  font-size:x-large;
+ }
  .item-details {
    flex: 1;
    margin-left: 10px;
