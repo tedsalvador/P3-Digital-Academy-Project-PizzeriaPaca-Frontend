@@ -5,13 +5,15 @@ import NavBar from "./components/NavBar.vue";
 import Titulo from "./components/Titulo.vue";
 import NavBarAdmin from "./components/NavBarAdmin.vue";
 
-const route = useRoute(); 
+const route = useRoute();
 </script>
 
 <template>
   <header>
     <Titulo></Titulo>
-    <NavBar v-if="route.name !== 'admindashboard' && route.name !== 'ordermanagement'" />
+    <NavBar
+      v-if="route.name !== 'admindashboard' && route.name !== 'ordermanagement'"
+    />
     <NavBarAdmin v-else />
   </header>
 

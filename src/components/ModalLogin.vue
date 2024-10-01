@@ -1,83 +1,86 @@
 <script setup>
 import { ref, defineProps, defineEmits, onMounted, onUnmounted } from "vue";
-import { useRoute, useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth.js'
+import { useRoute, useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/auth.js";
 import AuthService from "../core/apis/spring/auth/AuthService";
 import Credentials from "@/core/models/Credentials";
 import { RegisterDto } from "@/core/models/RegisterDto";
 import RegisterRepository from "@/core/apis/spring/auth/RegisterRepository";
 
-const username = ref('')
-const password = ref('')
-const textAlert = ref('')
-const textPage = ref('')
-const alertClass = ref('');
+const username = ref("");
+const password = ref("");
+const textAlert = ref("");
+const textPage = ref("");
+const alertClass = ref("");
 
-const route = useRoute()
-const router = useRouter()
+const route = useRoute();
+const router = useRouter();
 
-const store = useAuthStore()
+const store = useAuthStore();
 
 async function login() {
-    if (username.value !== '' && password.value !== '')
-        try {
+  if (username.value !== "" && password.value !== "")
+    try {
+      // Crear instancia de credenciales
+      const credentials = new Credentials(username.value, password.value);
 
-            // Crear instancia de credenciales
-            const credentials = new Credentials(username.value, password.value);
-            
-            // Crear instancia del servicio de autenticación
-            const authService = new AuthService(credentials);
-            
-            // Hacer el login utilizando AuthService
-            const response = await authService.login();
+      // Crear instancia del servicio de autenticación
+      const authService = new AuthService(credentials);
 
-            //const response = await store.login(username.value, password.value)
-            if (response.message == 'Logged') {
-                alertClass.value = 'alert-success';
+      // Hacer el login utilizando AuthService
+      const response = await authService.login();
 
-                store.user.id = response['id']
-                store.user.isAuthenticated = true
-                store.user.username = response['username']
-                store.user.role = response['roles']
+      //const response = await store.login(username.value, password.value)
+      if (response.message == "Logged") {
+        alertClass.value = "alert-success";
 
-                localStorage.setItem('id', response['id'])
-                localStorage.setItem('username', response['username'])
-                localStorage.setItem('role', response['roles'])
-                localStorage.setItem('isAuthenticated', "true")
-                localStorage.setItem('token', btoa(`${username.value}:${password.value}`))
+        store.user.id = response["id"];
+        store.user.isAuthenticated = true;
+        store.user.username = response["username"];
+        store.user.role = response["roles"];
 
-                console.log("Role a enviar: " + response.roles)
+        localStorage.setItem("id", response["id"]);
+        localStorage.setItem("username", response["username"]);
+        localStorage.setItem("role", response["roles"]);
+        localStorage.setItem("isAuthenticated", "true");
+        localStorage.setItem(
+          "token",
+          btoa(`${username.value}:${password.value}`)
+        );
 
-                if (response.roles == 'ROLE_ADMIN'){                
-                    textPage.value = "/AdminDashboard"
-                }else if (response.roles == 'ROLE_USER'){
-                    textPage.value = "/home"
-                }else if (response.roles == 'ROLE_KITCHEN'){
-                    textPage.value = "/kitchen"
-                }else if (response.roles == 'ROLE_MOTORIST'){
-                    textPage.value = "/motorist"
-                }else{
-                     textPage.value = "/home"
-                }
-                const redirectPath = route.query.redirect || textPage.value
+        console.log("Role a enviar: " + response.roles);
 
-                console.log("ruta a enviar: " + redirectPath)
-                router.push(redirectPath)
-                textAlert.value = "Ok";
-                // Cierra el modal cuando el login es exitoso
-                closeModal(); 
-            } else {
-                   alertClass.value = 'alert-danger';
-                   textAlert.value = "Incorrect username or password!";
-                   }
-        } catch (error) {
-            alertClass.value = 'alert-danger';
-            textAlert.value = "Error trying to login, please try again."
-            console.error('Error:',error)
-        }else{
-             alertClass.value = 'alert-danger';
-             textAlert.value = "User or Password not by null!";
-             }
+        if (response.roles == "ROLE_ADMIN") {
+          textPage.value = "/AdminDashboard";
+        } else if (response.roles == "ROLE_USER") {
+          textPage.value = "/home";
+        } else if (response.roles == "ROLE_KITCHEN") {
+          textPage.value = "/kitchen";
+        } else if (response.roles == "ROLE_MOTORIST") {
+          textPage.value = "/motorist";
+        } else {
+          textPage.value = "/home";
+        }
+        const redirectPath = route.query.redirect || textPage.value;
+
+        console.log("ruta a enviar: " + redirectPath);
+        router.push(redirectPath);
+        textAlert.value = "Ok";
+        // Cierra el modal cuando el login es exitoso
+        closeModal();
+      } else {
+        alertClass.value = "alert-danger";
+        textAlert.value = "Incorrect username or password!";
+      }
+    } catch (error) {
+      alertClass.value = "alert-danger";
+      textAlert.value = "Error trying to login, please try again.";
+      console.error("Error:", error);
+    }
+  else {
+    alertClass.value = "alert-danger";
+    textAlert.value = "User or Password not by null!";
+  }
 }
 
 const props = defineProps(["show"]);
@@ -120,38 +123,75 @@ const showMobileSignIn = () => {
   isMobileSignUp.value = false;
 };
 
-const registerData = ref(new RegisterDto('', '', '', '', '', '', '', ''));
+const registerData = ref(new RegisterDto("", "", "", "", "", "", "", ""));
 
 const register = async () => {
   try {
     await RegisterRepository.register(registerData.value);
-    alert('Registro exitoso');
+    alert("Registro exitoso");
     closeModal();
   } catch (error) {
-    alert('Error en el registro:');
+    alert("Error en el registro:");
   }
 };
-
 </script>
 
 <template>
   <div v-if="show" class="modal-overlay" @click.self="closeModal">
-    <div class="container" :class="{ 'right-panel-active': isSignUp && !isMobile }">
-      <div class="form-container sign-up-container" v-if="!isMobile || isMobileSignUp">
+    <div
+      class="container"
+      :class="{ 'right-panel-active': isSignUp && !isMobile }"
+    >
+      <div
+        class="form-container sign-up-container"
+        v-if="!isMobile || isMobileSignUp"
+      >
         <form action="#" @submit.prevent="register">
           <h1>Crear Cuenta</h1>
-          <input type="text" placeholder="Nombre" v-model="registerData.firstName" />
-          <input type="text" placeholder="Apellidos" v-model="registerData.lastName" />
-          <input type="text" placeholder="Nombre de usuario" v-model="registerData.username" />
-          <input type="email" placeholder="Email" v-model="registerData.email" />
-          <input type="password" placeholder="Contraseña" v-model="registerData.password" />
+          <input
+            type="text"
+            placeholder="Nombre"
+            v-model="registerData.firstName"
+          />
+          <input
+            type="text"
+            placeholder="Apellidos"
+            v-model="registerData.lastName"
+          />
+          <input
+            type="text"
+            placeholder="Nombre de usuario"
+            v-model="registerData.username"
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            v-model="registerData.email"
+          />
+          <input
+            type="password"
+            placeholder="Contraseña"
+            v-model="registerData.password"
+          />
           <input type="text" placeholder="Ciudad" v-model="registerData.city" />
-          <input type="text" placeholder="Dirección" v-model="registerData.address" />
-          <input type="text" placeholder="Código Postal" v-model="registerData.postalCode" />
+          <input
+            type="text"
+            placeholder="Dirección"
+            v-model="registerData.address"
+          />
+          <input
+            type="text"
+            placeholder="Código Postal"
+            v-model="registerData.postalCode"
+          />
           <button class="registrate">Registrate</button>
 
           <!-- Botón para volver a "Iniciar Sesión" en pantallas pequeñas -->
-          <button class="ghost mobile-toggle" @click="showMobileSignIn" v-if="isMobile">
+          <button
+            class="ghost mobile-toggle"
+            @click="showMobileSignIn"
+            v-if="isMobile"
+          >
             ¿Ya tienes cuenta? Inicia Sesión
           </button>
         </form>
@@ -164,7 +204,7 @@ const register = async () => {
       >
         <form class="formInicioSesion" @submit.prevent="login">
           <div v-if="textAlert !== ''" :class="['alert', alertClass]">
-              {{ textAlert }}
+            {{ textAlert }}
           </div>
 
           <img
@@ -176,9 +216,13 @@ const register = async () => {
           <input v-model="username" type="text" placeholder="Usuario" />
           <input v-model="password" type="password" placeholder="Contraseña" />
           <button class="btnInicioSesion" type="submit">Iniciar Sesion</button>
-           
+
           <!-- Botón para cambiar a "Registro" en pantallas pequeñas -->
-          <button class="ghost mobile-toggle" @click="showMobileSignUp" v-if="isMobile">
+          <button
+            class="ghost mobile-toggle"
+            @click="showMobileSignUp"
+            v-if="isMobile"
+          >
             ¿No tienes cuenta? Regístrate
           </button>
         </form>
@@ -214,17 +258,17 @@ const register = async () => {
   margin: 10px 0;
 } */
 .alert {
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 5px;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 .alert-success {
-    color: green;
+  color: green;
 }
 
 .alert-danger {
-    color: red;
+  color: red;
 }
 
 .modal-overlay {
@@ -345,7 +389,7 @@ input {
   overflow: hidden;
   width: 768px;
   max-width: 100%;
-  min-height: 600px;
+  min-height: 650px;
 }
 
 .form-container {
@@ -383,7 +427,6 @@ input {
 }
 
 @keyframes show {
-
   0%,
   49.99% {
     opacity: 0;
