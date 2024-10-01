@@ -400,6 +400,17 @@ p {
 @media (min-width: 481px) and (max-width: 1024px) {
   .cards-container {
     grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .card {
+    height: 390px;
+    width: 350px;
+    margin: 10px;
+    margin-bottom: 50px;
+    transition: 300ms;
+    border: none;
+    position: relative;
   }
 }
 @media (max-width: 480px) {
