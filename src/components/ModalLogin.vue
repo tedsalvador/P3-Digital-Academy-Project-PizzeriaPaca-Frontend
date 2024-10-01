@@ -1,41 +1,109 @@
 <script setup>
 import { ref, defineProps, defineEmits, onMounted, onUnmounted } from "vue";
+import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth.js'
+import AuthService from "../core/apis/spring/auth/AuthService";
+import Credentials from "@/core/models/Credentials";
+import { RegisterDto } from "@/core/models/RegisterDto";
+import RegisterRepository from "@/core/apis/spring/auth/RegisterRepository";
 
-// Propiedades y eventos emitidos
+const username = ref('')
+const password = ref('')
+const textAlert = ref('')
+const textPage = ref('')
+const alertClass = ref('');
+
+const route = useRoute()
+const router = useRouter()
+
+const store = useAuthStore()
+
+async function login() {
+    if (username.value !== '' && password.value !== '')
+        try {
+
+            // Crear instancia de credenciales
+            const credentials = new Credentials(username.value, password.value);
+            
+            // Crear instancia del servicio de autenticación
+            const authService = new AuthService(credentials);
+            
+            // Hacer el login utilizando AuthService
+            const response = await authService.login();
+
+            //const response = await store.login(username.value, password.value)
+            if (response.message == 'Logged') {
+                alertClass.value = 'alert-success';
+
+                store.user.id = response['id']
+                store.user.isAuthenticated = true
+                store.user.username = response['username']
+                store.user.role = response['roles']
+
+                localStorage.setItem('id', response['id'])
+                localStorage.setItem('username', response['username'])
+                localStorage.setItem('role', response['roles'])
+                localStorage.setItem('isAuthenticated', "true")
+                localStorage.setItem('token', btoa(`${username.value}:${password.value}`))
+
+                console.log("Role a enviar: " + response.roles)
+
+                if (response.roles == 'ROLE_ADMIN'){                
+                    textPage.value = "/AdminDashboard"
+                }else if (response.roles == 'ROLE_USER'){
+                    textPage.value = "/home"
+                }else if (response.roles == 'ROLE_KITCHEN'){
+                    textPage.value = "/kitchen"
+                }else if (response.roles == 'ROLE_MOTORIST'){
+                    textPage.value = "/motorist"
+                }else{
+                     textPage.value = "/home"
+                }
+                const redirectPath = route.query.redirect || textPage.value
+
+                console.log("ruta a enviar: " + redirectPath)
+                router.push(redirectPath)
+                textAlert.value = "Ok";
+                // Cierra el modal cuando el login es exitoso
+                closeModal(); 
+            } else {
+                   alertClass.value = 'alert-danger';
+                   textAlert.value = "Incorrect username or password!";
+                   }
+        } catch (error) {
+            alertClass.value = 'alert-danger';
+            textAlert.value = "Error trying to login, please try again."
+            console.error('Error:',error)
+        }else{
+             alertClass.value = 'alert-danger';
+             textAlert.value = "User or Password not by null!";
+             }
+}
+
 const props = defineProps(["show"]);
 const emit = defineEmits(["close"]);
 
-// Función para cerrar el modal
 const closeModal = () => {
   emit("close");
 };
 
-// Estado reactivo para manejar el formulario activo en pantallas grandes
 const isSignUp = ref(false);
-
-// Estado reactivo para manejar el formulario visible en pantallas pequeñas
 const isMobileSignUp = ref(false);
-
-// Detectar si la pantalla es pequeña (menor a 480px)
 const isMobile = ref(false);
 
-// Función para verificar si la pantalla es pequeña
 const checkScreenSize = () => {
   isMobile.value = window.innerWidth <= 480;
 };
 
-// Detecta el tamaño de la pantalla al montar el componente
 onMounted(() => {
   checkScreenSize();
   window.addEventListener("resize", checkScreenSize);
 });
 
-// Limpia el evento cuando el componente se desmonta
 onUnmounted(() => {
   window.removeEventListener("resize", checkScreenSize);
 });
 
-// Métodos para cambiar entre formularios en pantallas grandes
 const showSignUp = () => {
   isSignUp.value = true;
 };
@@ -44,45 +112,46 @@ const showSignIn = () => {
   isSignUp.value = false;
 };
 
-// Métodos para cambiar entre formularios en pantallas pequeñas
 const showMobileSignUp = () => {
-  isMobileSignUp.value = true; // Mostrar formulario de registro
+  isMobileSignUp.value = true;
 };
 
 const showMobileSignIn = () => {
-  isMobileSignUp.value = false; // Mostrar formulario de iniciar sesión
+  isMobileSignUp.value = false;
 };
+
+const registerData = ref(new RegisterDto('', '', '', '', '', '', '', ''));
+
+const register = async () => {
+  try {
+    await RegisterRepository.register(registerData.value);
+    alert('Registro exitoso');
+    closeModal();
+  } catch (error) {
+    alert('Error en el registro:');
+  }
+};
+
 </script>
 
 <template>
   <div v-if="show" class="modal-overlay" @click.self="closeModal">
-    <div
-      class="container"
-      :class="{ 'right-panel-active': isSignUp && !isMobile }"
-    >
-      <!-- Formulario de Registro -->
-      <div
-        class="form-container sign-up-container"
-        v-if="!isMobile || isMobileSignUp"
-      >
-        <form action="#">
+    <div class="container" :class="{ 'right-panel-active': isSignUp && !isMobile }">
+      <div class="form-container sign-up-container" v-if="!isMobile || isMobileSignUp">
+        <form action="#" @submit.prevent="register">
           <h1>Crear Cuenta</h1>
-          <input type="text" placeholder="Nombre" />
-          <input type="text" placeholder="Apellidos" />
-          <input type="text" placeholder="Nombre de usuario" />
-          <input type="email" placeholder="Email" />
-          <input type="password" placeholder="Contraseña" />
-          <input type="text" placeholder="Ciudad" />
-          <input type="text" placeholder="Dirección" />
-          <input type="text" placeholder="Código Postal" />
+          <input type="text" placeholder="Nombre" v-model="registerData.firstName" />
+          <input type="text" placeholder="Apellidos" v-model="registerData.lastName" />
+          <input type="text" placeholder="Nombre de usuario" v-model="registerData.username" />
+          <input type="email" placeholder="Email" v-model="registerData.email" />
+          <input type="password" placeholder="Contraseña" v-model="registerData.password" />
+          <input type="text" placeholder="Ciudad" v-model="registerData.city" />
+          <input type="text" placeholder="Dirección" v-model="registerData.address" />
+          <input type="text" placeholder="Código Postal" v-model="registerData.postalCode" />
           <button class="registrate">Registrate</button>
 
           <!-- Botón para volver a "Iniciar Sesión" en pantallas pequeñas -->
-          <button
-            class="ghost mobile-toggle"
-            @click="showMobileSignIn"
-            v-if="isMobile"
-          >
+          <button class="ghost mobile-toggle" @click="showMobileSignIn" v-if="isMobile">
             ¿Ya tienes cuenta? Inicia Sesión
           </button>
         </form>
@@ -93,23 +162,23 @@ const showMobileSignIn = () => {
         class="form-container sign-in-container"
         v-if="!isMobile || !isMobileSignUp"
       >
-        <form action="#" class="formInicioSesion">
+        <form class="formInicioSesion" @submit.prevent="login">
+          <div v-if="textAlert !== ''" :class="['alert', alertClass]">
+              {{ textAlert }}
+          </div>
+
           <img
             class="logoLogin"
             src="../assets/img/navbar/logodorado.png"
             alt=""
           />
           <h1>Iniciar Sesion</h1>
-          <input type="text" placeholder="Usuario" />
-          <input type="password" placeholder="Contraseña" />
-          <button class="btnInicioSesion">Iniciar Sesion</button>
-
+          <input v-model="username" type="text" placeholder="Usuario" />
+          <input v-model="password" type="password" placeholder="Contraseña" />
+          <button class="btnInicioSesion" type="submit">Iniciar Sesion</button>
+           
           <!-- Botón para cambiar a "Registro" en pantallas pequeñas -->
-          <button
-            class="ghost mobile-toggle"
-            @click="showMobileSignUp"
-            v-if="isMobile"
-          >
+          <button class="ghost mobile-toggle" @click="showMobileSignUp" v-if="isMobile">
             ¿No tienes cuenta? Regístrate
           </button>
         </form>
@@ -139,6 +208,25 @@ const showMobileSignIn = () => {
 </template>
 
 <style scoped>
+/* .alert-danger {
+  color: red;
+  font-weight: bold;
+  margin: 10px 0;
+} */
+.alert {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.alert-success {
+    color: green;
+}
+
+.alert-danger {
+    color: red;
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -295,6 +383,7 @@ input {
 }
 
 @keyframes show {
+
   0%,
   49.99% {
     opacity: 0;
@@ -389,9 +478,11 @@ input {
   height: 40px;
   width: 40px;
 }
+
 .logo {
   width: 80%;
 }
+
 .btnInicioSesion:hover,
 .ghost:hover,
 .registrate:hover {
@@ -405,14 +496,17 @@ input {
   justify-content: center;
   height: 100%;
 }
+
 .logoLogin {
   display: none;
 }
+
 @media (min-width: 481px) and (max-width: 1024px) {
   .container {
     width: 95%;
   }
 }
+
 @media (max-width: 480px) {
   .overlay-container {
     display: none;
@@ -454,26 +548,33 @@ input {
   .mobile-toggle:hover {
     text-decoration: underline;
   }
+
   .formInicioSesion {
     margin-top: 100px;
     width: 90%;
   }
+
   .logoLogin {
     display: block;
     width: 80%;
     margin-top: -70px;
   }
+
   .container {
     width: 90%;
     min-height: 670px;
   }
+
   .form-container {
     margin-top: 30px;
   }
+
   .sign-up-container,
   .sign-in-container {
-    transition: none !important; /* Desactiva las transiciones para depurar */
-    opacity: 1 !important; /* Asegúrate de que sea visible */
+    transition: none !important;
+    /* Desactiva las transiciones para depurar */
+    opacity: 1 !important;
+    /* Asegúrate de que sea visible */
   }
 }
 </style>
