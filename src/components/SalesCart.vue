@@ -1,5 +1,8 @@
 <script setup>
 import { ref } from 'vue'
+import { useCartStore } from '../stores/cart';
+
+const cartStore = useCartStore();
 
 const items = ref([
   {
