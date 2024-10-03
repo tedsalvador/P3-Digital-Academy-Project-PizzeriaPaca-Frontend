@@ -113,6 +113,7 @@ const addPizzaToCart = (pizzaName, price) => {
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
+                  @click="addPizzaToCart(`Pizza ${index}`, 20)" 
                 />
               </div>
             </div>
@@ -141,6 +142,7 @@ const addPizzaToCart = (pizzaName, price) => {
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
+                  @click="addPizzaToCart(`Pizza ${index}`, 20)" 
                 />
               </div>
             </div>
@@ -169,6 +171,7 @@ const addPizzaToCart = (pizzaName, price) => {
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
+                  @click="addPizzaToCart(`Pizza ${index}`, 20)" 
                 />
               </div>
             </div>
@@ -197,6 +200,7 @@ const addPizzaToCart = (pizzaName, price) => {
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
+                  @click="addPizzaToCart(`Pizza ${index}`, 20)" 
                 />
               </div>
             </div>

@@ -17,6 +17,15 @@ const closeModal = () => {
 
 const description =
   "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Harum, ex inventore, provident corporis natus esse dolore. Consequuntur aperiam quae ipsa.";
+
+
+const Cart = ref([]);
+
+const addBebidaToCart = (bebidaName, price) => {
+  Cart.value.push({ name: bebidaName, price });
+
+};
+
 </script>
 
 <template>
@@ -44,6 +53,7 @@ const description =
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
+                  @click="addBebidaToCart(`Bebida ${index}`, 20)" 
                 />
               </div>
             </div>
@@ -72,6 +82,7 @@ const description =
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
+                  @click="addBebidaToCart(`Bebida ${index}`, 20)" 
                 />
               </div>
             </div>
@@ -100,6 +111,7 @@ const description =
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
+                  @click="addBebidaToCart(`Bebida ${index}`, 20)" 
                 />
               </div>
             </div>
@@ -128,6 +140,7 @@ const description =
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
+                  @click="addBebidaToCart(`Bebida ${index}`, 20)" 
                 />
               </div>
             </div>
@@ -156,6 +169,7 @@ const description =
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
+                  @click="addBebidaToCart(`Bebida ${index}`, 20)" 
                 />
               </div>
             </div>
@@ -184,6 +198,7 @@ const description =
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
+                  @click="addBebidaToCart(`Bebida ${index}`, 20)" 
                 />
               </div>
             </div>
