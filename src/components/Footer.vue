@@ -9,7 +9,7 @@
               <div class="flip-card-front">
                 <img
                   class="icono"
-                  src="../assets/img/footer/usuario.png"
+                  src="../assets/img/footer/conchi.png"
                   alt="icono"
                 />
               </div>
@@ -28,7 +28,7 @@
               <div class="flip-card-front">
                 <img
                   class="icono"
-                  src="../assets/img/footer/usuario.png"
+                  src="../assets/img/footer/gisela.png"
                   alt="icono"
                 />
               </div>
@@ -46,7 +46,7 @@
               <div class="flip-card-front">
                 <img
                   class="icono"
-                  src="../assets/img/footer/usuario.png"
+                  src="../assets/img/footer/pablo.png"
                   alt="icono"
                 />
               </div>
@@ -64,7 +64,7 @@
               <div class="flip-card-front">
                 <img
                   class="icono"
-                  src="../assets/img/footer/usuario.png"
+                  src="../assets/img/footer/nacho.png"
                   alt="icono"
                 />
               </div>
@@ -94,20 +94,22 @@
         >
       </div>
       <div class="icon">
-        <div class="flip-card">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <img
-                class="icono"
-                src="../assets/img/footer/usuario.png"
-                alt="icono"
-              />
+        <a href="https://github.com/ArturoAlvarezY" target="_blank">
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <img
+                  class="icono"
+                  src="../assets/img/footer/arturo.png"
+                  alt="icono"
+                />
+              </div>
+              <div class="flip-card-back">
+                <p class="textIcon">Arturo</p>
+              </div>
             </div>
-            <div class="flip-card-back">
-              <p class="textIcon">Arturo</p>
-            </div>
-          </div>
-        </div>
+          </div></a
+        >
       </div>
       <div class="icon">
         <a href="https://github.com/Oscarss15" target="_blank">
@@ -116,7 +118,7 @@
               <div class="flip-card-front">
                 <img
                   class="icono"
-                  src="../assets/img/footer/usuario.png"
+                  src="../assets/img/footer/oscar.png"
                   alt="icono"
                 />
               </div>
@@ -165,12 +167,13 @@
 }
 
 .icon {
-  width: 60px;
-  height: 60px;
+  width: 90px;
+  height: 90px;
   margin: 3%;
   perspective: 1000px;
   border-radius: 100%;
   transition: box-shadow 0.3s ease-in-out;
+  border: 3px solid white;
 }
 
 .flip-card {
@@ -225,8 +228,9 @@
 }
 
 .icono {
-  width: 30px;
-  height: 30px;
+  width: 100%;
+  height: 100%;
+  border-radius: 30px;
 }
 
 .textIcon {
@@ -242,11 +246,12 @@
     margin: 2%;
   }
   .icono {
-    width: 20px;
-    height: 20px;
+    width: 35px;
+    height: 35px;
+    border: 2px solid white;
   }
   .textIcon {
-    font-size: 10px;
+    font-size: 8px;
   }
   #copyright {
     font-size: 20px;
