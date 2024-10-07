@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from "vue";
 import MenuCarta from "../MenuCarta.vue";
+import TituloLogueado from "../TituloLogueado.vue";
+import NavBar from "../NavBar.vue";
 
 const modalVisible = ref(false);
 
@@ -29,6 +31,8 @@ const addBebidaToCart = (bebidaName, price) => {
 </script>
 
 <template>
+  <TituloLogueado></TituloLogueado>
+  <NavBar></NavBar>
   <MenuCarta></MenuCarta>
   <main>
     <div class="cards-container">

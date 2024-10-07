@@ -1,16 +1,9 @@
 <script setup>
 import { ref, computed } from "vue";
-import axios from "axios"; 
 import ModalLogin from "./ModalLogin.vue";
 import { RouterLink, useRouter } from "vue-router";
 import { useAuthStore } from "../stores/auth";
 import { loginChange } from "../stores/loginChange";
-
-const orderNumber = ref(Math.floor(Math.random() * 100000)); 
-const paymentType = ref("E"); 
-const dateOrder = ref("2024-10-04")
-const deliveryType = ref("L"); 
-const userId = ref("");
 
 const router = useRouter();
 const store = useAuthStore();
@@ -107,38 +100,10 @@ const toggleCart = () => {
 const closeCart = () => {
   showCart.value = false;
 };
-
-if (store.user.isAuthenticated) {
-  userId.value = store.user.id;
-}
-
-const realizarPago = async () => {
-try {
-    const response = await axios.post("/api/v1/order", {
-      orderNumber: orderNumber.value,
-      paymentType: paymentType.value,
-      deliveryType: deliveryType.value,
-      userId: userId.value,
-      items: items.value,
-      dateOrder: dateOrder.value,
-      totalAmount: totalAmount.value,
-    });
-
-    if (response.status === 200) {
-      alert("Orden enviada con éxito!");
-      closeCart();
-    } else {
-      alert("Error al enviar la orden");
-    }
-  } catch (error) {
-    console.error("Error al realizar el pago:", error);
-  }
-};
-
 </script>
 
 <template>
-  <div id="containerTitulo"> 
+  <div id="containerTitulo">
     <div id="containerLogoTitulo">
       <div id="logo">
         <img class="img" src="../assets/img/navbar/logo.png" alt="logo" />
@@ -147,6 +112,9 @@ try {
     </div>
 
     <div id="containerLogin">
+      <div id="login" @click="openModal">
+        <h2 class="info">Hola Pepe</h2>
+      </div>
       <div id="carrito" @click="toggleCart">
         <img
           class="imgCarrito"
@@ -154,8 +122,10 @@ try {
           alt="carrito"
         />
       </div>
-      <div id="login" @click="openModal">
-        <img class="user" src="../assets/img/navbar/user.png" alt="user" />
+      <div class="logout">
+        <RouterLink to="/"
+          ><img class="icnLogOut" src="../assets/img/navbar/logout.png" alt=""
+        /></RouterLink>
       </div>
     </div>
   </div>
@@ -188,31 +158,6 @@ try {
         </div>
       </div>
       <div class="cart-summary">
-        <div class="summary-row">
-          <p>Número de Pedido</p>
-          <p>{{ orderNumber }}</p>
-        </div>
-        <div class="summary-row">
-          <p>Tipo de Pago</p>
-          <p>{{ paymentType }}</p>
-          <select v-model="paymentType">
-            <option value="E">Efectivo</option>
-            <option value="T">Tarjeta</option>
-          </select>
-        </div>
-        <div class="summary-row">
-          <p>Tipo de Entrega</p>
-          <p>{{ deliveryType }}</p>
-        <select v-model="deliveryType">
-            <option value="L">Local</option>
-            <option value="D">Delivery</option>
-            <option value="P">Para llevar</option>
-          </select>
-        </div>
-        <div class="summary-row total">
-          <p>Fecha del Pedido</p>
-          <p>{{ dateOrder }}</p>
-        </div>
         <div class="summary-row total">
           <p>Cantidad Total</p>
           <p>{{ totalAmount.toFixed(2) }} €</p>
@@ -242,7 +187,9 @@ try {
   justify-content: center;
   align-items: center;
 }
-
+.info {
+  color: white;
+}
 #logo {
   display: flex;
   justify-content: center;
@@ -267,32 +214,49 @@ try {
 }
 
 #containerLogin {
-  width: 15%;
+  width: 25%;
   height: 130px;
   float: right;
   display: flex;
   justify-content: space-between;
 }
 
-#carrito,
+#carrito {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25%;
+  height: 100%;
+  cursor: pointer;
+}
 #login {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 50%;
   height: 100%;
-  cursor: pointer;
 }
-
+.logout {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25%;
+}
 .imgCarrito,
-.user {
+.user,
+.icnLogOut {
   width: 50px;
   height: 50px;
   transition: transform 0.5s ease;
 }
+.icnLogOut {
+  cursor: pointer;
+}
 
 .imgCarrito:hover,
-.user:hover {
+.user:hover,
+.icnLogOut:hover {
   transform: scale(1.4);
 }
 
@@ -322,7 +286,7 @@ try {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
 }
 
@@ -330,12 +294,11 @@ try {
   background-color: rgb(182, 124, 1);
   color: #000;
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 16px;
 }
 
 .cart-items {
@@ -348,10 +311,9 @@ try {
   align-items: center;
   background-color: #2e2e2e;
   border-radius: 15px;
-  padding: 8px;
+  padding: 10px;
   margin-bottom: 10px;
   color: white;
-  font-size: 14px;
 }
 
 .item-image {
@@ -360,11 +322,11 @@ try {
   border-radius: 50%;
 }
 .item-name {
-  font-size: 16px;
+  font-size: x-large;
 }
 .item-details {
   flex: 1;
-  margin-left: 5px;
+  margin-left: 10px;
   display: flex;
   flex-direction: column;
 }
@@ -372,51 +334,48 @@ try {
 .item-quantity {
   display: flex;
   align-items: center;
-  font-size: 14px;
 }
 
 .quantity-button {
   background-color: rgb(182, 124, 1);
   border: none;
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
   font-size: 18px;
   font-weight: bold;
   text-align: center;
   cursor: pointer;
   margin: 0 5px;
-  font-size: 16px;
 }
 
 .item-price {
-  font-size: 16px;
-  flex-shrink: 0; 
+  font-size: 18px;
+  flex-shrink: 0; /* Evita que se encoja */
   white-space: nowrap;
-  margin-top: 0px;
+  margin-top: 5px;
 }
 
 .cart-summary {
   margin-top: 20px;
   background-color: rgb(182, 124, 1);
   border-radius: 15px;
-  padding: 15px;
-  font-size: 16px;
+  padding: 20px;
 }
 
 .summary-row {
   font-weight: bolder;
   color: white;
-  font-size: 18px;
+  font-size: x-large;
 }
 
 .payment-button {
   margin-top: 20px;
   width: 100%;
-  padding: 10px;
+  padding: 15px;
   background-color: #000;
   color: #fff;
   border-radius: 30px;
-  font-size: 10px;
+  font-size: 18px;
   font-weight: bold;
   display: flex;
   justify-content: center;
@@ -427,7 +386,6 @@ try {
 
 .payment-icon {
   margin-left: 10px;
-  font-size: 16px;
 }
 
 @media (min-width: 481px) and (max-width: 1024px) {
@@ -440,7 +398,7 @@ try {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 40%;
+    width: 30%;
     height: 130px;
   }
 
@@ -449,7 +407,7 @@ try {
     visibility: hidden;
   }
   #containerLogin {
-    width: 20%;
+    width: 40%;
     margin-right: 20px;
   }
 }
@@ -465,16 +423,19 @@ try {
     width: 100px;
     height: 100px;
   }
+  .info {
+    font-size: 15px;
+  }
   #titulo {
     width: 60%;
     display: none;
   }
   #containerLogin {
-    width: 30%;
-    margin-right: 20px;
+    width: 50%;
   }
   .imgCarrito,
-  .user {
+  .user,
+  .icnLogOut {
     width: 30px;
     height: 30px;
     transition: transform 0.5s ease;
