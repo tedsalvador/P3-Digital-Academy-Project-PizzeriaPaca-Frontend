@@ -82,7 +82,7 @@
               <div class="flip-card-front">
                 <img
                   class="icono"
-                  src="../assets/img/footer/usuario.png"
+                  src="../assets/img/footer/ted.png"
                   alt="icono"
                 />
               </div>
