@@ -2,7 +2,7 @@
 import { useRoute } from "vue-router";
 import Footer from "./components/Footer.vue";
 import NavBar from "./components/NavBar.vue";
-import Titulo from "./components/Titulo.vue";
+
 import NavBarAdmin from "./components/NavBarAdmin.vue";
 
 const route = useRoute();
@@ -10,11 +10,10 @@ const route = useRoute();
 
 <template>
   <header>
-    <Titulo></Titulo>
-    <NavBar
+    <!--  <NavBar
       v-if="route.name !== 'admindashboard' && route.name !== 'ordermanagement'"
     />
-    <NavBarAdmin v-else />
+    <NavBarAdmin v-else /> -->
   </header>
 
   <main>
