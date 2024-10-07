@@ -1,12 +1,9 @@
 <script setup>
 import { ref } from "vue";
 import MenuCarta from "../MenuCarta.vue";
-<<<<<<< HEAD
 import { useCartStore } from "../../stores/cart";
-=======
 import TituloLogueado from "../TituloLogueado.vue";
 import NavBar from "../NavBar.vue";
->>>>>>> 751d68c9f1e409d47424533f30183556efe4b793
 
 const modalVisible = ref(false);
 
