@@ -65,6 +65,18 @@ const addProduct = async (newProduct) => {
   }
 };
 
+const deleteProduct = async (productId) => {
+  try {
+    await axios.delete(`http://localhost:8080/api/v1/products/${productId}`, {
+      headers: {
+        'Authorization': 'Basic YWRtaW46cGFzc3dvcmQ=', 
+      }
+    });
+    products.value = products.value.filter(p => p.id !== productId); l
+  } catch (error) {
+    console.error('Error al eliminar el producto:', error);
+  }
+}
 
 onMounted(() => {
   fetchProducts();
