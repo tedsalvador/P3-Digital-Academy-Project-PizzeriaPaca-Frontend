@@ -1,9 +1,16 @@
 <script setup>
 import { ref, computed } from "vue";
+import axios from "axios"; 
 import ModalLogin from "./ModalLogin.vue";
 import { RouterLink, useRouter } from "vue-router";
 import { useAuthStore } from "../stores/auth";
 import { loginChange } from "../stores/loginChange";
+
+const orderNumber = ref(Math.floor(Math.random() * 100000)); 
+const paymentType = ref("E"); 
+const dateOrder = ref("2024-10-04")
+const deliveryType = ref("L"); 
+const userId = ref("");
 
 const router = useRouter();
 const store = useAuthStore();
@@ -100,10 +107,38 @@ const toggleCart = () => {
 const closeCart = () => {
   showCart.value = false;
 };
+
+if (store.user.isAuthenticated) {
+  userId.value = store.user.id;
+}
+
+const realizarPago = async () => {
+try {
+    const response = await axios.post("/api/v1/order", {
+      orderNumber: orderNumber.value,
+      paymentType: paymentType.value,
+      deliveryType: deliveryType.value,
+      userId: userId.value,
+      items: items.value,
+      dateOrder: dateOrder.value,
+      totalAmount: totalAmount.value,
+    });
+
+    if (response.status === 200) {
+      alert("Orden enviada con éxito!");
+      closeCart();
+    } else {
+      alert("Error al enviar la orden");
+    }
+  } catch (error) {
+    console.error("Error al realizar el pago:", error);
+  }
+};
+
 </script>
 
 <template>
-  <div id="containerTitulo">
+  <div id="containerTitulo"> 
     <div id="containerLogoTitulo">
       <div id="logo">
         <img class="img" src="../assets/img/navbar/logo.png" alt="logo" />
@@ -153,6 +188,31 @@ const closeCart = () => {
         </div>
       </div>
       <div class="cart-summary">
+        <div class="summary-row">
+          <p>Número de Pedido</p>
+          <p>{{ orderNumber }}</p>
+        </div>
+        <div class="summary-row">
+          <p>Tipo de Pago</p>
+          <p>{{ paymentType }}</p>
+          <select v-model="paymentType">
+            <option value="E">Efectivo</option>
+            <option value="T">Tarjeta</option>
+          </select>
+        </div>
+        <div class="summary-row">
+          <p>Tipo de Entrega</p>
+          <p>{{ deliveryType }}</p>
+        <select v-model="deliveryType">
+            <option value="L">Local</option>
+            <option value="D">Delivery</option>
+            <option value="P">Para llevar</option>
+          </select>
+        </div>
+        <div class="summary-row total">
+          <p>Fecha del Pedido</p>
+          <p>{{ dateOrder }}</p>
+        </div>
         <div class="summary-row total">
           <p>Cantidad Total</p>
           <p>{{ totalAmount.toFixed(2) }} €</p>
@@ -262,7 +322,7 @@ const closeCart = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
 }
 
@@ -270,11 +330,12 @@ const closeCart = () => {
   background-color: rgb(182, 124, 1);
   color: #000;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 16px;
 }
 
 .cart-items {
@@ -287,9 +348,10 @@ const closeCart = () => {
   align-items: center;
   background-color: #2e2e2e;
   border-radius: 15px;
-  padding: 10px;
+  padding: 8px;
   margin-bottom: 10px;
   color: white;
+  font-size: 14px;
 }
 
 .item-image {
@@ -298,11 +360,11 @@ const closeCart = () => {
   border-radius: 50%;
 }
 .item-name {
-  font-size: x-large;
+  font-size: 16px;
 }
 .item-details {
   flex: 1;
-  margin-left: 10px;
+  margin-left: 5px;
   display: flex;
   flex-direction: column;
 }
@@ -310,48 +372,51 @@ const closeCart = () => {
 .item-quantity {
   display: flex;
   align-items: center;
+  font-size: 14px;
 }
 
 .quantity-button {
   background-color: rgb(182, 124, 1);
   border: none;
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   font-size: 18px;
   font-weight: bold;
   text-align: center;
   cursor: pointer;
   margin: 0 5px;
+  font-size: 16px;
 }
 
 .item-price {
-  font-size: 18px;
-  flex-shrink: 0; /* Evita que se encoja */
+  font-size: 16px;
+  flex-shrink: 0; 
   white-space: nowrap;
-  margin-top: 5px;
+  margin-top: 0px;
 }
 
 .cart-summary {
   margin-top: 20px;
   background-color: rgb(182, 124, 1);
   border-radius: 15px;
-  padding: 20px;
+  padding: 15px;
+  font-size: 16px;
 }
 
 .summary-row {
   font-weight: bolder;
   color: white;
-  font-size: x-large;
+  font-size: 18px;
 }
 
 .payment-button {
   margin-top: 20px;
   width: 100%;
-  padding: 15px;
+  padding: 10px;
   background-color: #000;
   color: #fff;
   border-radius: 30px;
-  font-size: 18px;
+  font-size: 10px;
   font-weight: bold;
   display: flex;
   justify-content: center;
@@ -362,6 +427,7 @@ const closeCart = () => {
 
 .payment-icon {
   margin-left: 10px;
+  font-size: 16px;
 }
 
 @media (min-width: 481px) and (max-width: 1024px) {

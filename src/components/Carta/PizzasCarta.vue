@@ -1,12 +1,15 @@
 <script setup>
 import { ref } from "vue";
 import MenuCarta from "../MenuCarta.vue";
+import { useCartStore } from "../../stores/cart";
 import TituloLogueado from "../TituloLogueado.vue";
 import NavBar from "../NavBar.vue";
 
 const modalVisible = ref(false);
 
 const fullDescription = ref("");
+
+const cartStore = useCartStore();
 
 const openModal = (description) => {
   fullDescription.value = description;
@@ -19,6 +22,14 @@ const closeModal = () => {
 
 const description =
   "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Harum, ex inventore, provident corporis natus esse dolore. Consequuntur aperiam quae ipsa.";
+
+const Cart = ref([]);
+
+const addPizzaToCart = (pizzaName, price) => {
+  Cart.value.push({ name: pizzaName, price });
+
+};
+
 </script>
 
 <template>
@@ -48,6 +59,7 @@ const description =
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
+                  @click="addPizzaToCart(`Pizza ${index}`, 20)" 
                 />
               </div>
             </div>
@@ -76,6 +88,7 @@ const description =
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
+                  @click="addPizzaToCart(`Pizza ${index}`, 20)" 
                 />
               </div>
             </div>
@@ -104,6 +117,7 @@ const description =
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
+                  @click="addPizzaToCart(`Pizza ${index}`, 20)" 
                 />
               </div>
             </div>
@@ -132,6 +146,7 @@ const description =
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
+                  @click="addPizzaToCart(`Pizza ${index}`, 20)" 
                 />
               </div>
             </div>
@@ -160,6 +175,7 @@ const description =
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
+                  @click="addPizzaToCart(`Pizza ${index}`, 20)" 
                 />
               </div>
             </div>
@@ -188,6 +204,7 @@ const description =
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
+                  @click="addPizzaToCart(`Pizza ${index}`, 20)" 
                 />
               </div>
             </div>

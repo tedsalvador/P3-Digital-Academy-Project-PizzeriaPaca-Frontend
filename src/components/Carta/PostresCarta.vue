@@ -19,6 +19,14 @@ const closeModal = () => {
 
 const description =
   "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Harum, ex inventore, provident corporis natus esse dolore. Consequuntur aperiam quae ipsa.";
+
+const Cart = ref([]);
+
+const addPostreToCart = (postreName, price) => {
+  Cart.value.push({ name: postreName, price });
+
+};
+
 </script>
 
 <template>
@@ -48,6 +56,7 @@ const description =
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
+                  @click="addPostreToCart(`Postre ${index}`, 20)" 
                 />
               </div>
             </div>
@@ -76,6 +85,7 @@ const description =
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
+                  @click="addPostreToCart(`Postre ${index}`, 20)" 
                 />
               </div>
             </div>
@@ -104,6 +114,7 @@ const description =
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
+                  @click="addPostreToCart(`Postre ${index}`, 20)" 
                 />
               </div>
             </div>
@@ -132,6 +143,7 @@ const description =
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
+                  @click="addPostreToCart(`Postre ${index}`, 20)" 
                 />
               </div>
             </div>
@@ -160,6 +172,7 @@ const description =
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
+                  @click="addPostreToCart(`Postre ${index}`, 20)" 
                 />
               </div>
             </div>
@@ -188,6 +201,7 @@ const description =
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
+                  @click="addPostreToCart(`Postre ${index}`, 20)" 
                 />
               </div>
             </div>
