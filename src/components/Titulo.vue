@@ -5,6 +5,7 @@ import ModalLogin from "./ModalLogin.vue";
 import { RouterLink, useRouter } from "vue-router";
 import { useAuthStore } from "../stores/auth";
 import { loginChange } from "../stores/loginChange";
+import { useAuthStore } from '@/stores/authStore';
 
 const orderNumber = ref(Math.floor(Math.random() * 100000)); 
 const paymentType = ref("E"); 
@@ -134,6 +135,18 @@ try {
     console.error("Error al realizar el pago:", error);
   }
 };
+
+const sendCart = async () => {
+  try {
+    const response = await axios.post(`${import.meta.env.VITE_API_ENDPOINT}/order`, {
+      items: items.value,
+      userId: store.user.id,
+    })
+    console.log('Orden enviada:', response.data)
+  } catch (error) {
+    console.error('Error al enviar la orden:', error)
+  }
+}
 
 </script>
 
