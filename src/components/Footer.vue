@@ -14,7 +14,7 @@
                 />
               </div>
               <div class="flip-card-back">
-                <p class="textIcon">Conchi</p>
+                <p class="textIcon">Conchy</p>
               </div>
             </div>
           </div></a

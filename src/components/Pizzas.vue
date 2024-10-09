@@ -1,11 +1,40 @@
-<script setup></script>
+
+<script setup>
+import { ref, onMounted } from "vue";
+import axios from "axios"; 
+
+const pizzas = ref([]); 
+
+const fetchPizzas = async () => {
+  try {
+    const response = await axios.get("http://localhost:8080/api/v1/products/type/PIZZA", {
+      headers: {
+        'Authorization': 'Basic YWRtaW46cGFzc3dvcmQ=', 
+        'Content-Type': 'application/json' 
+      }
+    });
+  
+    pizzas.value = response.data.map(pizza => ({
+      id: pizza.id,
+      name: pizza.name,
+      image: pizza.image
+    }));
+  } catch (error) {
+    console.error("Error al cargar las pizzas:", error);
+  }
+};
+
+onMounted(() => {
+  fetchPizzas(); 
+});
+</script>
 
 <template>
   <main>
     <div class="separador"></div>
     <div id="containerTitulo">Nuestras pizzas</div>
     <div id="containerTexto">
-      Disfruta de nuestras mejores pizzas en nuesta pizzeria
+      Disfruta de nuestras mejores pizzas en nuestra pizzería
     </div>
 
     <div
@@ -15,34 +44,20 @@
       data-bs-interval="3000"
     >
       <div class="carousel-inner">
-        <div class="carousel-item active">
+      
+        <div 
+          class="carousel-item" 
+          v-for="(pizza, index) in pizzas" 
+          :class="{ active: index === 0 }" 
+          :key="pizza.id" 
+        >
           <img
-            src="../assets/img/slider/pizza2.png"
+            :src="pizza.image" 
             class="imgSlider"
-            alt="..."
+            alt="Pizza"
           />
           <div class="containerTituloPizza">
-            <div class="tituloPizza">Pizza Napolitana</div>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <img
-            src="../assets/img/slider/pizza2.png"
-            class="imgSlider"
-            alt="..."
-          />
-          <div class="containerTituloPizza">
-            <div class="tituloPizza">Pizza Napolitana</div>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <img
-            src="../assets/img/slider/pizza2.png"
-            class="imgSlider"
-            alt="..."
-          />
-          <div class="containerTituloPizza">
-            <div class="tituloPizza">Pizza Napolitana</div>
+            <div class="tituloPizza">{{ pizza.name }}</div> 
           </div>
         </div>
       </div>
@@ -52,7 +67,7 @@
         data-bs-target="#carouselPizzas"
         data-bs-slide="prev"
       >
-        <span class="visually-hidden">Previous</span>
+        <span class="visually-hidden">Anterior</span>
       </button>
       <button
         class="carousel-control-next"
@@ -60,16 +75,16 @@
         data-bs-target="#carouselPizzas"
         data-bs-slide="next"
       >
-        <span class="visually-hidden">Next</span>
+        <span class="visually-hidden">Siguiente</span>
       </button>
     </div>
 
     <div id="btnVerPizzas">
-      <RouterLink to="/pizzas"
-        ><button class="botonLinkPizzas">
+      <RouterLink to="/pizzas">
+        <button class="botonLinkPizzas">
           Conoce todas nuestras pizzas
-        </button></RouterLink
-      >
+        </button>
+      </RouterLink>
     </div>
   </main>
 </template>
