@@ -1,61 +1,24 @@
-<template>
-  <div class="modal-overlay" @click.self="closeModal">
-    <div class="modal-content">
-      <h2>Añadir Producto</h2>
-      <form @submit.prevent="submitForm">
-        <div class="form-group">
-          <label for="productName">Nombre del Producto</label>
-          <input v-model="newProduct.customer" id="productName" type="text" required />
-        </div>
+<!-- <script setup>
+import { ref, watch } from 'vue';
 
-        <div class="form-group">
-          <label for="productDescription">Descripción</label>
-          <textarea v-model="newProduct.orderDate" id="productDescription" required></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="productType">Tipo</label>
-          <input v-model="newProduct.location" id="productType" type="text" required />
-        </div>
-
-        <div class="form-group">
-          <label for="productAmount">Precio</label>
-          <input v-model="newProduct.amount" id="productAmount" type="number" step="0.01" required />
-        </div>
-
-        <div class="form-group">
-          <label for="productImage">Imagen del Producto</label>
-          <input type="file" @change="onFileChange" id="productImage" />
-          <img v-if="newProduct.customerImage" :src="newProduct.customerImage" alt="Vista previa" class="image-preview" />
-        </div>
-
-        <div class="form-group checkbox-group">
-          <label for="productStatus">Disponible</label>
-          <input type="checkbox" v-model="newProduct.status" id="productStatus" />
-        </div>
-
-        <div class="form-buttons">
-          <button type="submit">Añadir Producto</button>
-          <button type="button" @click="closeModal">Cancelar</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</template>
-
-<script setup>
-import { ref } from 'vue';
-
-const newProduct = ref({
-  customer: '',
-  orderDate: '',
-  location: '',
-  amount: 0,
-  status: false,
-  customerImage: ''
+const props = defineProps({
+  product: {
+    type: Object,
+    default: () => ({
+      id: null,
+      name: '',
+      description: '',
+      price: 0,
+      productType: '',
+      image: '',
+      available: false
+    })
+  }
 });
 
 const emit = defineEmits(['add-product', 'close-modal']);
+
+const newProduct = ref({ ...props.product });
 
 const submitForm = () => {
   emit('add-product', { ...newProduct.value });
@@ -70,12 +33,165 @@ const onFileChange = (event) => {
   if (file) {
     const reader = new FileReader();
     reader.onload = (e) => {
-      newProduct.value.customerImage = e.target.result;
+      newProduct.value.image = e.target.result; // Guardar la imagen en base64
     };
     reader.readAsDataURL(file);
   }
 };
+
+
+watch(
+  () => props.product,
+  (newVal) => {
+    newProduct.value = { ...newVal }; 
+  },
+  { immediate: true }
+);
 </script>
+
+<template>
+  <div class="modal-overlay" @click.self="closeModal">
+    <div class="modal-content">
+      <h2>{{ newProduct.id ? 'Editar Producto' : 'Añadir Producto' }}</h2>
+      <form @submit.prevent="submitForm">
+        <div class="form-group">
+          <label for="productName">Nombre del Producto</label>
+          <input v-model="newProduct.name" id="productName" type="text" required />
+        </div>
+
+        <div class="form-group">
+          <label for="productDescription">Descripción</label>
+          <textarea v-model="newProduct.description" id="productDescription" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="productType">Tipo</label>
+          <input v-model="newProduct.productType" id="productType" type="text" required />
+        </div>
+
+        <div class="form-group">
+          <label for="productAmount">Precio</label>
+          <input v-model="newProduct.price" id="productAmount" type="number" step="0.01" required />
+        </div>
+
+        <div class="form-group">
+          <label for="productImage">Imagen del Producto</label>
+          <input type="file" @change="onFileChange" id="productImage" />
+          <img v-if="newProduct.image" :src="newProduct.image" alt="Vista previa" class="image-preview" />
+        </div>
+
+        <div class="form-group checkbox-group">
+          <label for="productStatus">Disponible</label>
+          <input type="checkbox" v-model="newProduct.available" id="productStatus" />
+        </div>
+
+        <div class="form-buttons">
+          <button type="submit">{{ newProduct.id ? 'Actualizar Producto' : 'Añadir Producto' }}</button>
+          <button type="button" @click="closeModal">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</template> -->
+<script setup>
+import { ref, watch } from 'vue';
+
+const props = defineProps({
+  product: {
+    type: Object,
+    default: () => ({
+      id: null,
+      name: '',
+      description: '',
+      price: 0,
+      productType: '',
+      image: '',
+      available: false
+    })
+  }
+});
+
+const emit = defineEmits(['add-product', 'update-product', 'close-modal']);
+
+const newProduct = ref({ ...props.product });
+
+const submitForm = () => {
+  if (newProduct.value.id) {
+    emit('update-product', { ...newProduct.value }); // Emitir evento de actualización si hay id
+  } else {
+    emit('add-product', { ...newProduct.value }); // Emitir evento de creación si no hay id
+  }
+};
+
+const closeModal = () => {
+  emit('close-modal');
+};
+
+const onFileChange = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      newProduct.value.image = e.target.result; // Guardar la imagen en base64
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
+watch(
+  () => props.product,
+  (newVal) => {
+    newProduct.value = { ...newVal }; 
+  },
+  { immediate: true }
+);
+</script>
+
+<template>
+  <div class="modal-overlay" @click.self="closeModal">
+    <div class="modal-content">
+      <h2>{{ newProduct.id ? 'Editar Producto' : 'Añadir Producto' }}</h2>
+      <form @submit.prevent="submitForm">
+        <div class="form-group">
+          <label for="productName">Nombre del Producto</label>
+          <input v-model="newProduct.name" id="productName" type="text" required />
+        </div>
+
+        <div class="form-group">
+          <label for="productDescription">Descripción</label>
+          <textarea v-model="newProduct.description" id="productDescription" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="productType">Tipo</label>
+          <input v-model="newProduct.productType" id="productType" type="text" required />
+        </div>
+
+        <div class="form-group">
+          <label for="productAmount">Precio</label>
+          <input v-model="newProduct.price" id="productAmount" type="number" step="0.01" required />
+        </div>
+
+        <div class="form-group">
+          <label for="productImage">Imagen del Producto</label>
+          <input type="file" @change="onFileChange" id="productImage" />
+          <img v-if="newProduct.image" :src="newProduct.image" alt="Vista previa" class="image-preview" />
+        </div>
+
+        <div class="form-group checkbox-group">
+          <label for="productStatus">Disponible</label>
+          <input type="checkbox" v-model="newProduct.available" id="productStatus" />
+        </div>
+
+        <div class="form-buttons">
+          <button type="submit">{{ newProduct.id ? 'Actualizar Producto' : 'Añadir Producto' }}</button>
+          <button type="button" @click="closeModal">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
+
 
 <style scoped>
 .modal-overlay {
