@@ -1,5 +1,46 @@
 <script setup>
+import { ref, onMounted } from "vue";
+import axios from "axios"; 
+import MenuCarta from "../MenuCarta.vue";
+import { useCartStore } from "../../stores/cart";
+import TituloLogueado from "../TituloLogueado.vue";
+import NavBar from "../NavBar.vue";
 
+const modalVisible = ref(false);
+const fullDescription = ref("");
+const postres = ref([]); 
+const cartStore = useCartStore();
+
+const openModal = (description) => {
+  fullDescription.value = description;
+  modalVisible.value = true;
+};
+
+const closeModal = () => {
+  modalVisible.value = false;
+};
+
+const fetchPostres = async () => { 
+  try {
+    const response = await axios.get("http://localhost:8080/api/v1/products/type/POSTRE", { 
+      headers: {
+        'Authorization': 'Basic YWRtaW46cGFzc3dvcmQ=', 
+        'Content-Type': 'application/json' 
+      }
+    });
+    postres.value = response.data; 
+  } catch (error) {
+    console.error("Error al cargar los postres:", error); 
+  }
+};
+
+onMounted(() => {
+  fetchPostres(); 
+});
+
+const addPostreToCart = (postreName, price) => { 
+  cartStore.addPostre({ name: postreName, price }); 
+};
 </script>
 
 <template>
