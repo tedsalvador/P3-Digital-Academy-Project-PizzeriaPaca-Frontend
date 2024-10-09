@@ -64,6 +64,23 @@ const addProduct = async (newProduct) => {
     console.error('Error al añadir el producto:', error);
   }
 };
+const updateProduct = async (product) => {
+  try {
+    const response = await axios.put(`http://localhost:8080/api/v1/products/${product.id}`, product, {
+      headers: {
+        'Authorization': 'Basic YWRtaW46cGFzc3dvcmQ=', 
+        'Content-Type': 'application/json'
+      }
+    });
+    const index = products.value.findIndex(p => p.id === product.id);
+    if (index !== -1) {
+      products.value[index] = response.data; 
+    }
+    closeModal();
+  } catch (error) {
+    console.error('Error al actualizar el producto:', error);
+  }
+};
 
 const deleteProduct = async (productId) => {
   try {
