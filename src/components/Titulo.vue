@@ -2,19 +2,21 @@
 import { ref, computed } from "vue";
 import axios from "axios"; 
 import ModalLogin from "./ModalLogin.vue";
-import { RouterLink, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import { useAuthStore } from "../stores/auth";
 import { loginChange } from "../stores/loginChange";
 
+
 const orderNumber = ref(Math.floor(Math.random() * 100000)); 
 const paymentType = ref("E"); 
-const dateOrder = ref("2024-10-04")
+const dateOrder = ref(new Date().toISOString())
 const deliveryType = ref("L"); 
 const userId = ref("");
-
 const router = useRouter();
 const store = useAuthStore();
 const mobileMenuOpen = ref(false);
+const cartStore = useCartStore()
+
 
 const modificarLogin = () => {
   if (loginChange.login == false) loginChange.setLogin(true);
@@ -47,30 +49,6 @@ const openModal = () => {
 
   showModal.value = true;
 };
-
-const items = ref([
-  {
-    name: "Dark Chocolate",
-    description: "Perfect Snacks",
-    price: 8.0,
-    image: "https://via.placeholder.com/50",
-    quantity: 1,
-  },
-  {
-    name: "Good Source",
-    description: "Sweet Snacks",
-    price: 8.0,
-    image: "https://via.placeholder.com/50",
-    quantity: 1,
-  },
-  {
-    name: "Coconut Chips",
-    description: "Dang",
-    price: 18.0,
-    image: "https://via.placeholder.com/50",
-    quantity: 1,
-  },
-]);
 
 const deliveryAmount = 4.0;
 
@@ -135,9 +113,31 @@ try {
   }
 };
 
+const sendCart = async () => {
+  const order = new Order(
+    cartStore.cartItems,
+    store.user.id,
+    dateOrder.value,
+    totalAmount.value,
+    paymentType.value,
+    deliveryType.value
+  );
+  const orderService = new OrderService()
+
+  try {
+    const response = await orderService.createOrder(order)
+    console.log('Orden enviada:', response)
+    alert("Orden enviada con éxito!")
+  } catch (error) {
+    console.error('Error al enviar la orden:', error)
+    alert("Error al enviar la orden")
+  }
+}
+
 </script>
 
 <template>
+
   <div id="containerTitulo"> 
     <div id="containerLogoTitulo">
       <div id="logo">
@@ -218,7 +218,7 @@ try {
           <p>{{ totalAmount.toFixed(2) }} €</p>
         </div>
       </div>
-      <button class="payment-button">
+      <button class="payment-button" @click="sendCart">
         Realizar Pago
         <span class="payment-icon">➤</span>
       </button>
@@ -226,6 +226,7 @@ try {
   </div>
 
   <ModalLogin :show="showModal" @close="closeModal" />
+
 </template>
 
 <style scoped>
