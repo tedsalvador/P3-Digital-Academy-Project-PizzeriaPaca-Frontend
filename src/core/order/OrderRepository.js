@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export default class OrderRepository {
+    
     constructor() {
         this.baseUrl = import.meta.env.VITE_API_ENDPOINT
     }
@@ -12,7 +13,7 @@ export default class OrderRepository {
                     'Content-Type': 'application/json',
                 },
                 withCredentials: true
-            });
+            })
             return response.data
         } catch (error) {
             throw error
