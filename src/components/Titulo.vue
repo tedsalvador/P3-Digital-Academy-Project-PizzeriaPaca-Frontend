@@ -1,22 +1,29 @@
 <script setup>
 import { ref, computed } from "vue";
-import axios from "axios"; 
+import axios from "axios";
 import ModalLogin from "./ModalLogin.vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../stores/auth";
 import { loginChange } from "../stores/loginChange";
+import { useCartStore } from '@/stores/cart';
+import OrderService from "@/core/order/OrderService";
+import Order from "@/core/order/Order";
 
-
-const orderNumber = ref(Math.floor(Math.random() * 100000)); 
-const paymentType = ref("E"); 
+const orderNumber = ref(Math.floor(Math.random() * 100000));
+const paymentType = ref("cash");
 const dateOrder = ref(new Date().toISOString())
-const deliveryType = ref("L"); 
 const userId = ref("");
 const router = useRouter();
 const store = useAuthStore();
 const mobileMenuOpen = ref(false);
 const cartStore = useCartStore()
 
+const totalAmount = computed(() => {
+  return cartStore.cartItems.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
+});
 
 const modificarLogin = () => {
   if (loginChange.login == false) loginChange.setLogin(true);
@@ -33,12 +40,12 @@ function logout() {
   store.user.id = "";
   store.user.username = "";
   store.user.role = "";
-
+  
   localStorage.clear();
   loginChange.setLogin(false);
   loginChange.setRegister(false);
   mobileMenuOpen.value = false;
-
+  
   const redirectPath = "/home";
   router.push(redirectPath);
 }
@@ -46,19 +53,9 @@ function logout() {
 const openModal = () => {
   if (loginChange.login == false) loginChange.setLogin(true);
   else loginChange.setLogin(false);
-
+  
   showModal.value = true;
 };
-
-const deliveryAmount = 4.0;
-
-const totalAmount = computed(() => {
-  const itemsTotal = items.value.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
-  );
-  return itemsTotal + deliveryAmount;
-});
 
 const increaseQuantity = (item) => {
   if (item.quantity < 99) {
@@ -83,15 +80,15 @@ const toggleCart = () => {
   showCart.value = !showCart.value;
 };
 const closeCart = () => {
-  showCart.value = false;
+  cartStore.cartItems = []
 };
 
 if (store.user.isAuthenticated) {
   userId.value = store.user.id;
 }
 
-const realizarPago = async () => {
-try {
+/* const realizarPago = async () => {
+  try {
     const response = await axios.post("/api/v1/order", {
       orderNumber: orderNumber.value,
       paymentType: paymentType.value,
@@ -111,7 +108,7 @@ try {
   } catch (error) {
     console.error("Error al realizar el pago:", error);
   }
-};
+}; */
 
 const sendCart = async () => {
   const order = new Order(
@@ -123,7 +120,7 @@ const sendCart = async () => {
     deliveryType.value
   );
   const orderService = new OrderService()
-
+  console.log('Carrito enviado:', cartStore.cartItems)
   try {
     const response = await orderService.createOrder(order)
     console.log('Orden enviada:', response)
@@ -138,7 +135,7 @@ const sendCart = async () => {
 
 <template>
 
-  <div id="containerTitulo"> 
+  <div id="containerTitulo">
     <div id="containerLogoTitulo">
       <div id="logo">
         <img class="img" src="../assets/img/navbar/logo.png" alt="logo" />
@@ -148,11 +145,7 @@ const sendCart = async () => {
 
     <div id="containerLogin">
       <div id="carrito" @click="toggleCart">
-        <img
-          class="imgCarrito"
-          src="../assets/img/navbar/carrito.png"
-          alt="carrito"
-        />
+        <img class="imgCarrito" src="../assets/img/navbar/carrito.png" alt="carrito" />
       </div>
       <div id="login" @click="openModal">
         <img class="user" src="../assets/img/navbar/user.png" alt="user" />
@@ -164,10 +157,10 @@ const sendCart = async () => {
     <div class="cart-container" @click.stop>
       <div class="cart-header">
         <h1>Carrito</h1>
-        <div class="cart-count">{{ items.length }}</div>
+        <div class="cart-count">{{ cartStore.cartItems.length }}</div>
       </div>
       <div class="cart-items">
-        <div class="cart-item" v-for="item in items" :key="item.name">
+        <div class="cart-item" v-for="item in cartStore.cartItems" :key="item.name">
           <img :src="item.image" alt="Product image" class="item-image" />
           <div class="item-details">
             <h2 class="item-name">{{ item.name }}</h2>
@@ -203,7 +196,7 @@ const sendCart = async () => {
         <div class="summary-row">
           <p>Tipo de Entrega</p>
           <p>{{ deliveryType }}</p>
-        <select v-model="deliveryType">
+          <select v-model="deliveryType">
             <option value="L">Local</option>
             <option value="D">Delivery</option>
             <option value="P">Para llevar</option>
@@ -213,15 +206,17 @@ const sendCart = async () => {
           <p>Fecha del Pedido</p>
           <p>{{ dateOrder }}</p>
         </div>
-        <div class="summary-row total">
-          <p>Cantidad Total</p>
-          <p>{{ totalAmount.toFixed(2) }} €</p>
+        <div class="cart-summary">
+          <div class="summary-row">
+            <span>Total:</span>
+            <span>{{ totalAmount }}</span>
+          </div>
+          <button class="payment-button" @click="sendCart">
+            Pagar
+            <span class="payment-icon">💳</span>
+          </button>
         </div>
       </div>
-      <button class="payment-button" @click="sendCart">
-        Realizar Pago
-        <span class="payment-icon">➤</span>
-      </button>
     </div>
   </div>
 
@@ -360,9 +355,11 @@ const sendCart = async () => {
   height: 50px;
   border-radius: 50%;
 }
+
 .item-name {
   font-size: 16px;
 }
+
 .item-details {
   flex: 1;
   margin-left: 5px;
@@ -391,7 +388,7 @@ const sendCart = async () => {
 
 .item-price {
   font-size: 16px;
-  flex-shrink: 0; 
+  flex-shrink: 0;
   white-space: nowrap;
   margin-top: 0px;
 }
@@ -449,11 +446,13 @@ const sendCart = async () => {
     width: 60%;
     visibility: hidden;
   }
+
   #containerLogin {
     width: 20%;
     margin-right: 20px;
   }
 }
+
 @media (max-width: 480px) {
   #containerLogoTitulo {
     width: 35%;
@@ -462,18 +461,22 @@ const sendCart = async () => {
   #logo {
     width: 35%;
   }
+
   .img {
     width: 100px;
     height: 100px;
   }
+
   #titulo {
     width: 60%;
     display: none;
   }
+
   #containerLogin {
     width: 30%;
     margin-right: 20px;
   }
+
   .imgCarrito,
   .user {
     width: 30px;
