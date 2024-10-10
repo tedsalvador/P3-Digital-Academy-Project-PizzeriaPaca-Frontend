@@ -1,14 +1,14 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import axios from "axios"; 
 import MenuCarta from "../MenuCarta.vue";
 import { useCartStore } from "../../stores/cart";
 import TituloLogueado from "../TituloLogueado.vue";
 import NavBar from "../NavBar.vue";
 
 const modalVisible = ref(false);
-
 const fullDescription = ref("");
-
+const pizzas = ref([]); 
 const cartStore = useCartStore();
 
 const openModal = (description) => {
@@ -20,191 +20,59 @@ const closeModal = () => {
   modalVisible.value = false;
 };
 
-const description =
-  "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Harum, ex inventore, provident corporis natus esse dolore. Consequuntur aperiam quae ipsa.";
 
-const Cart = ref([]);
-
-const addPizzaToCart = (pizzaName, price) => {
-  Cart.value.push({ name: pizzaName, price });
-
+const fetchPizzas = async () => {
+  try {
+    const response = await axios.get("http://localhost:8080/api/v1/products/type/PIZZA", {
+      headers: {
+        'Authorization': 'Basic YWRtaW46cGFzc3dvcmQ=', 
+        'Content-Type': 'application/json' 
+      }
+    });
+    pizzas.value = response.data; 
+  } catch (error) {
+    console.error("Error al cargar las pizzas:", error);
+  }
 };
 
+
+onMounted(() => {
+  fetchPizzas();
+});
+
+const addPizzaToCart = (pizzaName, price) => {
+  cartStore.addPizza({ name: pizzaName, price }); 
+};
 </script>
 
 <template>
-  <TituloLogueado></TituloLogueado>
-  <NavBar></NavBar>
-  <MenuCarta></MenuCarta>
+  <TituloLogueado />
+  <NavBar />
+  <MenuCarta />
   <main>
     <div class="cards-container">
-      <div class="card">
+      <div v-for="(pizza, index) in pizzas" :key="pizza.id" class="card">
         <div class="personaje">
           <div class="imagen_personaje"></div>
           <div class="detalle">
-            <div class="contTitulo"><h2>Pizza</h2></div>
+            <div class="contTitulo"><h2>{{ pizza.name }}</h2></div>
             <div class="contTexto">
               <p>
-                {{ description.slice(0, 120)
-                }}{{ description.length > 120 ? "..." : "" }}
+                {{ pizza.description.slice(0, 120) }}
+                {{ pizza.description.length > 120 ? "..." : "" }}
               </p>
             </div>
             <div class="contBtn">
-              <div class="btn" @click="openModal(description)">Leer Más</div>
+              <div class="btn" @click="openModal(pizza.description)">Leer Más</div>
             </div>
             <div class="containerPrecioCarrito">
-              <div class="contPrecio">20€</div>
+              <div class="contPrecio">{{ pizza.price }}€</div>
               <div class="contCarrito">
                 <img
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
-                  @click="addPizzaToCart(`Pizza ${index}`, 20)" 
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="personaje">
-          <div class="imagen_personaje"></div>
-          <div class="detalle">
-            <div class="contTitulo"><h2>Pizza</h2></div>
-            <div class="contTexto">
-              <p>
-                {{ description.slice(0, 120)
-                }}{{ description.length > 120 ? "..." : "" }}
-              </p>
-            </div>
-            <div class="contBtn">
-              <div class="btn" @click="openModal(description)">Leer Más</div>
-            </div>
-            <div class="containerPrecioCarrito">
-              <div class="contPrecio">20€</div>
-              <div class="contCarrito">
-                <img
-                  class="imgCarro"
-                  src="../../assets/img/carta/carro.png"
-                  alt="Carrito"
-                  @click="addPizzaToCart(`Pizza ${index}`, 20)" 
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="personaje">
-          <div class="imagen_personaje"></div>
-          <div class="detalle">
-            <div class="contTitulo"><h2>Pizza</h2></div>
-            <div class="contTexto">
-              <p>
-                {{ description.slice(0, 120)
-                }}{{ description.length > 120 ? "..." : "" }}
-              </p>
-            </div>
-            <div class="contBtn">
-              <div class="btn" @click="openModal(description)">Leer Más</div>
-            </div>
-            <div class="containerPrecioCarrito">
-              <div class="contPrecio">20€</div>
-              <div class="contCarrito">
-                <img
-                  class="imgCarro"
-                  src="../../assets/img/carta/carro.png"
-                  alt="Carrito"
-                  @click="addPizzaToCart(`Pizza ${index}`, 20)" 
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="personaje">
-          <div class="imagen_personaje"></div>
-          <div class="detalle">
-            <div class="contTitulo"><h2>Pizza</h2></div>
-            <div class="contTexto">
-              <p>
-                {{ description.slice(0, 120)
-                }}{{ description.length > 120 ? "..." : "" }}
-              </p>
-            </div>
-            <div class="contBtn">
-              <div class="btn" @click="openModal(description)">Leer Más</div>
-            </div>
-            <div class="containerPrecioCarrito">
-              <div class="contPrecio">20€</div>
-              <div class="contCarrito">
-                <img
-                  class="imgCarro"
-                  src="../../assets/img/carta/carro.png"
-                  alt="Carrito"
-                  @click="addPizzaToCart(`Pizza ${index}`, 20)" 
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="personaje">
-          <div class="imagen_personaje"></div>
-          <div class="detalle">
-            <div class="contTitulo"><h2>Pizza</h2></div>
-            <div class="contTexto">
-              <p>
-                {{ description.slice(0, 120)
-                }}{{ description.length > 120 ? "..." : "" }}
-              </p>
-            </div>
-            <div class="contBtn">
-              <div class="btn" @click="openModal(description)">Leer Más</div>
-            </div>
-            <div class="containerPrecioCarrito">
-              <div class="contPrecio">20€</div>
-              <div class="contCarrito">
-                <img
-                  class="imgCarro"
-                  src="../../assets/img/carta/carro.png"
-                  alt="Carrito"
-                  @click="addPizzaToCart(`Pizza ${index}`, 20)" 
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="personaje">
-          <div class="imagen_personaje"></div>
-          <div class="detalle">
-            <div class="contTitulo"><h2>Pizza</h2></div>
-            <div class="contTexto">
-              <p>
-                {{ description.slice(0, 120)
-                }}{{ description.length > 120 ? "..." : "" }}
-              </p>
-            </div>
-            <div class="contBtn">
-              <div class="btn" @click="openModal(description)">Leer Más</div>
-            </div>
-            <div class="containerPrecioCarrito">
-              <div class="contPrecio">20€</div>
-              <div class="contCarrito">
-                <img
-                  class="imgCarro"
-                  src="../../assets/img/carta/carro.png"
-                  alt="Carrito"
-                  @click="addPizzaToCart(`Pizza ${index}`, 20)" 
+                  @click="addPizzaToCart(pizza.name, pizza.price)" 
                 />
               </div>
             </div>

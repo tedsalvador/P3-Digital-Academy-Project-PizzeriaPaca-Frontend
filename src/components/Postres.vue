@@ -1,11 +1,40 @@
-<script setup></script>
+<script setup>
+import { ref, onMounted } from "vue";
+import axios from "axios"; 
 
+const postres = ref([]); 
+
+const fetchPostres = async () => {
+  try {
+    const response = await axios.get("http://localhost:8080/api/v1/products/type/POSTRE", {
+      headers: {
+        'Authorization': 'Basic YWRtaW46cGFzc3dvcmQ=', 
+        'Content-Type': 'application/json' 
+      }
+    });
+
+    
+    postres.value = response.data.map(postre => ({
+      id: postre.id,
+      name: postre.name,
+      description: postre.description,
+      image: postre.image
+    }));
+  } catch (error) {
+    console.error("Error al cargar los postres:", error);
+  }
+};
+
+onMounted(() => {
+  fetchPostres(); 
+});
+</script>
 <template>
   <main>
     <div class="separador"></div>
     <div id="containerTitulo">Postres</div>
     <div id="containerTexto">
-      Disfruta de nuestros mejores postres en nuesta pizzeria
+      Disfruta de nuestros mejores postres en nuestra pizzería
     </div>
 
     <div id="containerIconoYPostres">
@@ -13,58 +42,19 @@
         <img class="logoPostre" src="../assets/img/postres/postre.png" alt="" />
       </div>
       <div id="containerPostres">
-        <div class="containerPostre">
+        
+        <div class="containerPostre" v-for="postre in postres" :key="postre.id">
           <div id="containerImagenPostre">
             <img
               class="postres"
-              src="../assets/img/postres/postres.png"
+              :src="postre.image" 
               alt=""
             />
           </div>
           <div id="containerDescripcionPostre">
             <div class="separadorDescripcion"></div>
-            <div id="nombrePostre">Tarta de leche</div>
-            <div id="Descripcion">
-              La tarta de tres leches es un postre suave y esponjoso,
-              caracterizado por su textura húmeda y dulce.
-            </div>
-            <div class="separadorDescripcion"></div>
-          </div>
-        </div>
-        <div class="containerPostre">
-          <div id="containerImagenPostre">
-            <img
-              class="postres"
-              src="../assets/img/postres/postres.png"
-              alt=""
-            />
-          </div>
-          <div id="containerDescripcionPostre">
-            <div class="separadorDescripcion"></div>
-            <div id="nombrePostre">Tarta de leche</div>
-            <div id="Descripcion">
-              La tarta de tres leches es un postre suave y esponjoso,
-              caracterizado por su textura húmeda y dulce.
-            </div>
-            <div class="separadorDescripcion"></div>
-          </div>
-        </div>
-
-        <div class="containerPostre">
-          <div id="containerImagenPostre">
-            <img
-              class="postres"
-              src="../assets/img/postres/postres.png"
-              alt=""
-            />
-          </div>
-          <div id="containerDescripcionPostre">
-            <div class="separadorDescripcion"></div>
-            <div id="nombrePostre">Tarta de leche</div>
-            <div id="Descripcion">
-              La tarta de tres leches es un postre suave y esponjoso,
-              caracterizado por su textura húmeda y dulce.
-            </div>
+            <div id="nombrePostre">{{ postre.name }}</div> 
+            <div id="Descripcion">{{ postre.description }}</div> 
             <div class="separadorDescripcion"></div>
           </div>
         </div>
@@ -72,12 +62,13 @@
     </div>
 
     <div id="btnVerPostres">
-      <RouterLink to="/postres"
-        ><button>Conoce todos nuestros postres</button></RouterLink
-      >
+      <RouterLink to="/postres">
+        <button>Conoce todos nuestros postres</button>
+      </RouterLink>
     </div>
   </main>
 </template>
+
 
 <style scoped>
 main {
