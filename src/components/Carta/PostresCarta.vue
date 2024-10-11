@@ -1,14 +1,14 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import axios from "axios"; 
+import axios from "axios";
 import MenuCarta from "../MenuCarta.vue";
 import { useCartStore } from "../../stores/cart";
-import TituloLogueado from "../TituloLogueado.vue";
+import Titulo from "../Titulo.vue";
 import NavBar from "../NavBar.vue";
 
 const modalVisible = ref(false);
 const fullDescription = ref("");
-const postres = ref([]); 
+const postres = ref([]);
 const cartStore = useCartStore();
 
 const openModal = (description) => {
@@ -20,31 +20,34 @@ const closeModal = () => {
   modalVisible.value = false;
 };
 
-const fetchPostres = async () => { 
+const fetchPostres = async () => {
   try {
-    const response = await axios.get("http://localhost:8080/api/v1/products/type/POSTRE", { 
-      headers: {
-        'Authorization': 'Basic YWRtaW46cGFzc3dvcmQ=', 
-        'Content-Type': 'application/json' 
+    const response = await axios.get(
+      "http://localhost:8080/api/v1/products/type/POSTRE",
+      {
+        headers: {
+          Authorization: "Basic YWRtaW46cGFzc3dvcmQ=",
+          "Content-Type": "application/json",
+        },
       }
-    });
-    postres.value = response.data; 
+    );
+    postres.value = response.data;
   } catch (error) {
-    console.error("Error al cargar los postres:", error); 
+    console.error("Error al cargar los postres:", error);
   }
 };
 
 onMounted(() => {
-  fetchPostres(); 
+  fetchPostres();
 });
 
-const addPostreToCart = (postreName, price) => { 
-  cartStore.addPostre({ name: postreName, price }); 
+const addPostreToCart = (postreName, price) => {
+  cartStore.addPostre({ name: postreName, price });
 };
 </script>
 
 <template>
-  <TituloLogueado />
+  <Titulo></Titulo>
   <NavBar />
   <MenuCarta />
   <main>
@@ -58,7 +61,7 @@ const addPostreToCart = (postreName, price) => {
           <div class="detalle">
             <div class="contTitulo">
               <h2>{{ postre.name }}</h2>
-            </div> 
+            </div>
             <div class="contTexto">
               <p>
                 {{ postre.description.slice(0, 120) }}
@@ -66,23 +69,25 @@ const addPostreToCart = (postreName, price) => {
               </p>
             </div>
             <div class="contBtn">
-              <div class="btn" @click="openModal(postre.description)">Leer Más</div> 
+              <div class="btn" @click="openModal(postre.description)">
+                Leer Más
+              </div>
             </div>
             <div class="containerPrecioCarrito">
-              <div class="contPrecio">{{ postre.price }}€</div> 
+              <div class="contPrecio">{{ postre.price }}€</div>
               <div class="contCarrito">
                 <img
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
-                  @click="addPostreToCart(postre.name, postre.price)" 
+                  @click="addPostreToCart(postre.name, postre.price)"
                 />
               </div>
             </div>
-          </div> 
-        </div> 
-      </div> 
-    </div> 
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div v-if="modalVisible" class="modal-overlay" @click="closeModal">
       <div class="modal-content" @click.stop>
@@ -93,8 +98,6 @@ const addPostreToCart = (postreName, price) => {
     </div>
   </main>
 </template>
-
-
 
 <style scoped>
 main {
@@ -109,8 +112,8 @@ main {
   margin-top: 30px;
   margin-bottom: 50px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr); 
-  gap: 40px; 
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
   padding: 20px;
 }
 

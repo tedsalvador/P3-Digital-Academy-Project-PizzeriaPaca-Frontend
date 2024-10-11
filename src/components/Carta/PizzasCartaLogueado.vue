@@ -1,14 +1,16 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
-import MenuCarta from "../MenuCarta.vue";
-import Titulo from "../Titulo.vue";
-import NavBar from "../NavBar.vue";
+import MenuCartaLogueado from "../MenuCartaLogueado.vue";
+import TituloLogueado from "../TituloLogueado.vue";
+
+import NavBarLogueado from "../NavBarLogueado.vue";
 import { useCartStore } from "@/stores/cart";
 
 const modalVisible = ref(false);
 const fullDescription = ref("");
-const cartStore = useCartStore()
+/* const pizzas = ref([]);  */
+const cartStore = useCartStore();
 
 const openModal = (description) => {
   fullDescription.value = description;
@@ -44,22 +46,32 @@ const addPizzaToCart = (pizzaName, price) => {
   cartStore.addToCart({ name: pizzaName, price });
 };
 
-const pizzas = ref([])
-
+const pizzas = ref([
+  {
+    id: 1,
+    name: "Pizza Margherita",
+    description: "Tomato, mozzarella, and basil",
+    price: 10,
+  },
+  {
+    id: 2,
+    name: "Pizza Pepperoni",
+    description: "Pepperoni, mozzarella, and tomato sauce",
+    price: 12,
+  },
+]);
 </script>
 
 <template>
-  <Titulo></Titulo>
-  <NavBar />
-  <MenuCarta />
+  <TituloLogueado></TituloLogueado>
+  <NavBarLogueado></NavBarLogueado>
+
+  <MenuCartaLogueado></MenuCartaLogueado>
   <main>
     <div class="cards-container">
       <div v-for="(pizza, index) in pizzas" :key="pizza.id" class="card">
         <div class="personaje">
-          <div class="imagen_personaje"><img class="imagen_personaje"
-              :src="pizza.image" 
-              :alt="pizza.name"
-            /></div>
+          <div class="imagen_personaje"></div>
           <div class="detalle">
             <div class="contTitulo">
               <h2>{{ pizza.name }}</h2>
@@ -95,7 +107,7 @@ const pizzas = ref([])
       <div class="modal-content" @click.stop>
         <span class="close-modal" @click="closeModal">&times;</span>
         <h2 class="tituloModal">Descripción Completa</h2>
-        <p class="full-description">{{ fullDescription }}</p>
+        <p>{{ fullDescription }}</p>
       </div>
     </div>
   </main>
@@ -145,8 +157,7 @@ main {
   height: 160px;
   width: 85%;
   margin-top: -20px;
-  display: flex;
-  justify-content: center;
+  background-image: url(../../assets/img/slider/pizza2.png);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -170,18 +181,15 @@ main {
   border: 1px solid rgb(182, 124, 1);
 }
 
-.full-description{
-  font-size: 20px;
-}
-
 .card:hover {
   transform: scale(1.1);
 }
 
 .card:hover .imagen_personaje {
-  transform: translatey(-17px);
+  transform: translatey(-40px);
   transition: 1s;
   filter: none;
+  background-image: url(../../assets/img/slider/pizza2.png);
 }
 
 .card:hover .personaje {
@@ -326,9 +334,6 @@ p {
     align-items: center;
     height: 390px;
     width: 270px;
-  }
-  .full-description{
-    font-size: 10px;
   }
   .card:hover .imagen_personaje {
     transform: translatey(-50px);
