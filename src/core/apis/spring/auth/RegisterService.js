@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from 'axios'
 
-const BASE_URL = import.meta.env.VITE_API_ENDPOINT;
+const BASE_URL = import.meta.env.VITE_API_ENDPOINT
 
 export default {
     async register(registerData) {
@@ -16,11 +16,12 @@ export default {
                     'address': registerData.address,
                     'postalCode': registerData.postalCode,
                     'city': registerData.city,
-                }
-            });
-            return response.data;
+                },
+                withCredentials: true
+            })
+            return response.data
         } catch (error) {
-            throw new Error('Error en el registro');
+            throw new Error('Error en el registro')
         }
     }
-};
+}
