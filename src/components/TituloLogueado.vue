@@ -67,6 +67,7 @@ const showCart = ref(false);
 const toggleCart = () => {
   showCart.value = !showCart.value;
 };
+
 const closeCart = () => {
   showCart.value = false;
 };
@@ -79,11 +80,11 @@ const sendCart = async () => {
     totalAmount.value,
     paymentType.value,
     deliveryType.value
-  );
+  )
   const orderService = new OrderService()
   console.log('Carrito enviado:', cartStore.cartItems)
-  console.log('Tipo de Entrega:', deliveryType.value);
-  console.log('Tipo de Pago:', paymentType.value);
+  console.log('Tipo de Entrega:', deliveryType.value)
+  console.log('Tipo de Pago:', paymentType.value)
   try {
     const response = await orderService.createOrder(order)
     console.log('Orden enviada:', response)
@@ -95,12 +96,12 @@ const sendCart = async () => {
 }
 
 const totalAmount = computed(() => {
-  return cartStore.totalAmount;
+  return cartStore.totalAmount
 })
 
 const decreaseQuantity = (item) => {
   if (item.quantity > 1) {
-    item.quantity--;
+    item.quantity--
   } else {
     cartStore.removeFromCart(item.name)
   }
@@ -119,7 +120,7 @@ const decreaseQuantity = (item) => {
 
     <div id="containerLogin">
       <div id="login" @click="openModal">
-        <h2 class="info">Hola Pepe</h2>
+        <h2 class="info">Hola</h2>
       </div>
       <div id="carrito" @click="toggleCart">
         <img

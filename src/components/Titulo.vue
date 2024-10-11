@@ -87,29 +87,6 @@ if (store.user.isAuthenticated) {
   userId.value = store.user.id;
 }
 
-/* const realizarPago = async () => {
-  try {
-    const response = await axios.post("/api/v1/order", {
-      orderNumber: orderNumber.value,
-      paymentType: paymentType.value,
-      deliveryType: deliveryType.value,
-      userId: userId.value,
-      items: items.value,
-      dateOrder: dateOrder.value,
-      totalAmount: totalAmount.value,
-    });
-
-    if (response.status === 200) {
-      alert("Orden enviada con éxito!");
-      closeCart();
-    } else {
-      alert("Error al enviar la orden");
-    }
-  } catch (error) {
-    console.error("Error al realizar el pago:", error);
-  }
-}; */
-
 const sendCart = async () => {
   const order = new Order(
     cartStore.cartItems,
