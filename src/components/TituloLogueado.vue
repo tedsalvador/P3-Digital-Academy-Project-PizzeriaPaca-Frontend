@@ -4,10 +4,22 @@ import ModalLogin from "./ModalLogin.vue";
 import { RouterLink, useRouter } from "vue-router";
 import { useAuthStore } from "../stores/auth";
 import { loginChange } from "../stores/loginChange";
+import { useCartStore } from '@/stores/cart';
+import OrderService from "@/core/order/OrderService";
+import Order from "@/core/order/Order";
 
 const router = useRouter();
 const store = useAuthStore();
 const mobileMenuOpen = ref(false);
+const orderNumber = ref(Math.floor(Math.random() * 100000));
+const dateOrder = ref(new Date().toISOString())
+const userId = ref("");
+const cartStore = useCartStore()
+const items = ref(cartStore.cartItems)
+const deliveryType = ref('L')
+const paymentType = ref('E')
+const showModal = ref(false)
+const authStore = useAuthStore()
 
 const modificarLogin = () => {
   if (loginChange.login == false) loginChange.setLogin(true);
@@ -41,53 +53,11 @@ const openModal = () => {
   showModal.value = true;
 };
 
-const items = ref([
-  {
-    name: "Dark Chocolate",
-    description: "Perfect Snacks",
-    price: 8.0,
-    image: "https://via.placeholder.com/50",
-    quantity: 1,
-  },
-  {
-    name: "Good Source",
-    description: "Sweet Snacks",
-    price: 8.0,
-    image: "https://via.placeholder.com/50",
-    quantity: 1,
-  },
-  {
-    name: "Coconut Chips",
-    description: "Dang",
-    price: 18.0,
-    image: "https://via.placeholder.com/50",
-    quantity: 1,
-  },
-]);
-
-const deliveryAmount = 4.0;
-
-const totalAmount = computed(() => {
-  const itemsTotal = items.value.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
-  );
-  return itemsTotal + deliveryAmount;
-});
-
 const increaseQuantity = (item) => {
   if (item.quantity < 99) {
     item.quantity++;
   }
 };
-
-const decreaseQuantity = (item) => {
-  if (item.quantity > 1) {
-    item.quantity--;
-  }
-};
-
-const showModal = ref(false);
 
 const closeModal = () => {
   showModal.value = false;
@@ -97,9 +67,46 @@ const showCart = ref(false);
 const toggleCart = () => {
   showCart.value = !showCart.value;
 };
+
 const closeCart = () => {
   showCart.value = false;
 };
+
+const sendCart = async () => {
+  const order = new Order(
+    cartStore.cartItems,
+    store.user.id,
+    dateOrder.value,
+    totalAmount.value,
+    paymentType.value,
+    deliveryType.value
+  )
+  const orderService = new OrderService()
+  console.log('Carrito enviado:', cartStore.cartItems)
+  console.log('Tipo de Entrega:', deliveryType.value)
+  console.log('Tipo de Pago:', paymentType.value)
+  try {
+    const response = await orderService.createOrder(order)
+    console.log('Orden enviada:', response)
+    alert("Orden enviada con éxito!")
+  } catch (error) {
+    console.error('Error al enviar la orden:', error)
+    alert("Error al enviar la orden")
+  }
+}
+
+const totalAmount = computed(() => {
+  return cartStore.totalAmount
+})
+
+const decreaseQuantity = (item) => {
+  if (item.quantity > 1) {
+    item.quantity--
+  } else {
+    cartStore.removeFromCart(item.name)
+  }
+}
+
 </script>
 
 <template>
@@ -113,7 +120,7 @@ const closeCart = () => {
 
     <div id="containerLogin">
       <div id="login" @click="openModal">
-        <h2 class="info">Hola Pepe</h2>
+        <h2 class="info">Hola</h2>
       </div>
       <div id="carrito" @click="toggleCart">
         <img
@@ -159,13 +166,13 @@ const closeCart = () => {
       </div>
       <div class="cart-summary">
         <div class="summary-row total">
-          <p>Cantidad Total</p>
-          <p>{{ totalAmount.toFixed(2) }} €</p>
+          <p>Total:</p>
+          <p>{{ totalAmount }} €</p>
         </div>
       </div>
-      <button class="payment-button">
+      <button class="payment-button" @click="sendCart">
         Realizar Pago
-        <span class="payment-icon">➤</span>
+        <span class="payment-icon">💳</span>
       </button>
     </div>
   </div>

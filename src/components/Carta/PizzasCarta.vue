@@ -2,14 +2,14 @@
 import { ref, onMounted } from "vue";
 import axios from "axios"; 
 import MenuCarta from "../MenuCarta.vue";
-import { useCartStore } from "../../stores/cart";
 import TituloLogueado from "../TituloLogueado.vue";
 import NavBar from "../NavBar.vue";
+import { useCartStore } from '@/stores/cart'
 
 const modalVisible = ref(false);
 const fullDescription = ref("");
-const pizzas = ref([]); 
-const cartStore = useCartStore();
+/* const pizzas = ref([]);  */
+const cartStore = useCartStore()
 
 const openModal = (description) => {
   fullDescription.value = description;
@@ -35,14 +35,19 @@ const fetchPizzas = async () => {
   }
 };
 
-
 onMounted(() => {
   fetchPizzas();
 });
 
 const addPizzaToCart = (pizzaName, price) => {
-  cartStore.addPizza({ name: pizzaName, price }); 
+  cartStore.addToCart({ name: pizzaName, price }); 
 };
+
+const pizzas = ref([
+  { id: 1, name: 'Pizza Margherita', description: 'Tomato, mozzarella, and basil', price: 10 },
+  { id: 2, name: 'Pizza Pepperoni', description: 'Pepperoni, mozzarella, and tomato sauce', price: 12 },
+])
+
 </script>
 
 <template>
