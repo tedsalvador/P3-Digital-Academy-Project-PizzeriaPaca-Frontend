@@ -1,86 +1,80 @@
-<script setup></script>
+<script setup>
+import { ref, onMounted } from "vue";
+import axios from "axios"; 
+
+const bebidas = ref([]); 
+
+const fetchBebidas = async () => {
+  try {
+    const response = await axios.get("http://localhost:8080/api/v1/products/type/BEBIDA", {
+      headers: {
+        'Authorization': 'Basic YWRtaW46cGFzc3dvcmQ=', 
+        'Content-Type': 'application/json' 
+      }
+    });
+
+    bebidas.value = response.data.map(bebida => ({
+      id: bebida.id,
+      name: bebida.name,
+      description: bebida.description,
+      image: bebida.image
+    }));
+  } catch (error) {
+    console.error("Error al cargar las bebidas:", error);
+  }
+};
+
+onMounted(() => {
+  fetchBebidas(); 
+});
+</script>
 
 <template>
   <main>
     <div class="separador"></div>
     <div id="containerTitulo">Bebidas</div>
     <div id="containerTexto">
-      Disfruta de nuestros mejores bebidas en nuesta pizzeria
+      Disfruta de nuestras mejores bebidas en nuestra pizzería
     </div>
 
-    <div id="containerIconoYPostres">
+    <div id="containerIconoYPostres"> 
       <div id="containerIcono">
         <img
           class="logoPostre"
           src="../assets/img/bebidas/limoncello.png"
-          alt=""
+          alt="Icono de bebida"
         />
       </div>
-      <div id="containerPostres">
-        <div class="containerPostre">
-          <div id="containerImagenPostre">
+      <div id="containerPostres"> 
+        
+        <div class="containerPostre" v-for="bebida in bebidas" :key="bebida.id">
+          <div id="containerImagenPostre"> 
             <img
               class="postres"
-              src="../assets/img/bebidas/bebidas.png"
-              alt=""
+              :src="bebida.image" 
+              :alt="bebida.name"
             />
           </div>
-          <div id="containerDescripcionPostre">
+          <div id="containerDescripcionPostre"> 
             <div class="separadorDescripcion"></div>
-            <div id="nombrePostre">Tarta de leche</div>
+            <div id="nombrePostre">{{ bebida.name }}</div> 
             <div id="Descripcion">
-              La tarta de tres leches es un postre suave y esponjoso,
-              caracterizado por su textura húmeda.
-            </div>
-            <div class="separadorDescripcion"></div>
-          </div>
-        </div>
-        <div class="containerPostre">
-          <div id="containerImagenPostre">
-            <img
-              class="postres"
-              src="../assets/img/bebidas/bebidas.png"
-              alt=""
-            />
-          </div>
-          <div id="containerDescripcionPostre">
-            <div class="separadorDescripcion"></div>
-            <div id="nombrePostre">Tarta de leche</div>
-            <div id="Descripcion">
-              La tarta de tres leches es un postre suave y esponjoso,
-              caracterizado por su textura húmeda.
-            </div>
-            <div class="separadorDescripcion"></div>
-          </div>
-        </div>
-
-        <div class="containerPostre">
-          <div id="containerImagenPostre">
-            <img
-              class="postres"
-              src="../assets/img/bebidas/bebidas.png"
-              alt=""
-            />
-          </div>
-          <div id="containerDescripcionPostre">
-            <div class="separadorDescripcion"></div>
-            <div id="nombrePostre">Tarta de leche</div>
-            <div id="Descripcion">
-              La tarta de tres leches es un postre suave y esponjoso,
-              caracterizado por su textura húmeda.
+              {{ bebida.description }}
             </div>
             <div class="separadorDescripcion"></div>
           </div>
         </div>
       </div>
     </div>
+
     <div id="btnVerBebidas">
       <RouterLink to="/bebidas">
-        <button>Conoce todos nuestras bebidas</button>
+        <button>Conoce todas nuestras bebidas</button>
       </RouterLink>
     </div>
   </main>
 </template>
+
 
 <style scoped>
 main {
