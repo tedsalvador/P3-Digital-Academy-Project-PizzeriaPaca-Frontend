@@ -53,13 +53,13 @@ async function login() {
         if (response.roles == "ROLE_ADMIN") {
           textPage.value = "/AdminDashboard";
         } else if (response.roles == "ROLE_USER") {
-          textPage.value = "/home";
+          textPage.value = "/";
         } else if (response.roles == "ROLE_KITCHEN") {
           textPage.value = "/kitchen";
         } else if (response.roles == "ROLE_MOTORIST") {
           textPage.value = "/motorist";
         } else {
-          textPage.value = "/home";
+          textPage.value = "/";
         }
         const redirectPath = route.query.redirect || textPage.value;
 
