@@ -14,7 +14,9 @@ const fetchPostres = async () => {
     });
 
     
-    postres.value = response.data.map(postre => ({
+    postres.value = response.data
+    .slice(0, 3)
+    .map(postre => ({
       id: postre.id,
       name: postre.name,
       description: postre.description,
@@ -142,13 +144,11 @@ main {
 .postres {
   width: 60%;
   height: 100px;
-  border: 0.5px solid rgb(182, 124, 1);
   border-radius: 2px;
   transition: 1s;
   transform: scale(1);
 }
 .postres:hover {
-  border: 1px solid rgb(182, 124, 1);
   transition: 1s;
   transform: scale(1.6);
 }

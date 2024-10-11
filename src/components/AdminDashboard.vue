@@ -247,4 +247,9 @@ tbody tr:hover {
 .edit-icon:hover, .delete-icon:hover {
   stroke: #007bff;
 }
+
+.product-image{
+width: 50px;
+height: 50px;
+}
 </style>
