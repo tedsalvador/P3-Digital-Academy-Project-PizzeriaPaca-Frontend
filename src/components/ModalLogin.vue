@@ -53,7 +53,7 @@ async function login() {
         if (response.roles == "ROLE_ADMIN") {
           textPage.value = "/AdminDashboard";
         } else if (response.roles == "ROLE_USER") {
-          textPage.value = "/";
+          textPage.value = "/homelogueado";
         } else if (response.roles == "ROLE_KITCHEN") {
           textPage.value = "/kitchen";
         } else if (response.roles == "ROLE_MOTORIST") {
