@@ -1,14 +1,15 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
-import MenuCarta from "../MenuCarta.vue";
-import { useCartStore } from "../../stores/cart";
-import Titulo from "../Titulo.vue";
-import NavBar from "../NavBar.vue";
+import MenuCartaLogueado from "../MenuCartaLogueado.vue";
+import TituloLogueado from "../TituloLogueado.vue";
+
+import NavBarLogueado from "../NavBarLogueado.vue";
+import { useCartStore } from "@/stores/cart";
 
 const modalVisible = ref(false);
 const fullDescription = ref("");
-const postres = ref([]);
+/* const pizzas = ref([]);  */
 const cartStore = useCartStore();
 
 const openModal = (description) => {
@@ -20,10 +21,10 @@ const closeModal = () => {
   modalVisible.value = false;
 };
 
-const fetchPostres = async () => {
+const fetchPizzas = async () => {
   try {
     const response = await axios.get(
-      "http://localhost:8080/api/v1/products/type/POSTRE",
+      "http://localhost:8080/api/v1/products/type/PIZZA",
       {
         headers: {
           Authorization: "Basic YWRtaW46cGFzc3dvcmQ=",
@@ -31,53 +32,69 @@ const fetchPostres = async () => {
         },
       }
     );
-    postres.value = response.data;
+    pizzas.value = response.data;
   } catch (error) {
-    console.error("Error al cargar los postres:", error);
+    console.error("Error al cargar las pizzas:", error);
   }
 };
 
 onMounted(() => {
-  fetchPostres();
+  fetchPizzas();
 });
 
-const addPostreToCart = (postreName, price) => {
-  cartStore.addPostre({ name: postreName, price });
+const addPizzaToCart = (pizzaName, price) => {
+  cartStore.addToCart({ name: pizzaName, price });
 };
+
+const pizzas = ref([
+  {
+    id: 1,
+    name: "Pizza Margherita",
+    description: "Tomato, mozzarella, and basil",
+    price: 10,
+  },
+  {
+    id: 2,
+    name: "Pizza Pepperoni",
+    description: "Pepperoni, mozzarella, and tomato sauce",
+    price: 12,
+  },
+]);
 </script>
 
 <template>
-  <Titulo></Titulo>
-  <NavBar />
-  <MenuCarta />
+  <TituloLogueado></TituloLogueado>
+  <NavBarLogueado></NavBarLogueado>
+
+  <MenuCartaLogueado></MenuCartaLogueado>
   <main>
     <div class="cards-container">
-      <div v-for="(postre, index) in postres" :key="postre.id" class="card">
+      <div v-for="(pizza, index) in pizzas" :key="pizza.id" class="card">
         <div class="personaje">
           <div class="imagen_personaje"></div>
           <div class="detalle">
             <div class="contTitulo">
-              <h2>{{ postre.name }}</h2>
+              <h2>{{ pizza.name }}</h2>
             </div>
             <div class="contTexto">
               <p>
-                {{ postre.description.slice(0, 120) }}
-                {{ postre.description.length > 120 ? "..." : "" }}
+                {{ pizza.description.slice(0, 120) }}
+                {{ pizza.description.length > 120 ? "..." : "" }}
               </p>
             </div>
             <div class="contBtn">
-              <div class="btn" @click="openModal(postre.description)">
+              <div class="btn" @click="openModal(pizza.description)">
                 Leer Más
               </div>
             </div>
             <div class="containerPrecioCarrito">
-              <div class="contPrecio">{{ postre.price }}€</div>
+              <div class="contPrecio">{{ pizza.price }}€</div>
               <div class="contCarrito">
                 <img
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
-                  @click="addPostreToCart(postre.name, postre.price)"
+                  @click="addPizzaToCart(pizza.name, pizza.price)"
                 />
               </div>
             </div>
@@ -109,8 +126,8 @@ main {
   margin-top: 30px;
   margin-bottom: 50px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
+  grid-template-columns: repeat(3, 1fr); /* 3 columnas */
+  gap: 40px; /* Espacio entre las cards */
   padding: 20px;
 }
 
@@ -296,6 +313,7 @@ p {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
+
   .card {
     height: 390px;
     width: 350px;

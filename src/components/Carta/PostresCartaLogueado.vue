@@ -1,9 +1,9 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
-import MenuCarta from "../MenuCarta.vue";
+import MenuCartaLogueado from "../MenuCartaLogueado.vue";
 import { useCartStore } from "../../stores/cart";
-import Titulo from "../Titulo.vue";
+import TituloLogueado from "../TituloLogueado.vue";
 import NavBar from "../NavBar.vue";
 
 const modalVisible = ref(false);
@@ -47,9 +47,9 @@ const addPostreToCart = (postreName, price) => {
 </script>
 
 <template>
-  <Titulo></Titulo>
+  <TituloLogueado></TituloLogueado>
   <NavBar />
-  <MenuCarta />
+  <MenuCartaLogueado></MenuCartaLogueado>
   <main>
     <div class="cards-container">
       <div v-for="(postre, index) in postres" :key="postre.id" class="card">

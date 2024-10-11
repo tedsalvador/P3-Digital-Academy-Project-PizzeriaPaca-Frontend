@@ -2,7 +2,7 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import MenuCarta from "../MenuCarta.vue";
-import TituloLogueado from "../TituloLogueado.vue";
+import Titulo from "../Titulo.vue";
 import NavBar from "../NavBar.vue";
 import { useCartStore } from "@/stores/cart";
 
@@ -62,7 +62,7 @@ const pizzas = ref([
 </script>
 
 <template>
-  <TituloLogueado />
+  <Titulo></Titulo>
   <NavBar />
   <MenuCarta />
   <main>
