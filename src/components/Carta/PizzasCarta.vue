@@ -8,7 +8,6 @@ import { useCartStore } from '@/stores/cart'
 
 const modalVisible = ref(false);
 const fullDescription = ref("");
-/* const pizzas = ref([]);  */
 const cartStore = useCartStore()
 
 const openModal = (description) => {
@@ -43,10 +42,7 @@ const addPizzaToCart = (pizzaName, price) => {
   cartStore.addToCart({ name: pizzaName, price }); 
 };
 
-const pizzas = ref([
-  { id: 1, name: 'Pizza Margherita', description: 'Tomato, mozzarella, and basil', price: 10 },
-  { id: 2, name: 'Pizza Pepperoni', description: 'Pepperoni, mozzarella, and tomato sauce', price: 12 },
-])
+const pizzas = ref([])
 
 </script>
 
@@ -58,7 +54,10 @@ const pizzas = ref([
     <div class="cards-container">
       <div v-for="(pizza, index) in pizzas" :key="pizza.id" class="card">
         <div class="personaje">
-          <div class="imagen_personaje"></div>
+          <div class="imagen_personaje"><img class="imagen_personaje"
+              :src="pizza.image" 
+              :alt="pizza.name"
+            /></div>
           <div class="detalle">
             <div class="contTitulo"><h2>{{ pizza.name }}</h2></div>
             <div class="contTexto">
@@ -90,7 +89,7 @@ const pizzas = ref([
       <div class="modal-content" @click.stop>
         <span class="close-modal" @click="closeModal">&times;</span>
         <h2 class="tituloModal">Descripción Completa</h2>
-        <p>{{ fullDescription }}</p>
+        <p class="full-description">{{ fullDescription }}</p>
       </div>
     </div>
   </main>
@@ -140,7 +139,8 @@ main {
   height: 160px;
   width: 85%;
   margin-top: -20px;
-  background-image: url(../../assets/img/slider/pizza2.png);
+  display: flex;
+  justify-content: center;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -164,15 +164,18 @@ main {
   border: 1px solid rgb(182, 124, 1);
 }
 
+.full-description{
+  font-size: 20px;
+}
+
 .card:hover {
   transform: scale(1.1);
 }
 
 .card:hover .imagen_personaje {
-  transform: translatey(-40px);
+  transform: translatey(-17px);
   transition: 1s;
   filter: none;
-  background-image: url(../../assets/img/slider/pizza2.png);
 }
 
 .card:hover .personaje {
@@ -317,6 +320,9 @@ p {
     align-items: center;
     height: 390px;
     width: 270px;
+  }
+  .full-description{
+    font-size: 10px;
   }
   .card:hover .imagen_personaje {
     transform: translatey(-50px);

@@ -13,7 +13,9 @@ const fetchBebidas = async () => {
       }
     });
 
-    bebidas.value = response.data.map(bebida => ({
+    bebidas.value = response.data
+    .slice(0, 3)
+    .map(bebida => ({
       id: bebida.id,
       name: bebida.name,
       description: bebida.description,
@@ -37,27 +39,27 @@ onMounted(() => {
       Disfruta de nuestras mejores bebidas en nuestra pizzería
     </div>
 
-    <div id="containerIconoYPostres"> 
+    <div id="containerIconoYBebidas"> 
       <div id="containerIcono">
         <img
-          class="logoPostre"
+          class="logoBebida"
           src="../assets/img/bebidas/limoncello.png"
           alt="Icono de bebida"
         />
       </div>
-      <div id="containerPostres"> 
+      <div id="containerBebidas"> 
         
-        <div class="containerPostre" v-for="bebida in bebidas" :key="bebida.id">
-          <div id="containerImagenPostre"> 
+        <div class="containerBebida" v-for="bebida in bebidas" :key="bebida.id">
+          <div id="containerImagenBebida"> 
             <img
-              class="postres"
+              class="bebidas"
               :src="bebida.image" 
               :alt="bebida.name"
             />
           </div>
-          <div id="containerDescripcionPostre"> 
+          <div id="containerDescripcionBebida"> 
             <div class="separadorDescripcion"></div>
-            <div id="nombrePostre">{{ bebida.name }}</div> 
+            <div id="nombreBebida">{{ bebida.name }}</div> 
             <div id="Descripcion">
               {{ bebida.description }}
             </div>
@@ -104,7 +106,7 @@ main {
   color: #cecdcd;
 }
 
-#containerIconoYPostres {
+#containerIconoYBebidas {
   width: 100%;
   height: 510px;
   display: grid;
@@ -118,23 +120,23 @@ main {
   align-items: center;
   order: 2;
 }
-#containerPostres {
+#containerBebidas {
   height: 510px;
   order: 1;
 }
-.logoPostre {
+.logoBebida {
   width: 510px;
   height: 510px;
   transition: 1s;
   transform: scale(1);
 }
-.logoPostre:hover {
+.logoBebida:hover {
   width: 510px;
   height: 510px;
   transition: 1s;
   transform: scale(1.1);
 }
-.containerPostre {
+.containerBebida {
   width: 75%;
   height: 170px;
   border: 2px solid rgb(182, 124, 1);
@@ -142,32 +144,30 @@ main {
   display: grid;
   grid-template-columns: 25% 75%;
 }
-#containerImagenPostre {
+#containerImagenBebida {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.postres {
+.bebidas {
   width: 60%;
   height: 100px;
-  border: 0.5px solid white;
   border-radius: 2px;
   transition: 1s;
   transform: scale(1);
 }
-.postres:hover {
-  border: 1px solid white;
+.bebidas:hover {
   transition: 1s;
   transform: scale(1.6);
 }
-#nombrePostre {
+#nombreBebida {
   width: 100%;
   height: 40px;
   font-size: 25px;
   color: black;
 }
-#nombrePostre:hover {
+#nombreBebida:hover {
   color: white;
 }
 #Descripcion {
@@ -225,22 +225,22 @@ button:hover:after {
 }
 
 @media (min-width: 481px) and (max-width: 1024px) {
-  .logoPostre {
+  .logoBebida {
     width: 280px;
     height: 280px;
   }
-  .logoPostre:hover {
+  .logoBebida:hover {
     width: 280px;
     height: 280px;
     transform: scale(1.1);
   }
-  #containerIconoYPostres {
+  #containerIconoYBebidas {
     width: 100%;
     height: 510px;
     display: grid;
     grid-template-columns: 65% 35%;
   }
-  .containerPostre {
+  .containerBebida {
     width: 75%;
     height: 170px;
     border: 2px solid rgb(182, 124, 1);
@@ -270,34 +270,34 @@ button:hover:after {
   #containerIcono {
     display: none;
   }
-  #containerIconoYPostres {
+  #containerIconoYBebidas {
     width: 100%;
     height: 400px;
     display: grid;
     grid-template-columns: 100% 0%;
     margin-bottom: 0px;
   }
-  #containerPostres {
+  #containerBebidas {
     width: 100%;
   }
-  .containerPostre {
+  .containerBebida {
     width: 100%;
     height: auto;
     display: grid;
     grid-template-columns: 75% 25%;
   }
-  #containerImagenPostre {
+  #containerImagenBebida {
     height: 120px;
     order: 2;
   }
-  .postres {
+  .bebidas {
     width: 80%;
     height: 60px;
   }
-  .postres:hover {
+  .bebidas:hover {
     transform: scale(1.1);
   }
-  #containerDescripcionPostre {
+  #containerDescripcionBebida {
     height: auto;
     order: 1;
     padding: 5px;
@@ -305,7 +305,7 @@ button:hover:after {
   .separadorDescripcion {
     height: 10px;
   }
-  #nombrePostre {
+  #nombreBebida {
     font-size: 18px;
     height: 30px;
     text-align: right;
