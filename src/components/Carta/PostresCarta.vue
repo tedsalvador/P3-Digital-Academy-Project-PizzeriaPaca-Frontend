@@ -54,7 +54,10 @@ const addPostreToCart = (postreName, price) => {
     <div class="cards-container">
       <div v-for="(postre, index) in postres" :key="postre.id" class="card">
         <div class="personaje">
-          <div class="imagen_personaje"></div>
+          <div class="imagen_personaje"><img class="imagen_personaje"
+              :src="postre.image" 
+              :alt="postre.name"
+            /></div>
           <div class="detalle">
             <div class="contTitulo">
               <h2>{{ postre.name }}</h2>
@@ -90,7 +93,7 @@ const addPostreToCart = (postreName, price) => {
       <div class="modal-content" @click.stop>
         <span class="close-modal" @click="closeModal">&times;</span>
         <h2 class="tituloModal">Descripción Completa</h2>
-        <p>{{ fullDescription }}</p>
+        <p class="full-description">{{ fullDescription }}</p>
       </div>
     </div>
   </main>
@@ -124,6 +127,10 @@ main {
   position: relative;
 }
 
+.full-description{
+  font-size: 20px;
+}
+
 .personaje {
   height: 390px;
   width: 350px;
@@ -140,7 +147,8 @@ main {
   height: 160px;
   width: 85%;
   margin-top: -20px;
-  background-image: url(../../assets/img/slider/pizza2.png);
+  display:flex;
+  justify-content: center;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -169,10 +177,9 @@ main {
 }
 
 .card:hover .imagen_personaje {
-  transform: translatey(-40px);
+  transform: translatey(-17px);
   transition: 1s;
   filter: none;
-  background-image: url(../../assets/img/slider/pizza2.png);
 }
 
 .card:hover .personaje {
@@ -320,7 +327,9 @@ p {
   .card:hover .imagen_personaje {
     transform: translatey(-50px);
   }
-
+.full-description{
+  font-size: 10px;
+}
   .personaje {
     height: 390px;
     width: 270px;
