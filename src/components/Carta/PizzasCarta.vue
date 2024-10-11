@@ -1,15 +1,15 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import axios from "axios"; 
+import axios from "axios";
 import MenuCarta from "../MenuCarta.vue";
 import TituloLogueado from "../TituloLogueado.vue";
 import NavBar from "../NavBar.vue";
-import { useCartStore } from '@/stores/cart'
+import { useCartStore } from "@/stores/cart";
 
 const modalVisible = ref(false);
 const fullDescription = ref("");
 /* const pizzas = ref([]);  */
-const cartStore = useCartStore()
+const cartStore = useCartStore();
 
 const openModal = (description) => {
   fullDescription.value = description;
@@ -20,16 +20,18 @@ const closeModal = () => {
   modalVisible.value = false;
 };
 
-
 const fetchPizzas = async () => {
   try {
-    const response = await axios.get("http://localhost:8080/api/v1/products/type/PIZZA", {
-      headers: {
-        'Authorization': 'Basic YWRtaW46cGFzc3dvcmQ=', 
-        'Content-Type': 'application/json' 
+    const response = await axios.get(
+      "http://localhost:8080/api/v1/products/type/PIZZA",
+      {
+        headers: {
+          Authorization: "Basic YWRtaW46cGFzc3dvcmQ=",
+          "Content-Type": "application/json",
+        },
       }
-    });
-    pizzas.value = response.data; 
+    );
+    pizzas.value = response.data;
   } catch (error) {
     console.error("Error al cargar las pizzas:", error);
   }
@@ -40,14 +42,23 @@ onMounted(() => {
 });
 
 const addPizzaToCart = (pizzaName, price) => {
-  cartStore.addToCart({ name: pizzaName, price }); 
+  cartStore.addToCart({ name: pizzaName, price });
 };
 
 const pizzas = ref([
-  { id: 1, name: 'Pizza Margherita', description: 'Tomato, mozzarella, and basil', price: 10 },
-  { id: 2, name: 'Pizza Pepperoni', description: 'Pepperoni, mozzarella, and tomato sauce', price: 12 },
-])
-
+  {
+    id: 1,
+    name: "Pizza Margherita",
+    description: "Tomato, mozzarella, and basil",
+    price: 10,
+  },
+  {
+    id: 2,
+    name: "Pizza Pepperoni",
+    description: "Pepperoni, mozzarella, and tomato sauce",
+    price: 12,
+  },
+]);
 </script>
 
 <template>
@@ -60,7 +71,9 @@ const pizzas = ref([
         <div class="personaje">
           <div class="imagen_personaje"></div>
           <div class="detalle">
-            <div class="contTitulo"><h2>{{ pizza.name }}</h2></div>
+            <div class="contTitulo">
+              <h2>{{ pizza.name }}</h2>
+            </div>
             <div class="contTexto">
               <p>
                 {{ pizza.description.slice(0, 120) }}
@@ -68,7 +81,9 @@ const pizzas = ref([
               </p>
             </div>
             <div class="contBtn">
-              <div class="btn" @click="openModal(pizza.description)">Leer Más</div>
+              <div class="btn" @click="openModal(pizza.description)">
+                Leer Más
+              </div>
             </div>
             <div class="containerPrecioCarrito">
               <div class="contPrecio">{{ pizza.price }}€</div>
@@ -77,7 +92,7 @@ const pizzas = ref([
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
-                  @click="addPizzaToCart(pizza.name, pizza.price)" 
+                  @click="addPizzaToCart(pizza.name, pizza.price)"
                 />
               </div>
             </div>
