@@ -5,22 +5,22 @@ import ModalLogin from "./ModalLogin.vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../stores/auth";
 import { loginChange } from "../stores/loginChange";
-import { useCartStore } from '@/stores/cart';
+import { useCartStore } from "@/stores/cart";
 import OrderService from "@/core/order/OrderService";
 import Order from "@/core/order/Order";
 
 const orderNumber = ref(Math.floor(Math.random() * 100000));
 const paymentType = ref("cash");
-const dateOrder = ref(new Date().toISOString())
+const dateOrder = ref(new Date().toISOString());
 const userId = ref("");
 const router = useRouter();
 const store = useAuthStore();
 const mobileMenuOpen = ref(false);
-const cartStore = useCartStore()
-const deliveryType=ref("");
+const cartStore = useCartStore();
+const deliveryType = ref("");
 
-//obtiene datos del local storage 
-const loggeadoUser= localStorage.getItem('username');
+//obtiene datos del local storage
+const loggeadoUser = localStorage.getItem("username");
 
 const totalAmount = computed(() => {
   return cartStore.cartItems.reduce(
@@ -59,7 +59,7 @@ const logout = () => {
 const openModal = () => {
   if (loginChange.login == false) loginChange.setLogin(true);
   else loginChange.setLogin(false);
-  
+
   showModal.value = true;
 };
 
@@ -85,8 +85,12 @@ const showCart = ref(false);
 const toggleCart = () => {
   showCart.value = !showCart.value;
 };
+/*  const closeCart = () => {
+  cartStore.cartItems = [];
+};  */
+
 const closeCart = () => {
-  cartStore.cartItems = []
+  showCart.value = false;
 };
 
 if (store.user.isAuthenticated) {
@@ -101,24 +105,22 @@ const sendCart = async () => {
     totalAmount.value,
     paymentType.value,
     deliveryType.value
-  )
+  );
 
-  const orderService = new OrderService()
-  console.log('Carrito enviado:', cartStore.cartItems)
+  const orderService = new OrderService();
+  console.log("Carrito enviado:", cartStore.cartItems);
   try {
-    const response = await orderService.createOrder(order)
-    console.log('Orden enviada:', response)
-    alert("Orden enviada con éxito!")
+    const response = await orderService.createOrder(order);
+    console.log("Orden enviada:", response);
+    alert("Orden enviada con éxito!");
   } catch (error) {
-    console.error('Error al enviar la orden:', error)
-    alert("Error al enviar la orden")
+    console.error("Error al enviar la orden:", error);
+    alert("Error al enviar la orden");
   }
-}
-
+};
 </script>
 
 <template>
-
   <div id="containerTitulo">
     <div id="containerLogoTitulo">
       <div id="logo">
@@ -129,7 +131,11 @@ const sendCart = async () => {
 
     <div id="containerLogin">
       <div id="carrito" @click="toggleCart">
-        <img class="imgCarrito" src="../assets/img/navbar/carrito.png" alt="carrito" />
+        <img
+          class="imgCarrito"
+          src="../assets/img/navbar/carrito.png"
+          alt="carrito"
+        />
       </div>
       <div id="login" @click="openModal">
         <img class="user" src="../assets/img/navbar/user.png" alt="user" />
@@ -144,7 +150,11 @@ const sendCart = async () => {
         <div class="cart-count">{{ cartStore.cartItems.length }}</div>
       </div>
       <div class="cart-items">
-        <div class="cart-item" v-for="item in cartStore.cartItems" :key="item.name">
+        <div
+          class="cart-item"
+          v-for="item in cartStore.cartItems"
+          :key="item.name"
+        >
           <img :src="item.image" alt="Product image" class="item-image" />
           <div class="item-details">
             <h2 class="item-name">{{ item.name }}</h2>
@@ -178,7 +188,6 @@ const sendCart = async () => {
           </select>
         </div>
         <div class="summary-row">
-          
           <label for="deliveryType">Tipo de entrega:</label>
           <select v-model="deliveryType" id="deliveryType">
             <option value="L">Local</option>
@@ -205,8 +214,12 @@ const sendCart = async () => {
     </div>
   </div>
 
-  <ModalLogin :show="showModal" @close="closeModal" />
-
+  <!-- Overlay para el modal de inicio de sesión -->
+  <div v-if="showModal" class="modal-overlay" @click="closeModal">
+    <div class="modal-content" @click.stop>
+      <ModalLogin :show="showModal" @close="closeModal" />
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -214,7 +227,25 @@ const sendCart = async () => {
   width: 100%;
   height: 130px;
 }
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
 
+.modal-content {
+  background: white; /* Fondo del modal */
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
 #containerLogoTitulo {
   width: 20%;
   height: 130px;
