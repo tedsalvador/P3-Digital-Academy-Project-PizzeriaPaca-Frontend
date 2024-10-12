@@ -8,6 +8,8 @@ import { loginChange } from "../stores/loginChange";
 const router = useRouter();
 const store = useAuthStore();
 const mobileMenuOpen = ref(false);
+//obtiene datos del local storage 
+const loggeadoUser= localStorage.getItem('username');
 
 const modificarLogin = () => {
   if (loginChange.login == false) loginChange.setLogin(true);
@@ -19,7 +21,7 @@ const modificarRegister = () => {
   else loginChange.setRegister(false);
 };
 
-function logout() {
+const logout = () => {
   store.user.isAuthenticated = false;
   store.user.id = "";
   store.user.username = "";
@@ -30,9 +32,11 @@ function logout() {
   loginChange.setRegister(false);
   mobileMenuOpen.value = false;
 
-  const redirectPath = "/home";
+  //const redirectPath = "/home";
+  const redirectPath = "/";
+
   router.push(redirectPath);
-}
+};
 
 const openModal = () => {
   if (loginChange.login == false) loginChange.setLogin(true);
@@ -113,11 +117,11 @@ const closeCart = () => {
 
     <div id="containerLogin">
       <div id="login">
-        <h2 class="info">Hola Moto</h2>
+        <h2 class="info">Hola - {{loggeadoUser}}</h2>
       </div>
       <div class="logout">
         <RouterLink to="/"
-          ><img class="icnLogOut" src="../assets/img/navbar/logout.png" alt=""
+          ><img class="icnLogOut" src="../assets/img/navbar/logout.png" alt="" @click="logout"
         /></RouterLink>
       </div>
     </div>

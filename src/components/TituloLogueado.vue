@@ -8,18 +8,29 @@ import { useCartStore } from '@/stores/cart';
 import OrderService from "@/core/order/OrderService";
 import Order from "@/core/order/Order";
 
+const orderNumber = ref(Math.floor(Math.random() * 100000));
+const paymentType = ref('E')
+const dateOrder = ref(new Date().toISOString())
+const userId = ref("");
 const router = useRouter();
 const store = useAuthStore();
 const mobileMenuOpen = ref(false);
-const orderNumber = ref(Math.floor(Math.random() * 100000));
-const dateOrder = ref(new Date().toISOString())
-const userId = ref("");
 const cartStore = useCartStore()
+
 const items = ref(cartStore.cartItems)
 const deliveryType = ref('L')
-const paymentType = ref('E')
 const showModal = ref(false)
 const authStore = useAuthStore()
+
+//obtiene datos del local storage 
+const loggeadoUser= localStorage.getItem('username');
+
+const totalAmount = computed(() => {
+  return cartStore.cartItems.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
+});
 
 const modificarLogin = () => {
   if (loginChange.login == false) loginChange.setLogin(true);
@@ -31,7 +42,7 @@ const modificarRegister = () => {
   else loginChange.setRegister(false);
 };
 
-function logout() {
+  const logout = () => {
   store.user.isAuthenticated = false;
   store.user.id = "";
   store.user.username = "";
@@ -42,9 +53,11 @@ function logout() {
   loginChange.setRegister(false);
   mobileMenuOpen.value = false;
 
-  const redirectPath = "/home";
+  //const redirectPath = "/home";
+  const redirectPath = "/";
+
   router.push(redirectPath);
-}
+};
 
 const openModal = () => {
   if (loginChange.login == false) loginChange.setLogin(true);
@@ -58,6 +71,12 @@ const increaseQuantity = (item) => {
     item.quantity++;
   }
 };
+
+/* const decreaseQuantity = (item) => {
+  if (item.quantity > 1) {
+    item.quantity--;
+  }
+}; */
 
 const closeModal = () => {
   showModal.value = false;
@@ -81,6 +100,7 @@ const sendCart = async () => {
     paymentType.value,
     deliveryType.value
   )
+
   const orderService = new OrderService()
   console.log('Carrito enviado:', cartStore.cartItems)
   console.log('Tipo de Entrega:', deliveryType.value)
@@ -95,17 +115,17 @@ const sendCart = async () => {
   }
 }
 
-const totalAmount = computed(() => {
+/* const totalAmount = computed(() => {
   return cartStore.totalAmount
-})
+}) */
 
 const decreaseQuantity = (item) => {
-  if (item.quantity > 1) {
+  if (item.quantity > 0) {
     item.quantity--
   } else {
     cartStore.removeFromCart(item.name)
   }
-}
+};
 
 </script>
 
@@ -120,7 +140,7 @@ const decreaseQuantity = (item) => {
 
     <div id="containerLogin">
       <div id="login" @click="openModal">
-        <h2 class="info">Hola</h2>
+        <h2 class="info">Hola - {{loggeadoUser}}</h2>
       </div>
       <div id="carrito" @click="toggleCart">
         <img
@@ -131,7 +151,7 @@ const decreaseQuantity = (item) => {
       </div>
       <div class="logout">
         <RouterLink to="/"
-          ><img class="icnLogOut" src="../assets/img/navbar/logout.png" alt=""
+          ><img class="icnLogOut" src="../assets/img/navbar/logout.png" alt="" @click="logout"
         /></RouterLink>
       </div>
     </div>

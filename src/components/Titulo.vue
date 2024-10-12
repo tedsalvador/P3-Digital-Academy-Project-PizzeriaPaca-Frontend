@@ -17,6 +17,10 @@ const router = useRouter();
 const store = useAuthStore();
 const mobileMenuOpen = ref(false);
 const cartStore = useCartStore()
+const deliveryType=ref("");
+
+//obtiene datos del local storage 
+const loggeadoUser= localStorage.getItem('username');
 
 const totalAmount = computed(() => {
   return cartStore.cartItems.reduce(
@@ -35,20 +39,22 @@ const modificarRegister = () => {
   else loginChange.setRegister(false);
 };
 
-function logout() {
+const logout = () => {
   store.user.isAuthenticated = false;
   store.user.id = "";
   store.user.username = "";
   store.user.role = "";
-  
+
   localStorage.clear();
   loginChange.setLogin(false);
   loginChange.setRegister(false);
   mobileMenuOpen.value = false;
-  
-  const redirectPath = "/home";
+
+  //const redirectPath = "/home";
+  const redirectPath = "/";
+
   router.push(redirectPath);
-}
+};
 
 const openModal = () => {
   if (loginChange.login == false) loginChange.setLogin(true);
@@ -95,7 +101,8 @@ const sendCart = async () => {
     totalAmount.value,
     paymentType.value,
     deliveryType.value
-  );
+  )
+
   const orderService = new OrderService()
   console.log('Carrito enviado:', cartStore.cartItems)
   try {
@@ -171,13 +178,14 @@ const sendCart = async () => {
           </select>
         </div>
         <div class="summary-row">
-          <p>Tipo de Entrega</p>
-          <p>{{ deliveryType }}</p>
-          <select v-model="deliveryType">
+          
+          <label for="deliveryType">Tipo de entrega:</label>
+          <select v-model="deliveryType" id="deliveryType">
             <option value="L">Local</option>
             <option value="D">Delivery</option>
             <option value="P">Para llevar</option>
           </select>
+          <p>{{ deliveryType }}</p>
         </div>
         <div class="summary-row total">
           <p>Fecha del Pedido</p>
