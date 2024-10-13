@@ -6,11 +6,11 @@
       <div class="cardcontainerImg">
         <img
           class="imgPromo"
-          src="../../assets/img/promos/promo1.png"
+          src="../../assets/img/promos/promo3.png"
           alt="Imagen de Pizza"
         />
       </div>
-      <div class="cardcontainerDescription">Promo Pizzas Romanas 2 x 1</div>
+      <div class="cardcontainerDescription">Promo Postre Gratis</div>
     </div>
   </main>
 </template>
@@ -22,7 +22,7 @@ main {
   overflow: visible;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; /* Permitimos que los elementos hijos sobresalgan si es necesario */
 }
 
 .cardContainer {
@@ -36,7 +36,10 @@ main {
   background-color: #1aab8a; /* Color dorado */
   transition: background-color 2s; /* Suaviza la transición del color */
 }
-
+.cardContainer:hover .cardcontainerDescription {
+  color: #d4af37; /* Cambiar a color dorado */
+  transition: color 2s ease; /* Suavizar la transición del color */
+}
 .cardcontainerImg {
   width: 1200px;
   height: 280px;
@@ -53,8 +56,8 @@ main {
 }
 
 .imgPromo {
-  width: 500px;
-  height: 270px;
+  width: 380px;
+  height: 250px;
   transition: transform 1s ease, box-shadow 0.6s ease; /* Suavizar transformaciones */
   position: absolute; /* Esto es clave para que la imagen pueda moverse fuera del contenedor */
   top: 20px; /* Ajustamos la posición de la imagen */
@@ -81,10 +84,6 @@ main {
   position: relative;
   z-index: 0; /* El div negro está en una capa más baja que la imagen cuando hace hover */
 }
-.cardContainer:hover .cardcontainerDescription {
-  color: #d4af37; /* Cambiar a color dorado */
-  transition: color 2s ease; /* Suavizar la transición del color */
-}
 @media (min-width: 481px) and (max-width: 1024px) {
   .cardcontainerImg {
     width: 750px;
@@ -107,7 +106,7 @@ main {
     font-size: 20px;
   }
   .imgPromo {
-    width: 320px;
+    width: 300px;
     height: 170px;
   }
   .cardContainer:hover .imgPromo {

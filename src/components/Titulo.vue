@@ -85,14 +85,12 @@ const showCart = ref(false);
 const toggleCart = () => {
   showCart.value = !showCart.value;
 };
-/*  const closeCart = () => {
+/* const closeCart = () => {
   cartStore.cartItems = [];
-};  */
-
+}; */
 const closeCart = () => {
   showCart.value = false;
 };
-
 if (store.user.isAuthenticated) {
   userId.value = store.user.id;
 }
@@ -214,12 +212,7 @@ const sendCart = async () => {
     </div>
   </div>
 
-  <!-- Overlay para el modal de inicio de sesión -->
-  <div v-if="showModal" class="modal-overlay" @click="closeModal">
-    <div class="modal-content" @click.stop>
-      <ModalLogin :show="showModal" @close="closeModal" />
-    </div>
-  </div>
+  <ModalLogin :show="showModal" @close="closeModal" />
 </template>
 
 <style scoped>
@@ -227,25 +220,7 @@ const sendCart = async () => {
   width: 100%;
   height: 130px;
 }
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
 
-.modal-content {
-  background: white; /* Fondo del modal */
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
 #containerLogoTitulo {
   width: 20%;
   height: 130px;
