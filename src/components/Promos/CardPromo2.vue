@@ -83,6 +83,7 @@ main {
   color: white;
   position: relative;
   z-index: 0; /* El div negro está en una capa más baja que la imagen cuando hace hover */
+  transition: color 2s ease;
 }
 @media (min-width: 481px) and (max-width: 1024px) {
   .cardcontainerImg {
