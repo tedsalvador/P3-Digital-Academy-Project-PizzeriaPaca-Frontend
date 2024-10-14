@@ -7,7 +7,7 @@ import { useAuthStore } from "../stores/auth";
 import { loginChange } from "../stores/loginChange";
 import { useCartStore } from "@/stores/cart";
 import OrderService from "@/core/order/OrderService";
-import Order from "@/core/order/Order";
+import { orderDto }  from "@/core/order/OrderDto";
 
 const orderNumber = ref(Math.floor(Math.random() * 100000));
 const paymentType = ref("cash");
@@ -18,9 +18,14 @@ const store = useAuthStore();
 const mobileMenuOpen = ref(false);
 const cartStore = useCartStore();
 const deliveryType = ref("");
+const orderTypeCode = ref('');
+const orderStatus=ref('PENDING');
 
 //obtiene datos del local storage
 const loggeadoUser = localStorage.getItem("username");
+const IdUserLogged = localStorage.getItem("id");
+
+console.log("valor de user id>>>" + IdUserLogged);
 
 const totalAmount = computed(() => {
   return cartStore.cartItems.reduce(
@@ -70,8 +75,10 @@ const increaseQuantity = (item) => {
 };
 
 const decreaseQuantity = (item) => {
-  if (item.quantity > 1) {
-    item.quantity--;
+  if (item.quantity > 0) {
+    item.quantity--
+  } else {
+    cartStore.removeFromCart(item.name)
   }
 };
 
@@ -85,9 +92,6 @@ const showCart = ref(false);
 const toggleCart = () => {
   showCart.value = !showCart.value;
 };
-/*  const closeCart = () => {
-  cartStore.cartItems = [];
-};  */
 
 const closeCart = () => {
   showCart.value = false;
@@ -98,19 +102,38 @@ if (store.user.isAuthenticated) {
 }
 
 const sendCart = async () => {
-  const order = new Order(
-    cartStore.cartItems,
-    store.user.id,
-    dateOrder.value,
-    totalAmount.value,
-    paymentType.value,
-    deliveryType.value
-  );
+   // Crea un array de productos basado en los items del carrito
+  const products = cartStore.cartItems.map(item => ({
+    productId: item.id, // Asegúrate de que el producto tenga un ID único
+    productQuantity: item.quantity, // Cantidad de este producto en el carrito
+    productPrice: item.price // Precio del producto
+  }));
+
+  const orderDto = {
+    orderNumber : orderNumber.value,
+    orderTypeCode : orderTypeCode.value,
+    userId : IdUserLogged, //store.user.id,    
+    paymentId: paymentType.value,
+    orderStatus: orderStatus.value,
+    dateOrder: dateOrder.value,
+    totalPaid: totalAmount.value, // Monto total
+    products // Lista de productos en el carrito
+  }
+
+  console.log("datos enviados ===>> " + 
+    orderNumber.value + " " +
+    orderTypeCode.value + " " +
+    store.user.id + " " +
+    paymentType.value + " " +
+    orderStatus.value + " " +
+    dateOrder.value + " " +
+    totalAmount.value
+  )
 
   const orderService = new OrderService();
   console.log("Carrito enviado:", cartStore.cartItems);
   try {
-    const response = await orderService.createOrder(order);
+    const response = await orderService.createOrder(orderDto);
     console.log("Orden enviada:", response);
     alert("Orden enviada con éxito!");
   } catch (error) {
@@ -150,14 +173,11 @@ const sendCart = async () => {
         <div class="cart-count">{{ cartStore.cartItems.length }}</div>
       </div>
       <div class="cart-items">
-        <div
-          class="cart-item"
-          v-for="item in cartStore.cartItems"
-          :key="item.name"
-        >
+        <div class="cart-item" v-for="item in cartStore.cartItems" :key="item.name" :productId="item.id">
           <img :src="item.image" alt="Product image" class="item-image" />
           <div class="item-details">
             <h2 class="item-name">{{ item.name }}</h2>
+            <!-- <h2 class="item-name">{{ item.name }} - {{ item.id }}</h2> -->
             <p>{{ item.description }}</p>
           </div>
           <div class="item-quantity">
@@ -174,27 +194,28 @@ const sendCart = async () => {
           </div>
         </div>
       </div>
+
       <div class="cart-summary">
         <div class="summary-row">
           <p>Número de Pedido</p>
           <p>{{ orderNumber }}</p>
         </div>
-        <div class="summary-row">
-          <p>Tipo de Pago</p>
-          <p>{{ paymentType }}</p>
-          <select v-model="paymentType">
+        <div class="summary-row">          
+          <label for="paymentType">Tipo de pago:</label>          
+          <select v-model="paymentType" id="paymentType">
             <option value="E">Efectivo</option>
             <option value="T">Tarjeta</option>
           </select>
+          <p>{{ paymentType }}</p>
         </div>
         <div class="summary-row">
-          <label for="deliveryType">Tipo de entrega:</label>
-          <select v-model="deliveryType" id="deliveryType">
+          <label for="orderTypeCode">Tipo de entrega:</label>
+          <select v-model="orderTypeCode" id="orderTypeCode">
             <option value="L">Local</option>
             <option value="D">Delivery</option>
             <option value="P">Para llevar</option>
           </select>
-          <p>{{ deliveryType }}</p>
+          <p>{{ orderTypeCode }}</p>
         </div>
         <div class="summary-row total">
           <p>Fecha del Pedido</p>

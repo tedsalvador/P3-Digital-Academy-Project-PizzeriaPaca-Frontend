@@ -40,12 +40,11 @@ onMounted(() => {
   fetchPizzas();
 });
 
-const addPizzaToCart = (pizzaName, price) => {
-  cartStore.addToCart({ name: pizzaName, price });
+const addPizzaToCart = (pizzaName, price, id) => {
+  cartStore.addToCart({ name: pizzaName, price, id});
 };
 
 const pizzas = ref([])
-
 </script>
 
 <template>
@@ -77,12 +76,13 @@ const pizzas = ref([])
             </div>
             <div class="containerPrecioCarrito">
               <div class="contPrecio">{{ pizza.price }}€</div>
+              <!-- <div class="contPrecio">{{ pizza.price }}€  - {{ pizza.id }}</div> -->
               <div class="contCarrito">
                 <img
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
-                  @click="addPizzaToCart(pizza.name, pizza.price)"
+                  @click="addPizzaToCart(pizza.name, pizza.price, pizza.id)"
                 />
               </div>
             </div>
