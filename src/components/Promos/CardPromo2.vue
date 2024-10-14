@@ -21,7 +21,7 @@ const closeModal = () => {
       <div class="cardcontainerImg">
         <img
           class="imgPromo"
-          src="../../assets/img/promos/promo1.png"
+          src="../../assets/img/promos/promo2.png"
           alt="Imagen de Pizza"
         />
       </div>
@@ -29,20 +29,18 @@ const closeModal = () => {
         <img
           class="info"
           src="../../assets/img/promos/info.png"
-          alt="info"
           @click="openModal"
+          alt=""
         />
-        Promo Pizzas Romanas 2 x 1
+        Promo Bebida Gratis
       </div>
     </div>
-
-    <!-- Modal -->
     <div v-if="showModal" class="modalOverlay" @click="closeModal">
       <div class="modalContent" @click.stop>
         <h2>Información de la Promo</h2>
         <p>
-          Esta promoción es válida hasta el 31 de octubre. ¡Aprovecha 2 pizzas
-          romanas al precio de una!
+          Esta promoción es válida hasta el 31 de octubre. ¡Aprovecha la bebida
+          gratis al comprar una pizza!
         </p>
         <button @click="closeModal">Cerrar</button>
       </div>
@@ -57,7 +55,13 @@ main {
   overflow: visible;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; /* Permitimos que los elementos hijos sobresalgan si es necesario */
+}
+
+.cardContainer {
+  height: 400px;
+  position: relative;
+  overflow: visible; /* Para permitir que los hijos se desborden fuera del contenedor */
 }
 .info {
   margin-right: 20px;
@@ -65,45 +69,43 @@ main {
   height: 20px;
   cursor: pointer; /* Cambia el cursor al pasar sobre el icono */
 }
-.cardContainer {
-  height: 400px;
-  position: relative;
-  overflow: visible;
-}
-
 /* Cambiamos el color de cardcontainerImg al hacer hover en cardContainer */
 .cardContainer:hover .cardcontainerImg {
-  background-color: #1aab8a;
-  transition: background-color 2s;
+  background-color: #1aab8a; /* Color dorado */
+  transition: background-color 2s; /* Suaviza la transición del color */
 }
 
 .cardcontainerImg {
   width: 1200px;
   height: 280px;
+  /* Color inicial */
   background-color: rgb(182, 124, 1);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
-  z-index: 1;
+  position: relative; /* Relativo para que la imagen pueda ser manipulada */
+  z-index: 1; /* El contenedor verde está en una capa inferior inicialmente */
   transition: background-color 2s;
 }
-
+.cardContainer:hover .cardcontainerDescription {
+  color: #d4af37; /* Cambiar a color dorado */
+  transition: color 2s ease; /* Suavizar la transición del color */
+}
 .imgPromo {
-  width: 500px;
-  height: 270px;
-  transition: transform 1s ease, box-shadow 0.6s ease;
-  position: absolute;
-  top: 20px;
-  z-index: 2;
+  width: 380px;
+  height: 250px;
+  transition: transform 1s ease, box-shadow 0.6s ease; /* Suavizar transformaciones */
+  position: absolute; /* Esto es clave para que la imagen pueda moverse fuera del contenedor */
+  top: 20px; /* Ajustamos la posición de la imagen */
+  z-index: 2; /* Por encima del contenedor verde pero por debajo del div negro inicialmente */
 }
 
 .cardContainer:hover .imgPromo {
-  transform: scale(1.3) rotate(10deg);
-  z-index: 10;
-  transition: transform 1s;
+  transform: scale(1.3) rotate(10deg); /* Escalar un 30% y rotar 10 grados */
+  z-index: 10; /* Aseguramos que esté por encima del div negro en el hover */
+  transition: transform 1s; /* Suavizar la transición de la transformación */
 }
 
 .cardcontainerDescription {
@@ -118,14 +120,9 @@ main {
   font-size: 30px;
   color: white;
   position: relative;
-  z-index: 0;
+  z-index: 0; /* El div negro está en una capa más baja que la imagen cuando hace hover */
   transition: color 2s ease;
 }
-.cardContainer:hover .cardcontainerDescription {
-  color: #d4af37;
-  transition: color 2s ease;
-}
-
 /* Estilos para el modal */
 .modalOverlay {
   position: fixed;
@@ -172,7 +169,6 @@ main {
   background-color: #148f70;
 }
 
-/* Media Queries */
 @media (min-width: 481px) and (max-width: 1024px) {
   .cardcontainerImg {
     width: 750px;
@@ -195,11 +191,11 @@ main {
     font-size: 20px;
   }
   .imgPromo {
-    width: 320px;
+    width: 280px;
     height: 170px;
   }
   .cardContainer:hover .imgPromo {
-    transform: scale(1.1) rotate(10deg);
+    transform: scale(1.1) rotate(10deg); /* Escalar un 30% y rotar 10 grados */
   }
 }
 </style>

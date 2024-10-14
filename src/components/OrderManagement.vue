@@ -115,14 +115,17 @@ const generateInvoice = (invoice) => {
 </template>
 
 <style scoped>
+
 .sales-container {
   display: flex;
   justify-content: center; 
   gap: 20px;
   margin-bottom: 20px;
   overflow-x: auto;
-  padding-left: 10px;
+  padding-left: 0px;
   padding-right: 10px;
+  margin: 10px 40px 30px;
+  
 }
 
 .sales-card {
@@ -155,11 +158,12 @@ const generateInvoice = (invoice) => {
 }
 
 .table-container {
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 100%;
+  margin-left: 90px !important;
+  margin-right: 80px !important;
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 12px;
-  padding: 30px;
+  padding: 0px 30px 30px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   overflow-x: auto;
   text-align: center;
@@ -177,6 +181,7 @@ const generateInvoice = (invoice) => {
   width: 100%;
   border-collapse: collapse;
   text-align: center;
+  
 }
 
 .order-table th, .order-table td {
@@ -184,6 +189,8 @@ const generateInvoice = (invoice) => {
   text-align: center;
   border-bottom: 1px solid #ddd;
   font-size: 20px;
+  
+  
 }
 
 .order-table th {
@@ -191,6 +198,7 @@ const generateInvoice = (invoice) => {
   font-weight: bold;
   font-size: 20px;
   text-align: center;
+ 
 }
 
 .status {
@@ -234,26 +242,40 @@ tbody tr:hover {
 }
 
 
+
 @media (max-width: 1024px) {
   .sales-container {
     justify-content: flex-start; 
     padding-left: 15px;
     padding-right: 15px;
+   
   }
+
+  .table-container{
+    margin: 40px 20px 20px;
+  }
+
 
   .sales-card {
     min-width: 160px;
   }
+
 }
 
-/* En pantallas muy pequeñas */
+
 @media (max-width: 768px) {
+  .table-container{
+    margin: 10px 30px 30px;
+  }
+  
   .sales-container {
     flex-wrap: nowrap;
     overflow-x: auto;
     justify-content: flex-start;
-    padding-left: 15px;
+    padding-left: 5px;
     padding-right: 15px;
+    margin: 10px 30px 30px;
+    
   }
 
   .sales-card {
@@ -272,6 +294,7 @@ tbody tr:hover {
   .order-table th, .order-table td {
     font-size: 14px;
     padding: 10px;
+    
   }
 
   .add-button {
@@ -280,12 +303,55 @@ tbody tr:hover {
   }
 }
 
+@media (max-width: 480px) {
+  .table-container{
+    margin: 0px 30px 20px !important;
+  }
+  
+  .sales-container {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-left: 5px;
+    padding-right: 15px;
+   
+    
+  }
 
-@media (min-width: 1025px) {
+  .sales-card {
+    min-width: 140px;
+    width: auto;
+  }
+
+  .sales-card h3 {
+    font-size: 16px;
+  }
+
+  .sales-card p {
+    font-size: 14px;
+  }
+
+  .order-table th, .order-table td {
+    font-size: 14px;
+    padding: 10px;
+    
+  }
+
+  .add-button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .table-container{
+    margin: 10px 70px 30px !important;
+  }
   .sales-container {
     justify-content: center; 
-    padding-left: 30px;
+    padding-left: 0px;
     padding-right: 30px;
+    margin: 10px 30px 30px;
   }
 
   .sales-card {
