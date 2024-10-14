@@ -9,22 +9,19 @@ import NavBar from "@/components/NavBar.vue";
 <template>
   <Titulo></Titulo>
   <NavBar></NavBar>
-  <main>
-    <div class="main">
-      <div class="separador"></div>
-      <div class="containerpromo1"><CardPromo1></CardPromo1></div>
-      <div class="containerpromo2"><CardPromo2></CardPromo2></div>
-      <div class="containerpromo2"><CardPromo3></CardPromo3></div>
-      <div class="separador2"></div>
-    </div>
-  </main>
+  <div class="separadorprincipal"></div>
+  <div class="main">
+    <div class="separador"></div>
+    <div class="containerpromo1"><CardPromo1></CardPromo1></div>
+    <div class="containerpromo2"><CardPromo2></CardPromo2></div>
+    <div class="containerpromo2"><CardPromo3></CardPromo3></div>
+    <div class="separador2"></div>
+  </div>
 </template>
 <style scoped>
 .main {
   background-image: url(../assets/img/kitchen/backgroundPizza.png);
   background-size: cover;
-}
-.main {
   width: 100%;
 }
 .containerpromo1 {
@@ -49,6 +46,10 @@ import NavBar from "@/components/NavBar.vue";
   align-items: center;
 }
 .separador {
+  width: 100%;
+  height: 50px;
+}
+.separadorprincipal {
   width: 100%;
   height: 50px;
 }
@@ -81,13 +82,16 @@ import NavBar from "@/components/NavBar.vue";
     justify-content: center;
     align-items: center;
   }
+  .separadorprincipal {
+    width: 100%;
+    height: 0px;
+  }
   .separador {
     width: 100%;
     height: 100px;
   }
   .separador2 {
     height: 0px;
-    background-color: red;
   }
 }
 </style>
