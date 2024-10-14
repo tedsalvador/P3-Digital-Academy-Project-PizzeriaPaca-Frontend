@@ -157,12 +157,17 @@ onMounted(() => {
 
 
 <style scoped>
+.container {
+  max-width: 100%; 
+  margin: 0 auto; 
+  padding: 20px; 
+}
+
 .button-container {
   display: flex;
   justify-content: center;
   padding: 20px 0;
   background-color: transparent;
-  padding-left: 30px;
 }
 
 .add-button {
@@ -172,7 +177,7 @@ onMounted(() => {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 20px;
 }
 
 .add-button:hover {
@@ -180,8 +185,9 @@ onMounted(() => {
 }
 
 .table-container {
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 100%;
+  margin-left: 100px !important;
+  margin-right: 100px !important;
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 12px;
   padding: 30px;
@@ -198,58 +204,72 @@ onMounted(() => {
   padding: 14px 20px;
   text-align: left;
   border-bottom: 1px solid #ddd;
+  font-size: 20px;
 }
 
 .order-table th {
   background-color: #f4f4f4;
   font-weight: bold;
-  font-size: 16px;
 }
 
-.customer-image {
+.product-image {
   width: 50px;
   height: 50px;
-  border-radius: 50%;
-  margin-right: 15px;
-  vertical-align: middle;
 }
 
-.status {
-  padding: 8px 15px;
-  border-radius: 20px;
-  font-weight: bold;
+@media (min-width: 1200px) {
+  .container {
+    padding: 0 50px;
+  }
+  .table-container{
+    margin: 10px 40px 40px;
+  }
 }
 
-.status.disponible {
-  background-color: #86e49d;
-  color: white;
+@media (min-width: 992px) and (max-width: 1199px) {
+  .container {
+    padding: 0 40px;
+  }
+
+  .table-container{
+    margin-left: 30px !important;
+    margin-right: 30px !important;
+  }
 }
 
-.status.no-disponible {
-  background-color: #ff4d4d;
-  color: white;
+@media (min-width: 768px) and (max-width: 991px) {
+  .container {
+    padding: 0 30px;
+  }
+
+  .table-container{
+    margin-left: 30px !important;
+    margin-right: 30px !important;
+  }
 }
 
-tbody tr:nth-child(even) {
-  background-color: rgba(0, 0, 0, 0.05);
+@media (max-width: 767px) {
+  .container {
+    padding: 0 20px;
+   
+  }
+  .table-container{
+    margin: 10px 30px 30px;
+  }
+  .table-container{
+    margin-left: 30px !important;
+    margin-right: 30px !important;
+  }
 }
 
-tbody tr:hover {
-  background-color: rgba(0, 0, 0, 0.1);
-}
+@media (max-width: 480px) {
+  .container {
+    padding: 0 15px; 
+  }
 
-.edit-icon, .delete-icon {
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-}
-
-.edit-icon:hover, .delete-icon:hover {
-  stroke: #007bff;
-}
-
-.product-image{
-width: 50px;
-height: 50px;
+  .table-container{
+    margin-left: 30px !important;
+  margin-right: 30px !important;
+  }
 }
 </style>
