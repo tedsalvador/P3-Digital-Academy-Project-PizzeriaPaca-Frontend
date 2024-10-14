@@ -134,12 +134,16 @@
     <div id="containerLinkProject">
       <div id="copyright">CopyRight ®2024</div>
       <div id="separador"></div>
-      <div id="copyright">Pizzeria Paca</div>
+      <a class="no-decoration" href="https://github.com/FactoriaF5-Asturias/P3-Digital-Academy-Project-PizzeriaPaca-Frontend.git" target="_blank"><div id="copyright">Pizzeria Paca</div></a>
     </div>
   </div>
 </template>
 
 <style scoped>
+.no-decoration{
+  text-decoration: none;
+}
+
 #containerFooter {
   width: 100%;
   height: 220px;

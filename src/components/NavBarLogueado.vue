@@ -1,14 +1,83 @@
-<script setup></script>
+<script setup>
+import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router"; 
+
+const recognition = ref(null);
+const isListening = ref(false);
+const router = useRouter(); 
+
+
+const startVoiceRecognition = () => {
+  
+  if (!("webkitSpeechRecognition" in window)) {
+    alert("API de reconocimiento de voz no soportada por este navegador.");
+    return;
+  }
+
+  recognition.value = new webkitSpeechRecognition(); 
+  recognition.value.lang = "es-ES"; 
+  recognition.value.interimResults = false;
+  recognition.value.maxAlternatives = 1;
+  recognition.value.continuous = false;
+
+  
+  recognition.value.onresult = (event) => {
+    const speechResult = event.results[0][0].transcript.toLowerCase();
+    console.log("Reconocido:", speechResult);
+
+    
+    if (speechResult.includes("inicio")) {
+      router.push("/homelogueado");
+    } else if (speechResult.includes("carta")) {
+      router.push("/cartalogueado");
+    } else if (speechResult.includes("promo")) {
+      router.push("/promoslogueado");
+    } else if (speechResult.includes("pizzas")) {
+      router.push("/pizzaslogueado");
+    } else if (speechResult.includes("postres")) {
+      router.push("/postreslogueado");
+    } else if (speechResult.includes("bebidas")) {
+      router.push("/bebidaslogueado");
+    } else {
+      alert(
+        'Comando no reconocido. Intenta decir "Inicio", "Carta", "Promos", "Pizzas", "Postres" o "Bebidas".'
+      );
+    }
+  };
+
+  
+  recognition.value.start();
+  isListening.value = true;
+};
+
+
+const stopVoiceRecognition = () => {
+  if (recognition.value) {
+    recognition.value.stop();
+    isListening.value = false;
+  }
+};
+
+
+onMounted(() => {
+ 
+});
+</script>
 <template>
   <ul>
     <RouterLink to="/homelogueado" class="RouterLink"><li>Home</li></RouterLink>
-    <RouterLink to="/cartalogueado" class="RouterLink"
-      ><li>Carta</li></RouterLink
-    >
-    <RouterLink to="/promoslogueado" class="RouterLink"
-      ><li>Promos</li></RouterLink
-    >
+    <RouterLink to="/cartalogueado" class="RouterLink"><li>Carta</li></RouterLink>
+    <RouterLink to="/promoslogueado" class="RouterLink"><li>Promos</li></RouterLink>
   </ul>
+  <div class="containerMicro">
+    <img
+      class="micro"
+      :class="{ active: isListening }"
+      src="../assets/img/micro/micro.png"
+      alt="Micrófono"
+      @click="isListening ? stopVoiceRecognition() : startVoiceRecognition()"
+    />
+  </div>
 </template>
 <style scoped>
 .RouterLink {
@@ -24,6 +93,7 @@ ul {
   text-align: center;
   list-style-type: none;
 }
+
 li {
   padding: 1rem 2rem 1.15rem;
   text-transform: uppercase;
@@ -33,7 +103,18 @@ li {
   margin: auto;
   font-size: 35px;
 }
-
+.micro {
+  margin-right: 50px;
+  float: right;
+  width: 20px;
+  height: 20px;
+  z-index: 10;
+}
+.micro.active {
+  background-color: green;
+  border-radius: 50%;
+  padding: 2px;
+}
 li:hover,
 .router-link-active li {
   background-image: url("../assets/img/navbar/navbackground.png");
@@ -102,6 +183,10 @@ li:active {
     margin: 0 auto;
     width: 100%;
   }
+  .containerMicro {
+    width: 100%;
+    height: 30px;
+  }
   li {
     font-size: 15px;
     padding: 10px 15px;
@@ -109,6 +194,11 @@ li:active {
     margin: 5px;
 
     text-align: center;
+  }
+  .micro {
+    margin-right: 20px;
+    width: 15px;
+    height: 15px;
   }
 }
 </style>

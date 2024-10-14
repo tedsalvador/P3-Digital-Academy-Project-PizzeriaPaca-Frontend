@@ -3,13 +3,11 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 import MenuCartaLogueado from "../MenuCartaLogueado.vue";
 import TituloLogueado from "../TituloLogueado.vue";
-
 import NavBarLogueado from "../NavBarLogueado.vue";
 import { useCartStore } from "@/stores/cart";
 
 const modalVisible = ref(false);
 const fullDescription = ref("");
-/* const pizzas = ref([]);  */
 const cartStore = useCartStore();
 
 const openModal = (description) => {
@@ -46,21 +44,7 @@ const addPizzaToCart = (pizzaName, price, id) => {
   cartStore.addToCart({ name: pizzaName, price, id});
 };
 
-/* const pizzas = ref([
-  {
-    id: 1,
-    name: "Pizza Margherita",
-    description: "Tomato, mozzarella, and basil",
-    price: 10,
-  },
-  {
-    id: 2,
-    name: "Pizza Pepperoni",
-    description: "Pepperoni, mozzarella, and tomato sauce",
-    price: 12,
-  },
-]); */
-const pizzas = ref([])
+const pizzas = ref([]);
 </script>
 
 <template>
@@ -72,7 +56,10 @@ const pizzas = ref([])
     <div class="cards-container">
       <div v-for="(pizza, index) in pizzas" :key="pizza.id" class="card">
         <div class="personaje">
-          <div class="imagen_personaje"></div>
+          <div class="imagen_personaje"><img class="imagen_personaje"
+              :src="pizza.image" 
+              :alt="pizza.name"
+            /></div>
           <div class="detalle">
             <div class="contTitulo">
               <h2>{{ pizza.name }}</h2>
@@ -108,7 +95,7 @@ const pizzas = ref([])
       <div class="modal-content" @click.stop>
         <span class="close-modal" @click="closeModal">&times;</span>
         <h2 class="tituloModal">Descripción Completa</h2>
-        <p>{{ fullDescription }}</p>
+        <p class="full-description">{{ fullDescription }}</p>
       </div>
     </div>
   </main>
@@ -127,8 +114,8 @@ main {
   margin-top: 30px;
   margin-bottom: 50px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 columnas */
-  gap: 40px; /* Espacio entre las cards */
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 40px; 
   padding: 20px;
 }
 
@@ -158,7 +145,8 @@ main {
   height: 160px;
   width: 85%;
   margin-top: -20px;
-  background-image: url(../../assets/img/slider/pizza2.png);
+  display: flex;
+  justify-content: center;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -181,16 +169,18 @@ main {
   transition: 1s;
   border: 1px solid rgb(182, 124, 1);
 }
+.full-description {
+  font-size: 20px;
+}
 
 .card:hover {
   transform: scale(1.1);
 }
 
 .card:hover .imagen_personaje {
-  transform: translatey(-40px);
+  transform: translatey(-17px);
   transition: 1s;
   filter: none;
-  background-image: url(../../assets/img/slider/pizza2.png);
 }
 
 .card:hover .personaje {
@@ -337,13 +327,17 @@ p {
     width: 270px;
   }
   .card:hover .imagen_personaje {
-    transform: translatey(-50px);
+    transform: translatey(-17px);
   }
 
   .personaje {
     height: 390px;
     width: 270px;
   }
+
+  .full-description {
+  font-size: 10px;
+}
 
   .imagen_personaje {
     height: 125px;

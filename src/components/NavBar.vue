@@ -1,31 +1,31 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import { useRouter } from "vue-router"; // Importamos useRouter para la navegación
+import { useRouter } from "vue-router"; 
 
 const recognition = ref(null);
 const isListening = ref(false);
-const router = useRouter(); // Para navegar entre rutas
+const router = useRouter(); 
 
-// Función que inicializa el reconocimiento de voz
+
 const startVoiceRecognition = () => {
-  // Verifica si el navegador soporta la API de reconocimiento de voz
+  
   if (!("webkitSpeechRecognition" in window)) {
     alert("API de reconocimiento de voz no soportada por este navegador.");
     return;
   }
 
-  recognition.value = new webkitSpeechRecognition(); // Inicializa la API
-  recognition.value.lang = "es-ES"; // Establece el idioma en español
+  recognition.value = new webkitSpeechRecognition(); 
+  recognition.value.lang = "es-ES"; 
   recognition.value.interimResults = false;
   recognition.value.maxAlternatives = 1;
   recognition.value.continuous = false;
 
-  // Cuando se recibe el resultado de voz
+  
   recognition.value.onresult = (event) => {
     const speechResult = event.results[0][0].transcript.toLowerCase();
     console.log("Reconocido:", speechResult);
 
-    // Lógica para navegar según la palabra reconocida
+    
     if (speechResult.includes("inicio")) {
       router.push("/");
     } else if (speechResult.includes("carta")) {
@@ -45,12 +45,12 @@ const startVoiceRecognition = () => {
     }
   };
 
-  // Comienza a escuchar
+  
   recognition.value.start();
   isListening.value = true;
 };
 
-// Parar el reconocimiento
+
 const stopVoiceRecognition = () => {
   if (recognition.value) {
     recognition.value.stop();
@@ -58,9 +58,9 @@ const stopVoiceRecognition = () => {
   }
 };
 
-// Iniciar reconocimiento al montar el componente
+
 onMounted(() => {
-  // No iniciar el reconocimiento automáticamente para que el micrófono esté apagado por defecto
+ 
 });
 </script>
 <template>

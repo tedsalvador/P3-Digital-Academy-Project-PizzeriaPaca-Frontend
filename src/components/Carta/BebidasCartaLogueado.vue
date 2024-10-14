@@ -8,7 +8,6 @@ import NavBarLogueado from "../NavBarLogueado.vue";
 
 const modalVisible = ref(false);
 const fullDescription = ref("");
-//const bebidas = ref([]);
 const cartStore = useCartStore();
 
 const openModal = (description) => {
@@ -55,7 +54,10 @@ const bebidas = ref([]);
     <div class="cards-container">
       <div v-for="(bebida, index) in bebidas" :key="bebida.id" class="card">
         <div class="personaje">
-          <div class="imagen_personaje"></div>
+          <div class="imagen_personaje"><img class="imagen_personaje"
+              :src="bebida.image" 
+              :alt="bebida.name"
+            /></div>
           <div class="detalle">
             <div class="contTitulo">
               <h2>{{ bebida.name }}</h2>
@@ -91,7 +93,7 @@ const bebidas = ref([]);
       <div class="modal-content" @click.stop>
         <span class="close-modal" @click="closeModal">&times;</span>
         <h2 class="tituloModal">Descripción Completa</h2>
-        <p>{{ fullDescription }}</p>
+        <p class="full-description">{{ fullDescription }}</p>
       </div>
     </div>
   </main>
@@ -140,8 +142,9 @@ main {
 .imagen_personaje {
   height: 160px;
   width: 85%;
+  display: flex;
+  justify-content: center;
   margin-top: -20px;
-  background-image: url(../../assets/img/slider/pizza2.png);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -165,15 +168,17 @@ main {
   border: 1px solid rgb(182, 124, 1);
 }
 
+.full-description {
+  font-size: 20px;
+}
 .card:hover {
   transform: scale(1.1);
 }
 
 .card:hover .imagen_personaje {
-  transform: translatey(-40px);
+  transform: translatey(-17px);
   transition: 1s;
   filter: none;
-  background-image: url(../../assets/img/slider/pizza2.png);
 }
 
 .card:hover .personaje {
@@ -318,8 +323,11 @@ p {
     height: 390px;
     width: 270px;
   }
+  .full-description{
+    font-size: 10px;
+  }
   .card:hover .imagen_personaje {
-    transform: translatey(-50px);
+    transform: translatey(-17px);
   }
 
   .personaje {
