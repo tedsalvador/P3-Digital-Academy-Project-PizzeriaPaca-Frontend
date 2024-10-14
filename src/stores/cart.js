@@ -23,5 +23,10 @@ export const useCartStore = defineStore('cart', () => {
     }, 0)
   })
 
-  return { cartItems, addToCart, removeFromCart, totalAmount }
+  const clearCart = () => {
+    //cartItems.value = [];
+    cartItems.value.splice(0, cartItems.value.length); // Vaciar el array sin perder reactividad
+  }
+
+  return { cartItems, addToCart, removeFromCart, totalAmount, clearCart }
 });

@@ -1,4 +1,4 @@
-export class order {
+export default class order {
     constructor(OrderNumber, OrderTypeCode, UserId, PaymentId, OrderStatus, DateOrder) {
         this.OrderNumber=OrderNumber; //("1");
         this.OrderTypeCode=OrderTypeCode; //("D");
