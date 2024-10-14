@@ -1,5 +1,19 @@
-<script setup></script>
+<script setup>
+import { ref } from "vue";
 
+// Variable reactiva para controlar la visibilidad del modal
+const showModal = ref(false);
+
+// Función para abrir el modal
+const openModal = () => {
+  showModal.value = true;
+};
+
+// Función para cerrar el modal
+const closeModal = () => {
+  showModal.value = false;
+};
+</script>
 <template>
   <main>
     <div class="cardContainer">
@@ -10,7 +24,25 @@
           alt="Imagen de Pizza"
         />
       </div>
-      <div class="cardcontainerDescription">Promo Postre Gratis</div>
+      <div class="cardcontainerDescription">
+        <img
+          class="info"
+          src="../../assets/img/promos/info.png"
+          @click="openModal"
+          alt=""
+        />
+        Promo Postre Gratis
+      </div>
+    </div>
+    <div v-if="showModal" class="modalOverlay" @click="closeModal">
+      <div class="modalContent" @click.stop>
+        <h2>Información de la Promo</h2>
+        <p>
+          Esta promoción es válida hasta el 31 de octubre. ¡Aprovecha el postre
+          gratis al comprar una pizza!
+        </p>
+        <button @click="closeModal">Cerrar</button>
+      </div>
     </div>
   </main>
 </template>
@@ -24,7 +56,12 @@ main {
   justify-content: center;
   align-items: center; /* Permitimos que los elementos hijos sobresalgan si es necesario */
 }
-
+.info {
+  margin-right: 20px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer; /* Cambia el cursor al pasar sobre el icono */
+}
 .cardContainer {
   height: 400px;
   position: relative;
@@ -84,6 +121,51 @@ main {
   position: relative;
   z-index: 0; /* El div negro está en una capa más baja que la imagen cuando hace hover */
   transition: color 2s ease;
+}
+/* Estilos para el modal */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro transparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 500px;
+  text-align: center;
+  z-index: 1001;
+}
+
+.modalContent h2 {
+  margin-bottom: 10px;
+}
+
+.modalContent p {
+  margin-bottom: 20px;
+}
+
+.modalContent button {
+  background-color: #1aab8a;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.modalContent button:hover {
+  background-color: #148f70;
 }
 @media (min-width: 481px) and (max-width: 1024px) {
   .cardcontainerImg {

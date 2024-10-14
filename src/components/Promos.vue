@@ -13,36 +13,37 @@
       class="carousel slide"
       data-bs-ride="carousel"
       data-bs-interval="3000"
+      data-bs-pause="false"
     >
       <div class="carousel-inner">
         <div class="carousel-item active">
           <img
-            src="../assets/img/slider/pizza2.png"
+            src="../assets/img/promos/promo1.png"
             class="imgSlider"
             alt="..."
           />
           <div class="containerTituloPromos">
-            <div class="tituloPromos">Promo 2x1</div>
+            <div class="tituloPromos">Promo Pizzas Romanas 2x1</div>
           </div>
         </div>
         <div class="carousel-item">
           <img
-            src="../assets/img/slider/pizza2.png"
+            src="../assets/img/promos/promo2.png"
             class="imgSlider"
             alt="..."
           />
           <div class="containerTituloPromos">
-            <div class="tituloPromos">Promo bebida gratis</div>
+            <div class="tituloPromos">Promo Bebida gratis</div>
           </div>
         </div>
         <div class="carousel-item">
           <img
-            src="../assets/img/slider/pizza2.png"
+            src="../assets/img//promos/promo3.png"
             class="imgSlider"
             alt="..."
           />
           <div class="containerTituloPromos">
-            <div class="tituloPromos">Promo 50% Napolitanas</div>
+            <div class="tituloPromos">Promo Postre Gratis</div>
           </div>
         </div>
       </div>

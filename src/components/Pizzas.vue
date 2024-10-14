@@ -1,23 +1,25 @@
-
 <script setup>
 import { ref, onMounted } from "vue";
-import axios from "axios"; 
+import axios from "axios";
 
-const pizzas = ref([]); 
+const pizzas = ref([]);
 
 const fetchPizzas = async () => {
   try {
-    const response = await axios.get("http://localhost:8080/api/v1/products/type/PIZZA", {
-      headers: {
-        'Authorization': 'Basic YWRtaW46cGFzc3dvcmQ=', 
-        'Content-Type': 'application/json' 
+    const response = await axios.get(
+      "http://localhost:8080/api/v1/products/type/PIZZA",
+      {
+        headers: {
+          Authorization: "Basic YWRtaW46cGFzc3dvcmQ=",
+          "Content-Type": "application/json",
+        },
       }
-    });
-  
-    pizzas.value = response.data.map(pizza => ({
+    );
+
+    pizzas.value = response.data.map((pizza) => ({
       id: pizza.id,
       name: pizza.name,
-      image: pizza.image
+      image: pizza.image,
     }));
   } catch (error) {
     console.error("Error al cargar las pizzas:", error);
@@ -25,7 +27,7 @@ const fetchPizzas = async () => {
 };
 
 onMounted(() => {
-  fetchPizzas(); 
+  fetchPizzas();
 });
 </script>
 
@@ -42,22 +44,18 @@ onMounted(() => {
       class="carousel slide"
       data-bs-ride="carousel"
       data-bs-interval="3000"
+      data-bs-pause="false"
     >
       <div class="carousel-inner">
-      
-        <div 
-          class="carousel-item" 
-          v-for="(pizza, index) in pizzas" 
-          :class="{ active: index === 0 }" 
-          :key="pizza.id" 
+        <div
+          class="carousel-item"
+          v-for="(pizza, index) in pizzas"
+          :class="{ active: index === 0 }"
+          :key="pizza.id"
         >
-          <img
-            :src="pizza.image" 
-            class="imgSlider"
-            alt="Pizza"
-          />
+          <img :src="pizza.image" class="imgSlider" alt="Pizza" />
           <div class="containerTituloPizza">
-            <div class="tituloPizza">{{ pizza.name }}</div> 
+            <div class="tituloPizza">{{ pizza.name }}</div>
           </div>
         </div>
       </div>
@@ -81,9 +79,7 @@ onMounted(() => {
 
     <div id="btnVerPizzas">
       <RouterLink to="/pizzas">
-        <button class="botonLinkPizzas">
-          Conoce todas nuestras pizzas
-        </button>
+        <button class="botonLinkPizzas">Conoce todas nuestras pizzas</button>
       </RouterLink>
     </div>
   </main>
