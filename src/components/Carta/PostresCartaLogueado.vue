@@ -42,7 +42,7 @@ onMounted(() => {
 });
 
 const addPostreToCart = (postreName, price, id) => {
-  //cartStore.addPostre({ name: postreName, price, id });
+
   cartStore.addToCart({ name: postreName, price, id });
 };
 const postres = ref([]);
@@ -56,7 +56,10 @@ const postres = ref([]);
     <div class="cards-container">
       <div v-for="(postre, index) in postres" :key="postre.id" class="card">
         <div class="personaje">
-          <div class="imagen_personaje"></div>
+          <div class="imagen_personaje"><img class="imagen_personaje"
+              :src="postre.image" 
+              :alt="postre.name"
+            /></div>
           <div class="detalle">
             <div class="contTitulo">
               <h2>{{ postre.name }}</h2>
@@ -92,7 +95,7 @@ const postres = ref([]);
       <div class="modal-content" @click.stop>
         <span class="close-modal" @click="closeModal">&times;</span>
         <h2 class="tituloModal">Descripción Completa</h2>
-        <p>{{ fullDescription }}</p>
+        <p class="full-description">{{ fullDescription }}</p>
       </div>
     </div>
   </main>
@@ -138,11 +141,17 @@ main {
   position: absolute;
 }
 
+.full-description{
+  font-size: 20px;
+}
+
+
 .imagen_personaje {
   height: 160px;
   width: 85%;
   margin-top: -20px;
-  background-image: url(../../assets/img/slider/pizza2.png);
+  display: flex;
+  justify-content: center;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -171,10 +180,9 @@ main {
 }
 
 .card:hover .imagen_personaje {
-  transform: translatey(-40px);
+  transform: translatey(-17px);
   transition: 1s;
   filter: none;
-  background-image: url(../../assets/img/slider/pizza2.png);
 }
 
 .card:hover .personaje {
@@ -320,7 +328,7 @@ p {
     width: 270px;
   }
   .card:hover .imagen_personaje {
-    transform: translatey(-50px);
+    transform: translatey(-17px);
   }
 
   .personaje {
@@ -332,6 +340,9 @@ p {
     height: 125px;
     width: 90%;
   }
+  .full-description{
+  font-size: 10px;
+}
 
   .detalle {
     height: 240px;

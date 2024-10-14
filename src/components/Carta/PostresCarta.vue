@@ -325,7 +325,7 @@ p {
     width: 270px;
   }
   .card:hover .imagen_personaje {
-    transform: translatey(-50px);
+    transform: translatey(-17px);
   }
 .full-description{
   font-size: 10px;
