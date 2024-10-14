@@ -167,11 +167,11 @@ onMounted(() => {
 }
 
 .bg-red {
-  background-color: #e74c3c;
+  background-color: #f6e58d;
 }
 
 .bg-yellow {
-  background-color: #f6e58d;
+  background-color: #e74c3c;
 }
 
 .bg-green {
