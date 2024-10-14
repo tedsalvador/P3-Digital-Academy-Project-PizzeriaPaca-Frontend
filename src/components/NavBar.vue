@@ -1,10 +1,83 @@
-<script setup></script>
+<script setup>
+import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router"; // Importamos useRouter para la navegación
+
+const recognition = ref(null);
+const isListening = ref(false);
+const router = useRouter(); // Para navegar entre rutas
+
+// Función que inicializa el reconocimiento de voz
+const startVoiceRecognition = () => {
+  // Verifica si el navegador soporta la API de reconocimiento de voz
+  if (!("webkitSpeechRecognition" in window)) {
+    alert("API de reconocimiento de voz no soportada por este navegador.");
+    return;
+  }
+
+  recognition.value = new webkitSpeechRecognition(); // Inicializa la API
+  recognition.value.lang = "es-ES"; // Establece el idioma en español
+  recognition.value.interimResults = false;
+  recognition.value.maxAlternatives = 1;
+  recognition.value.continuous = false;
+
+  // Cuando se recibe el resultado de voz
+  recognition.value.onresult = (event) => {
+    const speechResult = event.results[0][0].transcript.toLowerCase();
+    console.log("Reconocido:", speechResult);
+
+    // Lógica para navegar según la palabra reconocida
+    if (speechResult.includes("inicio")) {
+      router.push("/");
+    } else if (speechResult.includes("carta")) {
+      router.push("/carta");
+    } else if (speechResult.includes("promo")) {
+      router.push("/promos");
+    } else if (speechResult.includes("pizzas")) {
+      router.push("/pizzas");
+    } else if (speechResult.includes("postres")) {
+      router.push("/postres");
+    } else if (speechResult.includes("bebidas")) {
+      router.push("/bebidas");
+    } else {
+      alert(
+        'Comando no reconocido. Intenta decir "Inicio", "Carta", "Promos", "Pizzas", "Postres" o "Bebidas".'
+      );
+    }
+  };
+
+  // Comienza a escuchar
+  recognition.value.start();
+  isListening.value = true;
+};
+
+// Parar el reconocimiento
+const stopVoiceRecognition = () => {
+  if (recognition.value) {
+    recognition.value.stop();
+    isListening.value = false;
+  }
+};
+
+// Iniciar reconocimiento al montar el componente
+onMounted(() => {
+  // No iniciar el reconocimiento automáticamente para que el micrófono esté apagado por defecto
+});
+</script>
 <template>
   <ul>
     <RouterLink to="/" class="RouterLink"><li>Home</li></RouterLink>
     <RouterLink to="/carta" class="RouterLink"><li>Carta</li></RouterLink>
     <RouterLink to="/promos" class="RouterLink"><li>Promos</li></RouterLink>
   </ul>
+  <div class="containerMicro">
+    <img
+      class="micro"
+      :class="{ active: isListening }"
+      src="../assets/img/micro/micro.png"
+      alt="Micrófono"
+      @click="isListening ? stopVoiceRecognition() : startVoiceRecognition()"
+    />
+  </div>
 </template>
 <style scoped>
 .RouterLink {
@@ -20,6 +93,7 @@ ul {
   text-align: center;
   list-style-type: none;
 }
+
 li {
   padding: 1rem 2rem 1.15rem;
   text-transform: uppercase;
@@ -29,7 +103,18 @@ li {
   margin: auto;
   font-size: 35px;
 }
-
+.micro {
+  margin-right: 50px;
+  float: right;
+  width: 20px;
+  height: 20px;
+  z-index: 10;
+}
+.micro.active {
+  background-color: green;
+  border-radius: 50%;
+  padding: 2px;
+}
 li:hover,
 .router-link-active li {
   background-image: url("../assets/img/navbar/navbackground.png");
@@ -98,6 +183,10 @@ li:active {
     margin: 0 auto;
     width: 100%;
   }
+  .containerMicro {
+    width: 100%;
+    height: 30px;
+  }
   li {
     font-size: 15px;
     padding: 10px 15px;
@@ -105,6 +194,11 @@ li:active {
     margin: 5px;
 
     text-align: center;
+  }
+  .micro {
+    margin-right: 20px;
+    width: 15px;
+    height: 15px;
   }
 }
 </style>
