@@ -1,6 +1,8 @@
 import axios from 'axios';
 export default class OrderRepository {
-    
+    //obtiene datos del local storage
+    loggeadotoken = localStorage.getItem("token");
+
     constructor() {
         this.baseUrl = import.meta.env.VITE_API_ENDPOINT
     }
@@ -31,8 +33,10 @@ export default class OrderRepository {
                   console.log("Productos: ", products); // Agregamos este log para verificar los productos
 
             const response = await axios.post(`${this.baseUrl}/order`, orderDto, {
+                
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ${loggeadotoken}',
                 },
                 withCredentials: true
             })

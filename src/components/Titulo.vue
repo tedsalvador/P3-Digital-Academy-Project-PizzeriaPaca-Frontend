@@ -135,7 +135,8 @@ const sendCart = async () => {
   try {
     const response = await orderService.createOrder(orderDto);
     console.log("Orden enviada:", response);
-    alert("Orden enviada con éxito!");
+    cartStore.clearCart();
+    alert("Orden enviada con éxito!");    
   } catch (error) {
     console.error("Error al enviar la orden:", error);
     alert("Error al enviar la orden");
@@ -153,13 +154,13 @@ const sendCart = async () => {
     </div>
 
     <div id="containerLogin">
-      <div id="carrito" @click="toggleCart">
+<!--       <div id="carrito" @click="toggleCart">
         <img
           class="imgCarrito"
           src="../assets/img/navbar/carrito.png"
           alt="carrito"
         />
-      </div>
+      </div> -->
       <div id="login" @click="openModal">
         <img class="user" src="../assets/img/navbar/user.png" alt="user" />
       </div>
@@ -197,8 +198,7 @@ const sendCart = async () => {
 
       <div class="cart-summary">
         <div class="summary-row">
-          <p>Número de Pedido</p>
-          <p>{{ orderNumber }}</p>
+          <p>Número de Pedido   <<  {{ orderNumber }}  >></p>
         </div>
         <div class="summary-row">          
           <label for="paymentType">Tipo de pago:</label>          

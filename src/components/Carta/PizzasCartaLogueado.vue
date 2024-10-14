@@ -42,11 +42,11 @@ onMounted(() => {
   fetchPizzas();
 });
 
-const addPizzaToCart = (pizzaName, price) => {
-  cartStore.addToCart({ name: pizzaName, price });
+const addPizzaToCart = (pizzaName, price, id) => {
+  cartStore.addToCart({ name: pizzaName, price, id});
 };
 
-const pizzas = ref([
+/* const pizzas = ref([
   {
     id: 1,
     name: "Pizza Margherita",
@@ -59,7 +59,8 @@ const pizzas = ref([
     description: "Pepperoni, mozzarella, and tomato sauce",
     price: 12,
   },
-]);
+]); */
+const pizzas = ref([])
 </script>
 
 <template>
@@ -94,7 +95,7 @@ const pizzas = ref([
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
-                  @click="addPizzaToCart(pizza.name, pizza.price)"
+                  @click="addPizzaToCart(pizza.name, pizza.price, pizza.id)"
                 />
               </div>
             </div>

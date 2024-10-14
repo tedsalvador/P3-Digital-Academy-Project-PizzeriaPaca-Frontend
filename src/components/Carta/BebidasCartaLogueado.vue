@@ -8,7 +8,7 @@ import NavBarLogueado from "../NavBarLogueado.vue";
 
 const modalVisible = ref(false);
 const fullDescription = ref("");
-const bebidas = ref([]);
+//const bebidas = ref([]);
 const cartStore = useCartStore();
 
 const openModal = (description) => {
@@ -41,9 +41,10 @@ onMounted(() => {
   fetchBebidas();
 });
 
-const addBebidaToCart = (bebidaName, price) => {
-  cartStore.addBebida({ name: bebidaName, price });
+const addBebidaToCart = (bebidaName, price, id) => {
+  cartStore.addToCart({ name: bebidaName, price, id });
 };
+const bebidas = ref([]);
 </script>
 
 <template>
@@ -77,7 +78,7 @@ const addBebidaToCart = (bebidaName, price) => {
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
-                  @click="addBebidaToCart(bebida.name, bebida.price)"
+                  @click="addBebidaToCart(bebida.name, bebida.price, bebida.id)"
                 />
               </div>
             </div>
