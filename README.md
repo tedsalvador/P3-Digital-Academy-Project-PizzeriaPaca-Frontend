@@ -1,4 +1,3 @@
-
 # 🍕 Pizzería Paca 🍕
 
 **Pizzería Paca** es una aplicación moderna y eficiente diseñada específicamente para gestionar de manera integral una pizzería. Desde la experiencia del cliente hasta la administración y logística interna, la aplicación ofrece soluciones innovadoras para optimizar pedidos, pagos y entregas, tanto en tienda como a domicilio. Con un frontend desarrollado en Vue.js y un backend robusto en Spring Boot, **Pizzería Paca** permite a los clientes hacer pedidos fácilmente, seguir su estado en tiempo real y acceder a promociones exclusivas, mientras que el personal de cocina y motoristas pueden gestionar sus tareas desde dashboards especializados. Además, la administración cuenta con herramientas avanzadas para la gestión de productos, facturación y análisis de ventas. ¡Todo lo que necesitas para hacer crecer tu pizzería, en una sola aplicación!
