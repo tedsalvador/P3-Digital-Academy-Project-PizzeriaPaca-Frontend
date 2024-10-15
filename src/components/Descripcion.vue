@@ -1,8 +1,8 @@
 <script setup>
 function scrollToPromos() {
-  const promosSection = document.getElementById("promosSection"); // Asegúrate de usar el mismo id que en el componente Promos
+  const promosSection = document.getElementById("promosSection");
   if (promosSection) {
-    promosSection.scrollIntoView({ behavior: "smooth" }); // Hace el scroll suave
+    promosSection.scrollIntoView({ behavior: "smooth" });
   }
 }
 </script>

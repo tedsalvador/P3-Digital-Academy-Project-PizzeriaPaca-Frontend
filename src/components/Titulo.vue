@@ -21,13 +21,15 @@ const deliveryType = ref("");
 const orderTypeCode = ref("");
 const orderStatus = ref("PENDING");
 
-//obtiene datos del local storage
 const loggeadoUser = localStorage.getItem("username");
 let IdUserLogged = localStorage.getItem("id");
 
-// Verificar si es null o no es una cadena válida
-if (!IdUserLogged || typeof IdUserLogged !== "string" || IdUserLogged.trim() === "") {
-  IdUserLogged = "1"; // Asignar valor '1' si está vacío o es nulo
+if (
+  !IdUserLogged ||
+  typeof IdUserLogged !== "string" ||
+  IdUserLogged.trim() === ""
+) {
+  IdUserLogged = "1";
 }
 
 console.log("valor de user id>>>" + IdUserLogged);
@@ -60,7 +62,6 @@ const logout = () => {
   loginChange.setRegister(false);
   mobileMenuOpen.value = false;
 
-  //const redirectPath = "/home";
   const redirectPath = "/";
 
   router.push(redirectPath);
@@ -106,40 +107,38 @@ if (store.user.isAuthenticated) {
 }
 
 const sendCart = async () => {
-  // Verificar si el carrito está vacío
   if (cartStore.cartItems.length === 0) {
-    alert("El carrito está vacío. Por favor, agregue productos antes de pagar.");
-    return; // No continuar con el proceso de pago
+    alert(
+      "El carrito está vacío. Por favor, agregue productos antes de pagar."
+    );
+    return;
   }
 
-  // Verificar si el tipo de pago está vacío
   if (!paymentType.value) {
     alert("Por favor, seleccione un tipo de pago.");
-    return; // No continuar con el proceso de pago
+    return;
   }
 
-  // Verificar si el tipo de entrega está vacío
   if (!orderTypeCode.value) {
     alert("Por favor, seleccione un tipo de entrega.");
-    return; // No continuar con el proceso de pago
+    return;
   }
 
-  // Crea un array de productos basado en los items del carrito
   const products = cartStore.cartItems.map((item) => ({
-    productId: item.id, // Asegúrate de que el producto tenga un ID único
-    productQuantity: item.quantity, // Cantidad de este producto en el carrito
-    productPrice: item.price, // Precio del producto
+    productId: item.id,
+    productQuantity: item.quantity,
+    productPrice: item.price,
   }));
 
   const orderDto = {
     orderNumber: orderNumber.value,
     orderTypeCode: orderTypeCode.value,
-    userId: IdUserLogged, //store.user.id,
+    userId: IdUserLogged,
     paymentId: paymentType.value,
     orderStatus: orderStatus.value,
     dateOrder: dateOrder.value,
-    totalPaid: totalAmount.value, // Monto total
-    products, // Lista de productos en el carrito
+    totalPaid: totalAmount.value,
+    products,
   };
 
   console.log(
@@ -165,7 +164,7 @@ const sendCart = async () => {
     const response = await orderService.createOrder(orderDto);
     console.log("Orden enviada:", response);
     cartStore.clearCart();
-    alert("Orden enviada con éxito!");    
+    alert("Orden enviada con éxito!");
   } catch (error) {
     console.error("Error al enviar la orden:", error);
     alert("Error al enviar la orden");
@@ -183,7 +182,7 @@ const sendCart = async () => {
     </div>
 
     <div id="containerLogin">
-       <div id="carrito" @click="toggleCart">
+      <div id="carrito" @click="toggleCart">
         <img
           class="imgCarrito"
           src="../assets/img/navbar/carrito.png"
@@ -212,7 +211,7 @@ const sendCart = async () => {
           <img :src="item.image" alt="Product image" class="item-image" />
           <div class="item-details">
             <h2 class="item-name">{{ item.name }}</h2>
-            <!-- <h2 class="item-name">{{ item.name }} - {{ item.id }}</h2> -->
+
             <p>{{ item.description }}</p>
           </div>
           <div class="item-quantity">
@@ -232,29 +231,29 @@ const sendCart = async () => {
 
       <div class="cart-summary">
         <div class="summary-row">
-          <p>Número de Pedido   <<  {{ orderNumber }}  >></p>
+          <p>Número de Pedido << {{ orderNumber }} >></p>
         </div>
         <div class="summary-row">
-          <label for="paymentType">Tipo de pago  :  &nbsp;</label>
+          <label for="paymentType">Tipo de pago : &nbsp;</label>
           <select v-model="paymentType" id="paymentType">
             <option value="E">Efectivo</option>
             <option value="T">Tarjeta</option>
           </select>
           <p hidden>{{ paymentType }}</p>
         </div>
-        <br>
+        <br />
         <div class="summary-row">
-          <label for="orderTypeCode">Tipo de entrega :  </label>
+          <label for="orderTypeCode">Tipo de entrega : </label>
           <select v-model="orderTypeCode" id="orderTypeCode">
             <option value="L">Local</option>
-            <!-- <option value="D">Delivery</option> -->
+
             <option value="P">Para llevar</option>
-             <!-- Solo mostrar Delivery si IdUserLogged no es 1 -->
+
             <option v-if="IdUserLogged !== '1'" value="D">Delivery</option>
           </select>
           <p hidden>{{ orderTypeCode }}</p>
         </div>
-        <br>
+        <br />
         <div class="summary-row total">
           <p>Fecha del Pedido</p>
           <p>{{ dateOrder }}</p>
@@ -462,11 +461,11 @@ const sendCart = async () => {
 .payment-button {
   margin-top: 20px;
   width: 100%;
-  padding: 15px;/* Aumentar el padding */
+  padding: 15px;
   background-color: #000;
   color: #fff;
   border-radius: 30px;
-  font-size: 20px; /* Aumentar el tamaño del texto */
+  font-size: 20px;
   font-weight: bold;
   display: flex;
   justify-content: center;
@@ -477,7 +476,7 @@ const sendCart = async () => {
 
 .payment-icon {
   margin-left: 10px;
-  font-size: 25px; /* Aumentar el tamaño del icono */
+  font-size: 25px;
 }
 
 @media (min-width: 481px) and (max-width: 1024px) {

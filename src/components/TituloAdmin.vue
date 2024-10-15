@@ -9,8 +9,7 @@ const router = useRouter();
 const store = useAuthStore();
 const mobileMenuOpen = ref(false);
 
-//obtiene datos del local storage 
-const loggeadoUser= localStorage.getItem('username')
+const loggeadoUser = localStorage.getItem("username");
 const IdUserLogged = localStorage.getItem("id");
 
 console.log("valor de user id>>>" + IdUserLogged);
@@ -36,7 +35,6 @@ const logout = () => {
   loginChange.setRegister(false);
   mobileMenuOpen.value = false;
 
-  //const redirectPath = "/home";
   const redirectPath = "/";
 
   router.push(redirectPath);
@@ -121,11 +119,15 @@ const closeCart = () => {
 
     <div id="containerLogin">
       <div id="login">
-        <h2 class="info">Hola - {{loggeadoUser}}</h2>
+        <h2 class="info">Hola - {{ loggeadoUser }}</h2>
       </div>
       <div class="logout">
         <RouterLink to="/"
-          ><img class="icnLogOut" src="../assets/img/navbar/logout.png" alt="" @click="logout"
+          ><img
+            class="icnLogOut"
+            src="../assets/img/navbar/logout.png"
+            alt=""
+            @click="logout"
         /></RouterLink>
       </div>
     </div>
@@ -256,7 +258,7 @@ const closeCart = () => {
   #logo {
     width: 35%;
   }
-  
+
   .img {
     width: 100px;
     height: 100px;

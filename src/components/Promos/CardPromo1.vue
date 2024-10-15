@@ -1,15 +1,12 @@
 <script setup>
 import { ref } from "vue";
 
-// Variable reactiva para controlar la visibilidad del modal
 const showModal = ref(false);
 
-// Función para abrir el modal
 const openModal = () => {
   showModal.value = true;
 };
 
-// Función para cerrar el modal
 const closeModal = () => {
   showModal.value = false;
 };
@@ -36,7 +33,6 @@ const closeModal = () => {
       </div>
     </div>
 
-    <!-- Modal -->
     <div v-if="showModal" class="modalOverlay" @click="closeModal">
       <div class="modalContent" @click.stop>
         <h2>Información de la Promo</h2>
@@ -51,7 +47,6 @@ const closeModal = () => {
 </template>
 
 <style scoped>
-/* Aseguramos que el main permita el desbordamiento visual */
 main {
   position: relative;
   overflow: visible;
@@ -63,7 +58,7 @@ main {
   margin-right: 20px;
   width: 20px;
   height: 20px;
-  cursor: pointer; /* Cambia el cursor al pasar sobre el icono */
+  cursor: pointer;
 }
 .cardContainer {
   height: 400px;
@@ -71,7 +66,6 @@ main {
   overflow: visible;
 }
 
-/* Cambiamos el color de cardcontainerImg al hacer hover en cardContainer */
 .cardContainer:hover .cardcontainerImg {
   background-color: #1aab8a;
   transition: background-color 2s;
@@ -126,14 +120,13 @@ main {
   transition: color 2s ease;
 }
 
-/* Estilos para el modal */
 .modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro transparente */
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -172,7 +165,6 @@ main {
   background-color: #148f70;
 }
 
-/* Media Queries */
 @media (min-width: 481px) and (max-width: 1024px) {
   .cardcontainerImg {
     width: 750px;
