@@ -128,6 +128,105 @@ npm run dev
 ```
 
 10. Estructura de Carpetas: 
+P3-Digital-Academy-Project-PizzeriaPaca-Frontend
+
+│  ├─ App.vue
+│  ├─ assets
+│  │  ├─ base.css
+│  │  ├─ img
+│  │  │  ├─ bebidas
+│  │  │  ├─ carta
+│  │  │  ├─ footer
+│  │  │  ├─ kitchen
+│  │  │  ├─ micro
+│  │  │  ├─ navbar
+│  │  │  ├─ pizzas
+│  │  │  ├─ postres
+│  │  │  ├─ promos
+│  │  │  └─ slider
+│  │  ├─ logo.svg
+│  │  └─ main.css
+│  ├─ components
+│  │  ├─ AddProductForm.vue
+│  │  ├─ AdminDashboard.vue
+│  │  ├─ Bebidas.vue
+│  │  ├─ Carta
+│  │  │  ├─ BebidasCarta.vue
+│  │  │  ├─ BebidasCartaLogueado.vue
+│  │  │  ├─ PizzasCarta.vue
+│  │  │  ├─ PizzasCartaLogueado.vue
+│  │  │  ├─ PostresCarta.vue
+│  │  │  └─ PostresCartaLogueado.vue
+│  │  ├─ Descripcion.vue
+│  │  ├─ Footer.vue
+│  │  ├─ icons
+│  │  ├─ Kitchen.vue
+│  │  ├─ MenuCarta.vue
+│  │  ├─ MenuCartaLogueado.vue
+│  │  ├─ ModalLogin.vue
+│  │  ├─ Motorist.vue
+│  │  ├─ NavBar.vue
+│  │  ├─ NavBarAdmin.vue
+│  │  ├─ NavBarLogueado.vue
+│  │  ├─ OrderManagement.vue
+│  │  ├─ Pizzas.vue
+│  │  ├─ Postres.vue
+│  │  ├─ Promos
+│  │  │  ├─ CardPromo1.vue
+│  │  │  ├─ CardPromo2.vue
+│  │  │  └─ CardPromo3.vue
+│  │  ├─ Promos.vue
+│  │  ├─ SalesCart.vue
+│  │  ├─ Slider.vue
+│  │  ├─ TheWelcome.vue
+│  │  ├─ Titulo.vue
+│  │  ├─ TituloAdmin.vue
+│  │  ├─ TituloKitchen.vue
+│  │  ├─ TituloLogueado.vue
+│  │  ├─ TituloMotorist.vue
+│  │  ├─ WelcomeItem.vue
+│  │  └─ __tests__
+│  ├─ core
+│  │  ├─ apis
+│  │  │  └─ spring
+│  │  │ 	└─ auth
+│  │  │    	├─ AuthRepository.js
+│  │  │    	├─ AuthService.js
+│  │  │    	├─ RegisterRepository.js
+│  │  │    	└─ RegisterService.js
+│  │  ├─ models
+│  │  │  ├─ Credentials.js
+│  │  │  └─ RegisterDto.js
+│  │  └─ order
+│  │ 	├─ Order.js
+│  │ 	├─ OrderDto.js
+│  │ 	├─ OrderRepository.js
+│  │ 	└─ OrderService.js
+│  ├─ main.js
+│  ├─ router
+│  │  └─ index.js
+│  ├─ stores
+│  │  ├─ auth.js
+│  │  ├─ cart.js
+│  │  ├─ counter.js
+│  │  └─ loginChange.js
+│  └─ views
+│ 	├─ AboutView.vue
+│ 	├─ AdminDashboardView.vue
+│ 	├─ BebidasView.vue
+│ 	├─ CartaLogueadoView.vue
+│ 	├─ CartaView.vue
+│ 	├─ HomeLogueadoView.vue
+│ 	├─ HomeView.vue
+│ 	├─ KitchenView.vue
+│ 	├─ MotoristView.vue
+│ 	├─ OrderManagementView.vue
+│ 	├─ PromosLogueado.vue
+│ 	├─ PromosView.vue
+│ 	└─ SalesCartView.vue
+├─ vite.config.js
+└─ vitest.config.jsP3-Digital-Academy-Project-PizzeriaPaca-
+
 
 
 #### Backend
