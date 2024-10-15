@@ -8,7 +8,7 @@ import { useCartStore } from "@/stores/cart";
 
 const modalVisible = ref(false);
 const fullDescription = ref("");
-const cartStore = useCartStore()
+const cartStore = useCartStore();
 
 const openModal = (description) => {
   fullDescription.value = description;
@@ -41,10 +41,10 @@ onMounted(() => {
 });
 
 const addPizzaToCart = (pizzaName, price, id) => {
-  cartStore.addToCart({ name: pizzaName, price, id});
+  cartStore.addToCart({ name: pizzaName, price, id });
 };
 
-const pizzas = ref([])
+const pizzas = ref([]);
 </script>
 
 <template>
@@ -55,10 +55,13 @@ const pizzas = ref([])
     <div class="cards-container">
       <div v-for="(pizza, index) in pizzas" :key="pizza.id" class="card">
         <div class="personaje">
-          <div class="imagen_personaje"><img class="imagen_personaje"
-              :src="pizza.image" 
+          <div class="imagen_personaje">
+            <img
+              class="imagen_personaje"
+              :src="pizza.image"
               :alt="pizza.name"
-            /></div>
+            />
+          </div>
           <div class="detalle">
             <div class="contTitulo">
               <h2>{{ pizza.name }}</h2>
@@ -76,7 +79,7 @@ const pizzas = ref([])
             </div>
             <div class="containerPrecioCarrito">
               <div class="contPrecio">{{ pizza.price }}€</div>
-              <!-- <div class="contPrecio">{{ pizza.price }}€  - {{ pizza.id }}</div> -->
+
               <div class="contCarrito">
                 <img
                   class="imgCarro"
@@ -114,8 +117,8 @@ main {
   margin-top: 30px;
   margin-bottom: 50px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 columnas */
-  gap: 40px; /* Espacio entre las cards */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
   padding: 20px;
 }
 
@@ -170,7 +173,7 @@ main {
   border: 1px solid rgb(182, 124, 1);
 }
 
-.full-description{
+.full-description {
   font-size: 20px;
 }
 
@@ -327,7 +330,7 @@ p {
     height: 390px;
     width: 270px;
   }
-  .full-description{
+  .full-description {
     font-size: 10px;
   }
   .card:hover .imagen_personaje {

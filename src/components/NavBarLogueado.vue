@@ -4,8 +4,8 @@ import { useRouter } from "vue-router";
 
 const recognition = ref(null);
 const isListening = ref(false);
-const showModal = ref(false); // Controla la visibilidad del modal
-const modalMessage = ref(""); // Mensaje dinámico del modal
+const showModal = ref(false);
+const modalMessage = ref("");
 const router = useRouter();
 
 const startVoiceRecognition = () => {
@@ -39,7 +39,6 @@ const startVoiceRecognition = () => {
     } else if (speechResult.includes("bebidas")) {
       router.push("/bebidaslogueado");
     } else {
-      // Mostrar modal en lugar de alert
       modalMessage.value =
         'Comando no reconocido. Intenta decir "Inicio", "Carta", "Promos", "Pizzas", "Postres" o "Bebidas".';
       showModal.value = true;
@@ -57,7 +56,7 @@ const stopVoiceRecognition = () => {
   }
 };
 const closeModal = () => {
-  showModal.value = false; // Oculta el modal
+  showModal.value = false;
 };
 
 onMounted(() => {});
@@ -128,9 +127,9 @@ li {
   background-color: green;
   border-radius: 50%;
   padding: 2px;
-  transform: scale(1.2); /* Agrandar el micrófono cuando está activo */
-  box-shadow: 0 0 15px rgba(0, 255, 0, 0.7); /* Efecto de brillo */
-  animation: pulse 1.5s infinite; /* Animación de pulso */
+  transform: scale(1.2);
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.7);
+  animation: pulse 1.5s infinite;
 }
 
 @keyframes pulse {
@@ -278,8 +277,8 @@ li:active {
   }
 
   .micro.active {
-    transform: scale(1.1); /* Menor escala en pantallas pequeñas */
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.7); /* Menor intensidad del brillo */
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
     animation: pulse-small 1.5s infinite;
   }
   .modalmensaje {

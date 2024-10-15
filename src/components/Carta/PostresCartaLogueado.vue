@@ -8,7 +8,7 @@ import NavBar from "../NavBar.vue";
 
 const modalVisible = ref(false);
 const fullDescription = ref("");
-//const postres = ref([]);
+
 const cartStore = useCartStore();
 
 const openModal = (description) => {
@@ -42,7 +42,6 @@ onMounted(() => {
 });
 
 const addPostreToCart = (postreName, price, id) => {
-
   cartStore.addToCart({ name: postreName, price, id });
 };
 const postres = ref([]);
@@ -56,10 +55,13 @@ const postres = ref([]);
     <div class="cards-container">
       <div v-for="(postre, index) in postres" :key="postre.id" class="card">
         <div class="personaje">
-          <div class="imagen_personaje"><img class="imagen_personaje"
-              :src="postre.image" 
+          <div class="imagen_personaje">
+            <img
+              class="imagen_personaje"
+              :src="postre.image"
               :alt="postre.name"
-            /></div>
+            />
+          </div>
           <div class="detalle">
             <div class="contTitulo">
               <h2>{{ postre.name }}</h2>
@@ -141,10 +143,9 @@ main {
   position: absolute;
 }
 
-.full-description{
+.full-description {
   font-size: 20px;
 }
-
 
 .imagen_personaje {
   height: 160px;
@@ -340,9 +341,9 @@ p {
     height: 125px;
     width: 90%;
   }
-  .full-description{
-  font-size: 10px;
-}
+  .full-description {
+    font-size: 10px;
+  }
 
   .detalle {
     height: 240px;

@@ -81,7 +81,6 @@
   }
 }
 
-/* Estilo para cuando el botón esté activo (igual que el hover) */
 .active .btn {
   border-top-right-radius: 0px;
   border-bottom-left-radius: 0px;

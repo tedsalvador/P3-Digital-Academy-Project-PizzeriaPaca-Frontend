@@ -7,7 +7,7 @@ import { useAuthStore } from "../stores/auth";
 import { loginChange } from "../stores/loginChange";
 import { useCartStore } from "@/stores/cart";
 import OrderService from "@/core/order/OrderService";
-import { orderDto }  from "@/core/order/OrderDto";
+import { orderDto } from "@/core/order/OrderDto";
 
 const orderNumber = ref(Math.floor(Math.random() * 100000));
 const paymentType = ref("");
@@ -18,16 +18,18 @@ const store = useAuthStore();
 const mobileMenuOpen = ref(false);
 const cartStore = useCartStore();
 const deliveryType = ref("");
-const orderTypeCode = ref('');
-const orderStatus=ref('PENDING');
+const orderTypeCode = ref("");
+const orderStatus = ref("PENDING");
 
-//obtiene datos del local storage
 const loggeadoUser = localStorage.getItem("username");
 const IdUserLogged = localStorage.getItem("id");
 
-// Verificar si es null o no es una cadena válida
-if (!IdUserLogged || typeof IdUserLogged !== "string" || IdUserLogged.trim() === "") {
-  IdUserLogged = "1"; // Asignar valor '1' si está vacío o es nulo
+if (
+  !IdUserLogged ||
+  typeof IdUserLogged !== "string" ||
+  IdUserLogged.trim() === ""
+) {
+  IdUserLogged = "1";
 }
 
 console.log("valor de user id>>>" + IdUserLogged);
@@ -60,7 +62,6 @@ const logout = () => {
   loginChange.setRegister(false);
   mobileMenuOpen.value = false;
 
-  //const redirectPath = "/home";
   const redirectPath = "/";
 
   router.push(redirectPath);
@@ -81,9 +82,9 @@ const increaseQuantity = (item) => {
 
 const decreaseQuantity = (item) => {
   if (item.quantity > 0) {
-    item.quantity--
+    item.quantity--;
   } else {
-    cartStore.removeFromCart(item.name)
+    cartStore.removeFromCart(item.name);
   }
 };
 
@@ -107,51 +108,56 @@ if (store.user.isAuthenticated) {
 }
 
 const sendCart = async () => {
-  // Verificar si el carrito está vacío
   if (cartStore.cartItems.length === 0) {
-    alert("El carrito está vacío. Por favor, agregue productos antes de pagar.");
-    return; // No continuar con el proceso de pago
+    alert(
+      "El carrito está vacío. Por favor, agregue productos antes de pagar."
+    );
+    return;
   }
 
-  // Verificar si el tipo de pago está vacío
   if (!paymentType.value) {
     alert("Por favor, seleccione un tipo de pago.");
-    return; // No continuar con el proceso de pago
+    return;
   }
 
-  // Verificar si el tipo de entrega está vacío
   if (!orderTypeCode.value) {
     alert("Por favor, seleccione un tipo de entrega.");
-    return; // No continuar con el proceso de pago
+    return;
   }
 
-   // Crea un array de productos basado en los items del carrito
-  const products = cartStore.cartItems.map(item => ({
-    productId: item.id, // Asegúrate de que el producto tenga un ID único
-    productQuantity: item.quantity, // Cantidad de este producto en el carrito
-    productPrice: item.price // Precio del producto
+  const products = cartStore.cartItems.map((item) => ({
+    productId: item.id,
+    productQuantity: item.quantity,
+    productPrice: item.price,
   }));
 
   const orderDto = {
-    orderNumber : orderNumber.value,
-    orderTypeCode : orderTypeCode.value,
-    userId : IdUserLogged, //store.user.id,    
+    orderNumber: orderNumber.value,
+    orderTypeCode: orderTypeCode.value,
+    userId: IdUserLogged,
     paymentId: paymentType.value,
     orderStatus: orderStatus.value,
     dateOrder: dateOrder.value,
-    totalPaid: totalAmount.value, // Monto total
-    products // Lista de productos en el carrito
-  }
+    totalPaid: totalAmount.value,
+    products,
+  };
 
-  console.log("datos enviados ===>> " + 
-    orderNumber.value + " " +
-    orderTypeCode.value + " " +
-    store.user.id + " " +
-    paymentType.value + " " +
-    orderStatus.value + " " +
-    dateOrder.value + " " +
-    totalAmount.value
-  )
+  console.log(
+    "datos enviados ===>> " +
+      orderNumber.value +
+      " " +
+      orderTypeCode.value +
+      " " +
+      store.user.id +
+      " " +
+      paymentType.value +
+      " " +
+      orderStatus.value +
+      " " +
+      dateOrder.value +
+      " " +
+      totalAmount.value
+  );
 
   const orderService = new OrderService();
   console.log("Carrito enviado:", cartStore.cartItems);
@@ -159,7 +165,7 @@ const sendCart = async () => {
     const response = await orderService.createOrder(orderDto);
     console.log("Orden enviada:", response);
     cartStore.clearCart();
-    alert("Orden enviada con éxito!");    
+    alert("Orden enviada con éxito!");
   } catch (error) {
     console.error("Error al enviar la orden:", error);
     alert("Error al enviar la orden");
@@ -177,9 +183,8 @@ const sendCart = async () => {
     </div>
 
     <div id="containerLogin">
-      <!-- <div id="login" @click="openModal"> -->
-        <div id="login">
-        <h2 class="info">Hola {{loggeadoUser}}</h2>
+      <div id="login">
+        <h2 class="info">Hola {{ loggeadoUser }}</h2>
       </div>
       <div id="carrito" @click="toggleCart">
         <img
@@ -188,14 +193,16 @@ const sendCart = async () => {
           alt="carrito"
         />
       </div>
-<!--       <div id="login" @click="openModal">
-        <img class="user" src="../assets/img/navbar/user.png" alt="user" />
-      </div> -->
+
       <div class="logout">
         <RouterLink to="/"
-          ><img class="icnLogOut" src="../assets/img/navbar/logout.png" alt="" @click="logout"
+          ><img
+            class="icnLogOut"
+            src="../assets/img/navbar/logout.png"
+            alt=""
+            @click="logout"
         /></RouterLink>
-      </div>      
+      </div>
     </div>
   </div>
 
@@ -206,11 +213,16 @@ const sendCart = async () => {
         <div class="cart-count">{{ cartStore.cartItems.length }}</div>
       </div>
       <div class="cart-items">
-        <div class="cart-item" v-for="item in cartStore.cartItems" :key="item.name" :productId="item.id">
+        <div
+          class="cart-item"
+          v-for="item in cartStore.cartItems"
+          :key="item.name"
+          :productId="item.id"
+        >
           <img :src="item.image" alt="Product image" class="item-image" />
           <div class="item-details">
             <h2 class="item-name">{{ item.name }}</h2>
-            <!-- <h2 class="item-name">{{ item.name }} - {{ item.id }}</h2> -->
+
             <p>{{ item.description }}</p>
           </div>
           <div class="item-quantity">
@@ -230,17 +242,17 @@ const sendCart = async () => {
 
       <div class="cart-summary">
         <div class="summary-row">
-          <p>Número de Pedido   <<  {{ orderNumber }}  >></p>
+          <p>Número de Pedido << {{ orderNumber }} >></p>
         </div>
-        <div class="summary-row">          
-          <label for="paymentType">Tipo de pago  : &nbsp;</label>          
+        <div class="summary-row">
+          <label for="paymentType">Tipo de pago : &nbsp;</label>
           <select v-model="paymentType" id="paymentType">
             <option value="E">Efectivo</option>
             <option value="T">Tarjeta</option>
           </select>
           <p hidden>{{ paymentType }}</p>
         </div>
-        <br>
+        <br />
         <div class="summary-row">
           <label for="orderTypeCode">Tipo de entrega : </label>
           <select v-model="orderTypeCode" id="orderTypeCode">
@@ -260,7 +272,7 @@ const sendCart = async () => {
             <span>{{ totalAmount }}</span>
           </div>
           <button class="payment-button" @click="sendCart" cartStore.clearCart>
-            Pagar            
+            Pagar
             <span class="payment-icon">💳</span>
           </button>
         </div>
@@ -268,7 +280,6 @@ const sendCart = async () => {
     </div>
   </div>
 
-  <!-- Overlay para el modal de inicio de sesión -->
   <div v-if="showModal" class="modal-overlay" @click="closeModal">
     <div class="modal-content" @click.stop>
       <ModalLogin :show="showModal" @close="closeModal" />
@@ -296,7 +307,7 @@ const sendCart = async () => {
 }
 
 .modal-content {
-  background: white; /* Fondo del modal */
+  background: white;
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -499,11 +510,11 @@ const sendCart = async () => {
 .payment-button {
   margin-top: 20px;
   width: 100%;
-  padding: 15px;/* Aumentar el padding */
+  padding: 15px;
   background-color: #000;
   color: #fff;
   border-radius: 30px;
-  font-size: 20px; /* Aumentar el tamaño del texto */
+  font-size: 20px;
   font-weight: bold;
   display: flex;
   justify-content: center;
@@ -514,7 +525,7 @@ const sendCart = async () => {
 
 .payment-icon {
   margin-left: 10px;
-  font-size: 25px; /* Aumentar el tamaño del icono */
+  font-size: 25px;
 }
 
 @media (min-width: 481px) and (max-width: 1024px) {
@@ -570,8 +581,6 @@ const sendCart = async () => {
   }
 
   #containerLogin {
-/*     width: 30%;
-    margin-right: 20px; */
     width: 40%;
   }
 
@@ -586,7 +595,7 @@ const sendCart = async () => {
   .info {
     font-size: 15px;
   }
-  
+
   #login {
     width: 70%;
     display: flex;

@@ -21,16 +21,12 @@ const store = useAuthStore();
 async function login() {
   if (username.value !== "" && password.value !== "")
     try {
-      // Crear instancia de credenciales
       const credentials = new Credentials(username.value, password.value);
 
-      // Crear instancia del servicio de autenticación
       const authService = new AuthService(credentials);
 
-      // Hacer el login utilizando AuthService
       const response = await authService.login();
 
-      //const response = await store.login(username.value, password.value)
       if (response.message == "Logged") {
         alertClass.value = "alert-success";
 
@@ -66,7 +62,7 @@ async function login() {
         console.log("ruta a enviar: " + redirectPath);
         router.push(redirectPath);
         textAlert.value = "Ok";
-        // Cierra el modal cuando el login es exitoso
+
         closeModal();
       } else {
         alertClass.value = "alert-danger";
@@ -186,7 +182,6 @@ const register = async () => {
           />
           <button class="registrate">Registrate</button>
 
-          <!-- Botón para volver a "Iniciar Sesión" en pantallas pequeñas -->
           <button
             class="ghost mobile-toggle"
             @click="showMobileSignIn"
@@ -197,7 +192,6 @@ const register = async () => {
         </form>
       </div>
 
-      <!-- Formulario de Iniciar Sesión -->
       <div
         class="form-container sign-in-container"
         v-if="!isMobile || !isMobileSignUp"
@@ -217,7 +211,6 @@ const register = async () => {
           <input v-model="password" type="password" placeholder="Contraseña" />
           <button class="btnInicioSesion" type="submit">Iniciar Sesion</button>
 
-          <!-- Botón para cambiar a "Registro" en pantallas pequeñas -->
           <button
             class="ghost mobile-toggle"
             @click="showMobileSignUp"
@@ -228,7 +221,6 @@ const register = async () => {
         </form>
       </div>
 
-      <!-- Overlay para pantallas grandes -->
       <div class="overlay-container" v-if="!isMobile">
         <div class="overlay">
           <div class="overlay-panel overlay-left">
@@ -252,11 +244,6 @@ const register = async () => {
 </template>
 
 <style scoped>
-/* .alert-danger {
-  color: red;
-  font-weight: bold;
-  margin: 10px 0;
-} */
 .alert {
   margin: 10px 0;
   padding: 10px;
@@ -615,9 +602,8 @@ input {
   .sign-up-container,
   .sign-in-container {
     transition: none !important;
-    /* Desactiva las transiciones para depurar */
+
     opacity: 1 !important;
-    /* Asegúrate de que sea visible */
   }
 }
 </style>

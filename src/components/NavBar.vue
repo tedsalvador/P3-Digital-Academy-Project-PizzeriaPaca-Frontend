@@ -276,8 +276,8 @@ li:active {
   }
 
   .micro.active {
-    transform: scale(1.1); /* Menor escala en pantallas pequeñas */
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.7); /* Menor intensidad del brillo */
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
     animation: pulse-small 1.5s infinite;
   }
   .modalmensaje {
