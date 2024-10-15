@@ -106,7 +106,8 @@ const pizzas = ref([]);
 
 <style scoped>
 main {
-  background-color: white;
+  background-image: url(../../assets/img/kitchen/backgroundPizza.png);
+  background-size: cover;
   min-height: 500px;
   display: flex;
   justify-content: center;

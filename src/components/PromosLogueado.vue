@@ -1,61 +1,49 @@
-<script setup>
-import { ref, onMounted } from "vue";
-import axios from "axios";
-
-const pizzas = ref([]);
-
-const fetchPizzas = async () => {
-  try {
-    const response = await axios.get(
-      "http://localhost:8080/api/v1/products/type/PIZZA",
-      {
-        headers: {
-          Authorization: "Basic YWRtaW46cGFzc3dvcmQ=",
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    pizzas.value = response.data.map((pizza) => ({
-      id: pizza.id,
-      name: pizza.name,
-      image: pizza.image,
-    }));
-  } catch (error) {
-    console.error("Error al cargar las pizzas:", error);
-  }
-};
-
-onMounted(() => {
-  fetchPizzas();
-});
-</script>
+<script setup></script>
 
 <template>
-  <main>
+  <main id="promosSection">
     <div class="separador"></div>
-    <div id="containerTitulo">Nuestras pizzas</div>
+    <div id="containerTitulo">Nuestras promos</div>
     <div id="containerTexto">
-      Disfruta de nuestras mejores pizzas y saborea la tradición
+      Disfruta de nuestras mejores promos en nuesta pizzeria
     </div>
 
     <div
-      id="carouselPizzas"
+      id="carouselPromos"
       class="carousel slide"
       data-bs-ride="carousel"
       data-bs-interval="3000"
       data-bs-pause="false"
     >
       <div class="carousel-inner">
-        <div
-          class="carousel-item"
-          v-for="(pizza, index) in pizzas"
-          :class="{ active: index === 0 }"
-          :key="pizza.id"
-        >
-          <img :src="pizza.image" class="imgSlider" alt="Pizza" />
-          <div class="containerTituloPizza">
-            <div class="tituloPizza">{{ pizza.name }}</div>
+        <div class="carousel-item active">
+          <img
+            src="../assets/img/promos/promo1.png"
+            class="imgSlider"
+            alt="..."
+          />
+          <div class="containerTituloPromos">
+            <div class="tituloPromos">Promo Pizzas Romanas 2x1</div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img
+            src="../assets/img/promos/promo2.png"
+            class="imgSlider"
+            alt="..."
+          />
+          <div class="containerTituloPromos">
+            <div class="tituloPromos">Promo Bebida gratis</div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img
+            src="../assets/img//promos/promo3.png"
+            class="imgSlider"
+            alt="..."
+          />
+          <div class="containerTituloPromos">
+            <div class="tituloPromos">Promo Postre Gratis</div>
           </div>
         </div>
       </div>
@@ -65,7 +53,7 @@ onMounted(() => {
         data-bs-target="#carouselPizzas"
         data-bs-slide="prev"
       >
-        <span class="visually-hidden">Anterior</span>
+        <span class="visually-hidden">Previous</span>
       </button>
       <button
         class="carousel-control-next"
@@ -73,13 +61,13 @@ onMounted(() => {
         data-bs-target="#carouselPizzas"
         data-bs-slide="next"
       >
-        <span class="visually-hidden">Siguiente</span>
+        <span class="visually-hidden">Next</span>
       </button>
     </div>
 
-    <div id="btnVerPizzas">
-      <RouterLink to="/pizzas">
-        <button class="botonLinkPizzas">Conoce todas nuestras pizzas</button>
+    <div id="btnVerPromos">
+      <RouterLink to="/promoslogueado">
+        <button class="botonLinkPromos">Conoce todas nuestras promos</button>
       </RouterLink>
     </div>
   </main>
@@ -87,7 +75,7 @@ onMounted(() => {
 
 <style scoped>
 main {
-  background-color: rgb(182, 124, 1);
+  background-color: #1aab8a;
   height: 1000px;
 }
 .separador {
@@ -112,7 +100,7 @@ main {
   font-size: 30px;
   color: #cecdcd;
 }
-#carouselPizzas {
+#carouselPromos {
   width: 100%;
   height: 630px;
   text-align: center;
@@ -128,17 +116,17 @@ main {
 h2 {
   font-size: 200px;
   color: white;
-  text-shadow: 4px 4px rgb(182, 124, 1);
+  text-shadow: 4px 4px #1aab8a;
   z-index: 20;
 }
-.containerTituloPizza {
+.containerTituloPromos {
   width: 100%;
   height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.tituloPizza {
+.tituloPromos {
   width: 50%;
   height: 80px;
   display: flex;
@@ -149,7 +137,7 @@ h2 {
   font-size: 40px;
 }
 
-#btnVerPizzas {
+#btnVerPromos {
   width: 100%;
   height: 90px;
   display: flex;
@@ -157,9 +145,9 @@ h2 {
   align-items: center;
   margin-top: -50px;
 }
-.botonLinkPizzas {
+.botonLinkPromos {
   background: fff;
-  color: rgb(182, 124, 1);
+  color: #1aab8a;
   border: none;
   position: relative;
   height: 60px;
@@ -169,12 +157,12 @@ h2 {
   transition: 800ms ease all;
   outline: none;
 }
-.botonLinkPizzas:hover {
-  background: rgb(182, 124, 1);
+.botonLinkPromos:hover {
+  background: #1aab8a;
   color: #fff;
 }
-.botonLinkPizzas:before,
-.botonLinkPizzas:after {
+.botonLinkPromos:before,
+.botonLinkPromos:after {
   content: "";
   position: absolute;
   top: 0;
@@ -184,14 +172,14 @@ h2 {
   background: #fff;
   transition: 400ms ease all;
 }
-.botonLinkPizzas:after {
+.botonLinkPromos:after {
   right: inherit;
   top: inherit;
   left: 0;
   bottom: 0;
 }
-.botonLinkPizzas:hover:before,
-.botonLinkPizzas:hover:after {
+.botonLinkPromos:hover:before,
+.botonLinkPromos:hover:after {
   width: 100%;
   transition: 800ms ease all;
 }
@@ -199,7 +187,7 @@ h2 {
   h2 {
     font-size: 100px;
   }
-  .tituloPizza {
+  .tituloPromos {
     width: 80%;
     height: 80px;
   }
@@ -213,9 +201,9 @@ h2 {
 }
 @media (max-width: 480px) {
   main {
-    height: 650px;
+    height: 600px;
   }
-  #carouselPizzas {
+  #carouselPromos {
     width: 100%;
     height: 350px;
   }
@@ -242,12 +230,12 @@ h2 {
     text-align: center;
     margin-bottom: 20px;
   }
-  .containerTituloPizza {
+  .containerTituloPromos {
     width: 100%;
     height: 50px;
     margin-top: -20px;
   }
-  .tituloPizza {
+  .tituloPromos {
     width: 80%;
     height: 50px;
     display: flex;
@@ -257,11 +245,11 @@ h2 {
     background-size: 100% 100%;
     font-size: 20px;
   }
-  #btnVerPizzas {
+  #btnVerPromos {
     width: 100%;
     height: 150px;
   }
-  .botonLinkPizzas {
+  .botonLinkPromos {
     font-size: 1em;
   }
 }

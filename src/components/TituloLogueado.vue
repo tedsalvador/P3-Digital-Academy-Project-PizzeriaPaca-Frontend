@@ -357,7 +357,8 @@ const sendCart = async () => {
 }
 
 #containerLogin {
-  width: 15%;
+  width: 20%;
+  margin-right: 40px;
   height: 130px;
   float: right;
   display: flex;
@@ -549,8 +550,8 @@ const sendCart = async () => {
   }
 
   #containerLogin {
-    width: 20%;
-    margin-right: 20px;
+    width: 40%;
+    margin-right: 15px;
   }
 
   #login {
@@ -583,6 +584,8 @@ const sendCart = async () => {
 
   #containerLogin {
     width: 40%;
+    margin-right: 15px;
+
   }
 
   .imgCarrito,
