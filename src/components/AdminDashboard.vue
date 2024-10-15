@@ -1,85 +1,103 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import AddProductForm from '../components/AddProductForm.vue';
+import axios from 'axios';
 
-const orders = ref([
-  {
-    id: 1,
-    customer: 'Producto 1',
-    customerImage: 'https://via.placeholder.com/100',
-    location: 'Pizza',
-    orderDate: 'Descripción del producto 1',
-    status: 'Disponible',
-    amount: '$10.00'
-  },
-  {
-    id: 2,
-    customer: 'Producto 2',
-    customerImage: 'https://via.placeholder.com/100',
-    location: 'Bebida',
-    orderDate: 'Descripción del producto 2',
-    status: 'No Disponible',
-    amount: '$20.00'
-  },
-  {
-    id: 3,
-    customer: 'Producto 3',
-    customerImage: 'https://via.placeholder.com/100',
-    location: 'Bebida',
-    orderDate: 'Descripción del producto 3',
-    status: 'Disponible',
-    amount: '$30.00'
-  },
-  {
-    id: 4,
-    customer: 'Producto 4',
-    customerImage: 'https://via.placeholder.com/100',
-    location: 'Postre',
-    orderDate: 'Descripción del producto 3',
-    status: 'Disponible',
-    amount: '$30.00'
-  },
-  {
-    id: 5,
-    customer: 'Producto 5',
-    customerImage: 'https://via.placeholder.com/100',
-    location: 'Bebida',
-    orderDate: 'Descripción del producto 3',
-    status: 'Disponible',
-    amount: '$30.00'
-  },
-  {
-    id: 6,
-    customer: 'Producto 6',
-    customerImage: 'https://via.placeholder.com/100',
-    location: 'Pizza',
-    orderDate: 'Descripción del producto 3',
-    status: 'Disponible',
-    amount: '$30.00'
-  }
-]);
+
+const products = ref([]);
+
 
 const showModal = ref(false);
 
-const openModal = () => {
+
+const currentProduct = ref({
+  id: null,
+  name: '',
+  description: '',
+  price: 0,
+  productType: '',
+  image: '',
+  available: false
+});
+
+
+const openModal = (product = null) => {
+  if (product) {
+    currentProduct.value = { ...product }; 
+  } else {
+    currentProduct.value = { id: null, name: '', description: '', price: 0, productType: '', image: '', available: false }; 
+  }
   showModal.value = true;
 };
+
 
 const closeModal = () => {
   showModal.value = false;
 };
 
-const addProduct = (newProduct) => {
-  const id = orders.value.length + 1;
-  orders.value.push({
-    id,
-    ...newProduct,
-    customerImage: newProduct.customerImage || 'https://via.placeholder.com/100',
-    status: newProduct.status ? 'Disponible' : 'No Disponible',
-    amount: `$${parseFloat(newProduct.amount).toFixed(2)}`
-  });
-  closeModal();
+
+const fetchProducts = async () => {
+  try {
+    const response = await axios.get('http://localhost:8080/api/v1/products/all', {
+      headers: {
+        'Authorization': 'Basic YWRtaW46cGFzc3dvcmQ=' 
+      }
+    });
+    products.value = response.data; 
+  } catch (error) {
+    console.error('Error al obtener los productos:', error);
+  }
 };
+
+
+const addProduct = async (newProduct) => {
+  try {
+    const response = await axios.post('http://localhost:8080/api/v1/products/create', newProduct, {
+      headers: {
+        'Authorization': 'Basic YWRtaW46cGFzc3dvcmQ=', 
+        'Content-Type': 'application/json'
+      }
+    });
+    products.value.push(response.data); 
+    closeModal();
+  } catch (error) {
+    console.error('Error al añadir el producto:', error);
+  }
+};
+const updateProduct = async (product) => {
+  try {
+    const response = await axios.put(`http://localhost:8080/api/v1/products/${product.id}`, product, {
+      headers: {
+        'Authorization': 'Basic YWRtaW46cGFzc3dvcmQ=', 
+        'Content-Type': 'application/json'
+      }
+    });
+    const index = products.value.findIndex(p => p.id === product.id);
+    if (index !== -1) {
+      products.value[index] = response.data; 
+    }
+    closeModal();
+  } catch (error) {
+    console.error('Error al actualizar el producto:', error);
+  }
+};
+
+const deleteProduct = async (productId) => {
+  try {
+    await axios.delete(`http://localhost:8080/api/v1/products/${productId}`, {
+      headers: {
+        'Authorization': 'Basic YWRtaW46cGFzc3dvcmQ=', 
+      }
+    });
+    products.value = products.value.filter(p => p.id !== productId); l
+  } catch (error) {
+    console.error('Error al eliminar el producto:', error);
+  }
+}
+
+onMounted(() => {
+  fetchProducts();
+});
 </script>
 
 <template>
@@ -94,61 +112,62 @@ const addProduct = (newProduct) => {
       <table class="order-table">
         <thead>
           <tr>
-            <th>id</th>
-            <th>Producto</th>
+            <th>ID</th>
+            <th>Nombre</th>
             <th>Descripción</th>
+            <th>Precio</th>
             <th>Tipo</th>
             <th>Disponible</th>
-            <th>Precio</th>
+            <th>Imagen</th>
             <th>Editar</th>
             <th>Eliminar</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(order, index) in orders" :key="index">
-            <td>{{ order.id }}</td>
+          <tr v-for="(product, index) in products" :key="product.id">
+            <td>{{ product.id }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.description }}</td>
+            <td>{{ product.price }}</td>
+            <td>{{ product.productType }}</td>
+            <td>{{ product.available ? 'Sí' : 'No' }}</td>
             <td>
-              <img :src="order.customerImage" alt="Producto" class="customer-image" />
-              {{ order.customer }}
-            </td>
-            <td>{{ order.orderDate }}</td>
-            <td>{{ order.location }}</td>
-            <td>
-              <span :class="['status', order.status.toLowerCase().replace(' ', '-')]">{{ order.status }}</span>
-            </td>
-            <td><strong>{{ order.amount }}</strong></td>
-            <td>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="edit-icon">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-              </svg>
+              <img :src="product.image || 'https://via.placeholder.com/100'" alt="Producto" class="product-image" />
             </td>
             <td>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="delete-icon">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-              </svg>
+              <button @click="openModal(product)">Editar</button>
+            </td>
+            <td>
+              <button @click="deleteProduct(product.id)">Eliminar</button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <Teleport to="body">
-      <AddProductForm 
-        v-if="showModal" 
-        @add-product="addProduct" 
-        @close-modal="closeModal"
-      />
-    </Teleport>
+    <AddProductForm 
+      v-if="showModal" 
+      :product="currentProduct"
+      @add-product="addProduct" 
+       @update-product="updateProduct"
+      @close-modal="closeModal"
+    />
   </div>
 </template>
 
+
 <style scoped>
+.container {
+  max-width: 100%; 
+  margin: 0 auto; 
+  padding: 20px; 
+}
+
 .button-container {
   display: flex;
   justify-content: center;
   padding: 20px 0;
   background-color: transparent;
-  padding-left: 30px;
 }
 
 .add-button {
@@ -158,7 +177,7 @@ const addProduct = (newProduct) => {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 20px;
 }
 
 .add-button:hover {
@@ -166,8 +185,9 @@ const addProduct = (newProduct) => {
 }
 
 .table-container {
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 100%;
+  margin-left: 100px !important;
+  margin-right: 100px !important;
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 12px;
   padding: 30px;
@@ -184,53 +204,72 @@ const addProduct = (newProduct) => {
   padding: 14px 20px;
   text-align: left;
   border-bottom: 1px solid #ddd;
+  font-size: 20px;
 }
 
 .order-table th {
   background-color: #f4f4f4;
   font-weight: bold;
-  font-size: 16px;
 }
 
-.customer-image {
+.product-image {
   width: 50px;
   height: 50px;
-  border-radius: 50%;
-  margin-right: 15px;
-  vertical-align: middle;
 }
 
-.status {
-  padding: 8px 15px;
-  border-radius: 20px;
-  font-weight: bold;
+@media (min-width: 1200px) {
+  .container {
+    padding: 0 50px;
+  }
+  .table-container{
+    margin: 10px 40px 40px;
+  }
 }
 
-.status.disponible {
-  background-color: #86e49d;
-  color: white;
+@media (min-width: 992px) and (max-width: 1199px) {
+  .container {
+    padding: 0 40px;
+  }
+
+  .table-container{
+    margin-left: 30px !important;
+    margin-right: 30px !important;
+  }
 }
 
-.status.no-disponible {
-  background-color: #ff4d4d;
-  color: white;
+@media (min-width: 768px) and (max-width: 991px) {
+  .container {
+    padding: 0 30px;
+  }
+
+  .table-container{
+    margin-left: 30px !important;
+    margin-right: 30px !important;
+  }
 }
 
-tbody tr:nth-child(even) {
-  background-color: rgba(0, 0, 0, 0.05);
+@media (max-width: 767px) {
+  .container {
+    padding: 0 20px;
+   
+  }
+  .table-container{
+    margin: 10px 30px 30px;
+  }
+  .table-container{
+    margin-left: 30px !important;
+    margin-right: 30px !important;
+  }
 }
 
-tbody tr:hover {
-  background-color: rgba(0, 0, 0, 0.1);
-}
+@media (max-width: 480px) {
+  .container {
+    padding: 0 15px; 
+  }
 
-.edit-icon, .delete-icon {
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-}
-
-.edit-icon:hover, .delete-icon:hover {
-  stroke: #007bff;
+  .table-container{
+    margin-left: 30px !important;
+  margin-right: 30px !important;
+  }
 }
 </style>

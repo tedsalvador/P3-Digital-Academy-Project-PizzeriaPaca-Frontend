@@ -88,40 +88,52 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="kitchen-container">
-    <div
-      v-for="section in sections"
-      :key="section.title"
-      :class="`section bg-${section.color}`"
-      @dragover="allowDrop"
-      @drop="onDrop(section)"
-    >
-      <div class="section-header">
-        <h2 class="section-title">{{ section.title }}</h2>
-      </div>
-      <div class="orders-container">
-        <div
-          v-for="order in section.orders"
-          :key="order.code"
-          class="order-card"
-          draggable="true"
-          @dragstart="onDragStart(order, section)"
-        >
-          <h3>{{ order.code }}</h3>
-          <p>{{ order.details }}</p>
+  <div class="main">
+    <div class="separador"></div>
+    <div class="kitchen-container">
+      <div
+        v-for="section in sections"
+        :key="section.title"
+        :class="`section bg-${section.color}`"
+        @dragover="allowDrop"
+        @drop="onDrop(section)"
+      >
+        <div class="section-header">
+          <h2 class="section-title">{{ section.title }}</h2>
+        </div>
+        <div class="orders-container">
+          <div
+            v-for="order in section.orders"
+            :key="order.code"
+            class="order-card"
+            draggable="true"
+            @dragstart="onDragStart(order, section)"
+          >
+            <h3>{{ order.code }}</h3>
+            <p>{{ order.details }}</p>
+          </div>
         </div>
       </div>
     </div>
+    <div class="separador"></div>
   </div>
 </template>
 
 <style scoped>
+.main {
+  background-image: url("../assets/img/kitchen/backgroundpizza.png");
+  background-size: cover;
+}
 .kitchen-container {
   display: flex;
   flex-direction: column;
   gap: 20px;
   margin: 0 auto;
   max-width: 1300px;
+}
+.separador {
+  height: 80px;
+  width: 100%;
 }
 
 .section {
@@ -135,8 +147,9 @@ onMounted(() => {
   max-width: 100%;
   box-sizing: border-box;
   margin-bottom: 10px;
-  margin-left: 40px; 
-  margin-right: 40px; 
+  margin-left: 40px;
+  margin-right: 40px;
+  border: 8px solid black;
 }
 
 .bg-blue,
@@ -154,11 +167,11 @@ onMounted(() => {
 }
 
 .bg-red {
-  background-color: #e74c3c;
+  background-color: #f6e58d;
 }
 
 .bg-yellow {
-  background-color: #f6e58d;
+  background-color: #e74c3c;
 }
 
 .bg-green {
@@ -250,6 +263,10 @@ onMounted(() => {
   align-items: center;
   box-sizing: border-box;
 }
+.order-card:hover {
+  border: 5px solid white;
+  color: rgb(182, 124, 1);
+}
 
 .order-card h3 {
   margin: 0;
@@ -261,13 +278,12 @@ onMounted(() => {
   margin: 5px 0 0 0;
   font-size: 20px;
 }
-
-@media (max-width: 768px) {
+@media (max-width: 480px) {
   .bg-blue,
   .bg-red,
   .bg-yellow,
   .bg-green {
-    width: calc(100% - 20px); 
+    width: calc(100% - 20px);
     max-width: none;
     height: 180px;
   }
@@ -282,7 +298,7 @@ onMounted(() => {
 
   .order-card {
     flex: 0 0 48%;
-    height: 120px;
+    height: 100px;
   }
 
   .order-card h3 {
