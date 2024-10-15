@@ -119,7 +119,7 @@ const closeCart = () => {
 
     <div id="containerLogin">
       <div id="login">
-        <h2 class="info">Hola - {{ loggeadoUser }}</h2>
+        <h2 class="info">Hola {{ loggeadoUser }}</h2>
       </div>
       <div class="logout">
         <RouterLink to="/"

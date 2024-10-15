@@ -219,7 +219,7 @@ const sendCart = async () => {
           :key="item.name"
           :productId="item.id"
         >
-          <img :src="item.image" alt="Product image" class="item-image" />
+          <!-- <img :src="item.image" alt="Product image" class="item-image" /> -->
           <div class="item-details">
             <h2 class="item-name">{{ item.name }}</h2>
 
@@ -269,7 +269,7 @@ const sendCart = async () => {
         <div class="cart-summary">
           <div class="summary-row">
             <span>Total : &nbsp;</span>
-            <span>{{ totalAmount }}</span>
+            <span>{{ totalAmount }} €</span>
           </div>
           <button class="payment-button" @click="sendCart" cartStore.clearCart>
             Pagar
@@ -464,7 +464,8 @@ const sendCart = async () => {
   flex: 1;
   margin-left: 5px;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .item-quantity {

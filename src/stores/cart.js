@@ -9,7 +9,7 @@ export const useCartStore = defineStore('cart', () => {
     if (existingItem) {
       existingItem.quantity += 1
     } else {
-      cartItems.value.push({ ...item, quantity: 1 })
+      cartItems.value.push({ ...item, quantity: 1})
     }
   }
 
@@ -24,7 +24,6 @@ export const useCartStore = defineStore('cart', () => {
   })
 
   const clearCart = () => {
-    //cartItems.value = [];
     cartItems.value.splice(0, cartItems.value.length); // Vaciar el array sin perder reactividad
   }
 

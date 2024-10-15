@@ -10,12 +10,12 @@ axios.defaults.baseURL = import.meta.env.VITE_API_ENDPOINT
 
 axios.interceptors.response.use(
 (response) => {
-  return response
+  return response 
 },
-(error) => {
+(error) => {  
   if (error.response && error.response.status === 401) {
-    console.error('No autorizado, redirigiendo al login...')
-    router.push('/login')
+    //(console.error('No autorizado, redirigiendo al login...')
+    router.push('/')
   }
   return Promise.reject(error)
 }
