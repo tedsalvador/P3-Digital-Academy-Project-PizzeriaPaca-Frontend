@@ -64,7 +64,7 @@ onMounted(() => {
     </div>
 
     <div id="btnVerPostres">
-      <RouterLink to="/postres">
+      <RouterLink to="/postreslogueado">
         <button>Conoce todos nuestros postres</button>
       </RouterLink>
     </div>
