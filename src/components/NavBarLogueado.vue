@@ -1,31 +1,31 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import { useRouter } from "vue-router"; 
+import { useRouter } from "vue-router";
 
 const recognition = ref(null);
 const isListening = ref(false);
-const router = useRouter(); 
-
+const showModal = ref(false); // Controla la visibilidad del modal
+const modalMessage = ref(""); // Mensaje dinámico del modal
+const router = useRouter();
 
 const startVoiceRecognition = () => {
-  
   if (!("webkitSpeechRecognition" in window)) {
-    alert("API de reconocimiento de voz no soportada por este navegador.");
+    modalMessage.value =
+      "API de reconocimiento de voz no soportada por este navegador.";
+    showModal.value = true;
     return;
   }
 
-  recognition.value = new webkitSpeechRecognition(); 
-  recognition.value.lang = "es-ES"; 
+  recognition.value = new webkitSpeechRecognition();
+  recognition.value.lang = "es-ES";
   recognition.value.interimResults = false;
   recognition.value.maxAlternatives = 1;
   recognition.value.continuous = false;
 
-  
   recognition.value.onresult = (event) => {
     const speechResult = event.results[0][0].transcript.toLowerCase();
     console.log("Reconocido:", speechResult);
 
-    
     if (speechResult.includes("inicio")) {
       router.push("/homelogueado");
     } else if (speechResult.includes("carta")) {
@@ -39,17 +39,16 @@ const startVoiceRecognition = () => {
     } else if (speechResult.includes("bebidas")) {
       router.push("/bebidaslogueado");
     } else {
-      alert(
-        'Comando no reconocido. Intenta decir "Inicio", "Carta", "Promos", "Pizzas", "Postres" o "Bebidas".'
-      );
+      // Mostrar modal en lugar de alert
+      modalMessage.value =
+        'Comando no reconocido. Intenta decir "Inicio", "Carta", "Promos", "Pizzas", "Postres" o "Bebidas".';
+      showModal.value = true;
     }
   };
 
-  
   recognition.value.start();
   isListening.value = true;
 };
-
 
 const stopVoiceRecognition = () => {
   if (recognition.value) {
@@ -57,17 +56,21 @@ const stopVoiceRecognition = () => {
     isListening.value = false;
   }
 };
+const closeModal = () => {
+  showModal.value = false; // Oculta el modal
+};
 
-
-onMounted(() => {
- 
-});
+onMounted(() => {});
 </script>
 <template>
   <ul>
     <RouterLink to="/homelogueado" class="RouterLink"><li>Home</li></RouterLink>
-    <RouterLink to="/cartalogueado" class="RouterLink"><li>Carta</li></RouterLink>
-    <RouterLink to="/promoslogueado" class="RouterLink"><li>Promos</li></RouterLink>
+    <RouterLink to="/cartalogueado" class="RouterLink"
+      ><li>Carta</li></RouterLink
+    >
+    <RouterLink to="/promoslogueado" class="RouterLink"
+      ><li>Promos</li></RouterLink
+    >
   </ul>
   <div class="containerMicro">
     <img
@@ -77,6 +80,13 @@ onMounted(() => {
       alt="Micrófono"
       @click="isListening ? stopVoiceRecognition() : startVoiceRecognition()"
     />
+  </div>
+
+  <div v-if="showModal" class="modal" @click="closeModal">
+    <div class="modal-content">
+      <div class="modaltitulo">Error</div>
+      <p class="modalmensaje">{{ modalMessage }}</p>
+    </div>
   </div>
 </template>
 
@@ -174,6 +184,50 @@ li:active {
   color: #ccc;
   text-decoration: none;
 }
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 500px;
+  text-align: center;
+}
+.modaltitulo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  background-color: rgb(182, 124, 1);
+  margin-bottom: 20px;
+}
+.close {
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  float: right;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
 
 @media (min-width: 481px) and (max-width: 1024px) {
   ul {
@@ -222,11 +276,14 @@ li:active {
     width: 15px;
     height: 15px;
   }
-  
+
   .micro.active {
     transform: scale(1.1); /* Menor escala en pantallas pequeñas */
     box-shadow: 0 0 10px rgba(0, 255, 0, 0.7); /* Menor intensidad del brillo */
     animation: pulse-small 1.5s infinite;
+  }
+  .modalmensaje {
+    font-size: 10px;
   }
 
   @keyframes pulse-small {
