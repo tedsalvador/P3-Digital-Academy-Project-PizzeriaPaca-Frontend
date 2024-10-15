@@ -10,7 +10,7 @@ import OrderService from "@/core/order/OrderService";
 import { orderDto }  from "@/core/order/OrderDto";
 
 const orderNumber = ref(Math.floor(Math.random() * 100000));
-const paymentType = ref("cash");
+const paymentType = ref("");
 const dateOrder = ref(new Date().toISOString());
 const userId = ref("");
 const router = useRouter();
@@ -24,6 +24,11 @@ const orderStatus=ref('PENDING');
 //obtiene datos del local storage
 const loggeadoUser = localStorage.getItem("username");
 const IdUserLogged = localStorage.getItem("id");
+
+// Verificar si es null o no es una cadena válida
+if (!IdUserLogged || typeof IdUserLogged !== "string" || IdUserLogged.trim() === "") {
+  IdUserLogged = "1"; // Asignar valor '1' si está vacío o es nulo
+}
 
 console.log("valor de user id>>>" + IdUserLogged);
 
@@ -102,6 +107,24 @@ if (store.user.isAuthenticated) {
 }
 
 const sendCart = async () => {
+  // Verificar si el carrito está vacío
+  if (cartStore.cartItems.length === 0) {
+    alert("El carrito está vacío. Por favor, agregue productos antes de pagar.");
+    return; // No continuar con el proceso de pago
+  }
+
+  // Verificar si el tipo de pago está vacío
+  if (!paymentType.value) {
+    alert("Por favor, seleccione un tipo de pago.");
+    return; // No continuar con el proceso de pago
+  }
+
+  // Verificar si el tipo de entrega está vacío
+  if (!orderTypeCode.value) {
+    alert("Por favor, seleccione un tipo de entrega.");
+    return; // No continuar con el proceso de pago
+  }
+
    // Crea un array de productos basado en los items del carrito
   const products = cartStore.cartItems.map(item => ({
     productId: item.id, // Asegúrate de que el producto tenga un ID único
@@ -476,11 +499,11 @@ const sendCart = async () => {
 .payment-button {
   margin-top: 20px;
   width: 100%;
-  padding: 10px;
+  padding: 15px;/* Aumentar el padding */
   background-color: #000;
   color: #fff;
   border-radius: 30px;
-  font-size: 10px;
+  font-size: 20px; /* Aumentar el tamaño del texto */
   font-weight: bold;
   display: flex;
   justify-content: center;
@@ -491,7 +514,7 @@ const sendCart = async () => {
 
 .payment-icon {
   margin-left: 10px;
-  font-size: 16px;
+  font-size: 25px; /* Aumentar el tamaño del icono */
 }
 
 @media (min-width: 481px) and (max-width: 1024px) {

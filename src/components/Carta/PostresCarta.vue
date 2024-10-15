@@ -8,7 +8,6 @@ import NavBar from "../NavBar.vue";
 
 const modalVisible = ref(false);
 const fullDescription = ref("");
-const postres = ref([]);
 const cartStore = useCartStore();
 
 const openModal = (description) => {
@@ -41,9 +40,11 @@ onMounted(() => {
   fetchPostres();
 });
 
-const addPostreToCart = (postreName, price) => {
-  cartStore.addPostre({ name: postreName, price });
+const addPostreToCart = (postreName, price, id) => {
+  cartStore.addToCart({ name: postreName, price, id });
 };
+
+const postres = ref([]);
 </script>
 
 <template>
@@ -80,7 +81,7 @@ const addPostreToCart = (postreName, price) => {
                   class="imgCarro"
                   src="../../assets/img/carta/carro.png"
                   alt="Carrito"
-                  @click="addPostreToCart(postre.name, postre.price)"
+                  @click="addPostreToCart(postre.name, postre.price, postre.id)"
                 />
               </div>
             </div>

@@ -74,11 +74,12 @@ onMounted(() => {
       class="micro"
       :class="{ active: isListening }"
       src="../assets/img/micro/micro.png"
-      alt="Micrófono"
+      alt="MicrófonoZZZZZZ"
       @click="isListening ? stopVoiceRecognition() : startVoiceRecognition()"
     />
   </div>
 </template>
+
 <style scoped>
 .RouterLink {
   text-decoration: none;
@@ -103,18 +104,37 @@ li {
   margin: auto;
   font-size: 35px;
 }
+
 .micro {
   margin-right: 50px;
   float: right;
-  width: 20px;
-  height: 20px;
+  width: 35px;
+  height: 35px;
   z-index: 10;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
 .micro.active {
   background-color: green;
   border-radius: 50%;
   padding: 2px;
+  transform: scale(1.2); /* Agrandar el micrófono cuando está activo */
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.7); /* Efecto de brillo */
+  animation: pulse 1.5s infinite; /* Animación de pulso */
 }
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 255, 0, 1);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+  }
+}
+
 li:hover,
 .router-link-active li {
   background-image: url("../assets/img/navbar/navbackground.png");
@@ -154,6 +174,7 @@ li:active {
   color: #ccc;
   text-decoration: none;
 }
+
 @media (min-width: 481px) and (max-width: 1024px) {
   ul {
     display: flex;
@@ -173,6 +194,7 @@ li:active {
     text-align: center;
   }
 }
+
 @media (max-width: 480px) {
   ul {
     display: flex;
@@ -199,6 +221,24 @@ li:active {
     margin-right: 20px;
     width: 15px;
     height: 15px;
+  }
+  
+  .micro.active {
+    transform: scale(1.1); /* Menor escala en pantallas pequeñas */
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.7); /* Menor intensidad del brillo */
+    animation: pulse-small 1.5s infinite;
+  }
+
+  @keyframes pulse-small {
+    0% {
+      box-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+    }
+    50% {
+      box-shadow: 0 0 10px rgba(0, 255, 0, 1);
+    }
+    100% {
+      box-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+    }
   }
 }
 </style>
