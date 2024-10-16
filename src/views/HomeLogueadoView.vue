@@ -3,10 +3,12 @@ import TituloLogueado from "@/components/TituloLogueado.vue";
 import NavBarLogueado from "@/components/NavBarLogueado.vue";
 import Descripcion from "@/components/Descripcion.vue";
 import Slider from "@/components/Slider.vue";
-import Postres from "@/components/Postres.vue";
-import Bebidas from "@/components/Bebidas.vue";
-import Pizzas from "@/components/Pizzas.vue";
-import Promos from "@/components/Promos.vue";
+import PromosLogueado from "@/components/PromosLogueado.vue";
+import PostresLogueado from "@/components/PostresLogueado.vue";
+import PizzasLogueado from "@/components/PizzasLogueado.vue";
+import BebidasLogueado from "@/components/BebidasLogueado.vue";
+
+
 </script>
 
 <template>
@@ -15,10 +17,10 @@ import Promos from "@/components/Promos.vue";
     <NavBarLogueado></NavBarLogueado>
     <Descripcion></Descripcion>
     <Slider></Slider>
-    <Pizzas></Pizzas>
-    <Postres></Postres>
-    <Bebidas></Bebidas>
-    <Promos></Promos>
+    <PizzasLogueado></PizzasLogueado>
+    <PostresLogueado></PostresLogueado>
+    <BebidasLogueado></BebidasLogueado>
+    <PromosLogueado></PromosLogueado>
   </main>
 </template>
 

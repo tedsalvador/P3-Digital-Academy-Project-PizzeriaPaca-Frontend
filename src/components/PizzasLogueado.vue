@@ -78,7 +78,7 @@ onMounted(() => {
     </div>
 
     <div id="btnVerPizzas">
-      <RouterLink to="/pizzas">
+      <RouterLink to="/pizzaslogueado">
         <button class="botonLinkPizzas">Conoce todas nuestras pizzas</button>
       </RouterLink>
     </div>
